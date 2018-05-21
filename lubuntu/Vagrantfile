@@ -8,7 +8,7 @@ configs = YAML.load_file('configs.yaml')
 boxes = [
   {:name => "lubuntuBase", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
     :ssh_host_port=>1022, :http80=>1080, :http8080=>1880},
-  {:name => "ldesktop02", :box_name => 'lubuntu1604-desktop', :box_url => 'file://local_path_to/lubuntu1604-desktop.box',
+  {:name => "ldesktop02", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1604-desktop.box',
     :ssh_host_port=>2022, :http80=>2080, :http8080=>2880}
 ]
 

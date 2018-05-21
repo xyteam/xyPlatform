@@ -1,3 +1,5 @@
+##Windows 7 Selenium boxes
+```
 pre: copy these files from QA Q drive to this folder. This folder will be inside the guest vm as c:\vagrant
   Win7-KB3191566-x86.msu
   Windows6.1-KB958830-x86-RefreshPkg.msu
@@ -16,3 +18,4 @@ cygwin$ communicator=ssh vagrant reload up win7Base
   Admin CMD> c:\vagrant\installChoco.bat
 cygwin$ vagrant reload win7Base --provision
 cygwin$ vagrant reload win7Base
+```
