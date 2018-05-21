@@ -1,0 +1,101 @@
+# Require YAML module
+require 'yaml'
+# Read YAML file with box details
+configs = YAML.load_file('configs.yaml') 
+
+# Here we define variables in a boxes array
+# These variables by themself do not do anyting, they are used in actual vagrant configuration later
+boxes = [
+  {:name => "lubuntuBase", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
+    :ssh_host_port=>1022, :http80=>1080, :http8080=>1880},
+  {:name => "ldesktop02", :box_name => 'lubuntu1604-desktop', :box_url => 'file://local_path_to/lubuntu1604-desktop.box',
+    :ssh_host_port=>2022, :http80=>2080, :http8080=>2880}
+]
+
+Vagrant.configure(2) do |config|
+
+  ##############################################################
+  # Below we configure common stuff for all VMs in this folder #
+  if Vagrant.has_plugin?("vagrant-vbguest")
+      config.vbguest.auto_update = true
+  end
+
+  # upload corporate cacerts
+  if Vagrant.has_plugin?("vagrant-ca-certificates")
+    config.ca_certificates.enabled = true
+    config.ca_certificates.certs = [
+      '../global/corporate_cacerts/corporate_cacert.crt',
+    ]
+  end
+
+  # set corporate proxy
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.enabled  = { npm: false }
+    config.proxy.http     = "http://#{configs['http_proxy_host_port']}"
+    config.proxy.https    = "http://#{configs['https_proxy_host_port']}"
+    config.proxy.no_proxy = "#{configs['no_proxy']}"
+  end
+
+  # set timezone to California
+  if Vagrant.has_plugin?("vagrant-timezone")
+    config.timezone.value = "PST8PDT"
+  end
+
+  # set virtualbox properties for the box
+  config.vm.provider "virtualbox" do |vb|
+    vb.linked_clone = true
+    vb.gui = true
+    vb.cpus = configs['cpus']
+    vb.memory = configs['memory']
+    vb.customize ["modifyvm", :id, "--vram", "128"]
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
+    vb.customize ["modifyvm", :id, "--ioapic", "on"]
+    vb.customize ["modifyvm", :id, "--vrde", "off"]
+    vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+    vb.customize ["modifyvm", :id, "--boot1", "disk"]
+    vb.customize ["modifyvm", :id, "--usb", "off"]
+    vb.customize ["modifyvm", :id, "--usbehci", "off"]
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/ --timesync-set-threshold", 10000]
+  end
+  # Above we configure common stuff for all VMs in this folder #
+  # ############################################################
+
+  # Here we configure and provision stuff based on box name
+  boxes.each do |box|
+    config.vm.define box[:name] do |linuxbox|
+      # common stuff
+      linuxbox.vm.box = box[:box_name]
+      linuxbox.vm.box_url = box[:box_url]
+      linuxbox.vm.box_download_insecure = true
+      linuxbox.vm.box_check_update = false
+      linuxbox.vm.hostname = box[:name]
+      linuxbox.vm.network :forwarded_port, guest: 22, host: box[:ssh_host_port], id: "ssh", auto_correct: true
+      linuxbox.vm.network :forwarded_port, guest: 80, host: box[:http80], id: "http80", auto_correct: false
+      linuxbox.vm.network :forwarded_port, guest: 8080, host: box[:http8080], id: "http8080", auto_correct: false
+      linuxbox.vm.provider "virtualbox" do |vb|
+        vb.name = box[:name]
+      end
+      # really base on box name
+      # puts "box name: " + linuxbox.vm.box.to_s
+      # puts "vm name: " + box[:name].to_s
+      unless linuxbox.vm.box.to_s.include? "desktop"
+        linuxbox.vm.provision "apt_upgrade.sh",            type: :shell, path: "apt_upgrade.sh",             privileged: true
+        linuxbox.vm.provision "apt_install.sh",            type: :shell, path: "apt_install.sh",             privileged: true
+        linuxbox.vm.provision "apt_installJava.sh",        type: :shell, path: "apt_installJava.sh",         privileged: true
+        linuxbox.vm.provision "apt_installChrome.sh",      type: :shell, path: "apt_installChrome.sh",       privileged: true
+        linuxbox.vm.provision "apt_installDocker.sh",      type: :shell, path: "apt_installDocker.sh", args: [configs['http_proxy_host_port'],configs['no_proxy']], privileged: true
+        linuxbox.vm.provision "sys_setJavaCerts.sh",       type: :shell, path: "sys_setJavaCerts.sh",        privileged: true
+        linuxbox.vm.provision "user_installNVM.sh",        type: :shell, path: "user_installNVM.sh",         privileged: false
+      end
+      # more common stuff
+      linuxbox.vm.provision "user_setTrustedCerts.sh",   type: :shell, path: "user_setTrustedCerts.sh", args: [configs['vagrant_user']], privileged: false
+      linuxbox.vm.provision "user_setUserEnv.sh",        type: :shell, path: "user_setUserEnv.sh", args: [configs['vagrant_user']], privileged: false
+      linuxbox.vm.synced_folder configs['sync_folder_Projects'], "/home/#{configs['vagrant_user']}/Projects", create: true, type: "nfs", nfs_version: 4.1, run: "always"
+    end
+  end
+end

@@ -1,0 +1,132 @@
+# RUn this inside the directory containing this Dockerfile.
+# cd /home/vagrant/Projects/QA-Vagrant/dockers/chimpjs
+# 
+# To build the final image, run the entire Dockerfile
+# sudo docker build --tag chimpjs:desktop02 .
+# 
+# To make modifications, run section-by-section by commenting the sections after
+# and make changes to the section you intend to update
+# and continue running section-by-section all the way to the end
+
+# sudo docker build --tag chimpjs:ldesktop02 .
+
+FROM phusion/baseimage
+MAINTAINER Xinyu Wang <xywang68@gmail.com>
+USER root
+
+ENV JAVA_VERSION 8
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV DEBIAN_FRONTEND noninteractive
+
+# upload files
+ADD ../global/environment /etc/environment
+ADD ../global/apt.conf /etc/apt/apt.conf
+ADD ../corporate_cacerts /usr/share/ca-certificates/corporate_cacerts
+
+# apt install essential tools for apt install/upgrade
+RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
+RUN apt upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
+RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+		apt-utils curl wget software-properties-common sudo tzdata
+# Set the timezone.
+RUN sudo dpkg-reconfigure -f noninteractive tzdata
+
+# # install standard linux tools needed for automation framework
+RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+		ntpdate autofs rsync tree lsof zlib1g-dev \
+		python-software-properties java-common binutils \
+		python2.7-minimal libpython2.7-stdlib python2.7-dev python-pip \
+		python3-minimal libpython3-stdlib python3-dev python3-pip \
+		unixodbc unixodbc-dev tdsodbc sqlite3 \
+		sshfs xvfb xdotool wmctrl xclip imagemagick ffmpeg \
+		rdesktop tesseract-ocr libopencv-highgui2.4v5 \
+		fonts-liberation libappindicator3-1 libatk-bridge2.0-0 libgtk-3-0 libnspr4 libxss1 xdg-utils libnss3
+
+# install additional tools (chrome and java) needed for automation framework
+RUN update-ca-certificates
+
+# instal google-chrome
+RUN rm -f /etc/apt/sources.list.d/google-chrome.list && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
+ 				wget -qO- --no-check-certificate https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+		apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  && \
+		http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
+				apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+				google-chrome-stable
+
+# install java8
+RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main' > /etc/apt/sources.list && \
+    http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
+    		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
+    apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  && \
+    echo oracle-java${JAVA_VERSION}-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
+    http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
+    		apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+    		oracle-java${JAVA_VERSION}-installer oracle-java${JAVA_VERSION}-set-default
+
+# final autoremove
+RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
+RUN apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+RUN mkdir -p /tmp/.X11-unix
+RUN chmod 1777  /tmp/.X11-unix
+
+# run finishing set up
+RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
+
+# create u900:g900 for ldesktop vagrant
+RUN groupadd g900 -g 900
+RUN useradd -u 900 -g g900 \
+	-d /home/u900 -ms /bin/bash \
+	-G sudo \
+	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
+	u900
+
+# create u900:g900 for aws ec2-user
+RUN groupadd g1000 -g 1000
+RUN useradd -u 1000 -g g1000 \
+	-d /home/u1000 -ms /bin/bash \
+	-G sudo \
+	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
+	u1000
+
+# create u306267:g306267 for aws build
+RUN groupadd g306267 -g 306267
+RUN useradd -u 306267 -g g306267 \
+  -d /home/u306267 -ms /bin/bash \
+  -G sudo \
+  -p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
+  u306267
+
+# #####################################################################
+# This Dockerfile ends here. Below is additional information.
+# 
+# To test this docker image interactively:
+# sudo docker run -it --rm=true --user=u$(id -u) --privileged \
+#   -e http_proxy=$http_proxy \
+#   -e https_proxy=$https_proxy \
+#   -e no_proxy=$no_proxy \
+#   -v $HOME/.profile:/home/u$(id -u)/.profile \
+#   -v $HOME/.userEnv:/home/u$(id -u)/.userEnv \
+#   -v $HOME/.pki:/home/u$(id -u)/.pki \
+#   -v $HOME/.nvm:/home/u$(id -u)/.nvm \
+#   -v $HOME/.npm:/home/u$(id -u)/.npm \
+#   -v $HOME/node_modules:/home/u$(id -u)/node_modules \
+#   -v $HOME/Projects:/home/u$(id -u)/Projects \
+#   --shm-size 4G \
+#   chimpjs:ldesktop02 \
+#   /bin/bash
+# 	
+# Inside the docker container:
+# cd; . .profile; cp Projects/AutomationProject/package* .; npm rebuild; cd Projects/AutomationProject
+# 
+# To check java and sikuli
+# node global/libs/click_image.js global/step_images/chromeIcon.png --debug
+# Expected output: image not clicked (not found)
+# 
+# To check chimp automation
+# cd DataViewer
+# NODE_ENV=TestTarget MOVIE=1 xvfb-run -a -s "-screen 0, 1920x1200x16" chimp features/Login\ Page.feature --debug
+# 
+# Check recorded screenshot and move
+# #####################################################################

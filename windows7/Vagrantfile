@@ -1,0 +1,153 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Require YAML module
+require 'yaml'
+# Read YAML file with box details
+configs = YAML.load_file('configs.yaml') 
+
+# box name into env var, same script can be used with different boxes. Defaults to win7-ie11.
+# box_name = box_name = ENV['box_name'] != nil ? ENV['box_name'].strip : 'win7-ie11'
+# box repo into env var, so private repos/cache can be used. Defaults to http://aka.ms
+
+# Here we define variables in a boxes array
+# These variables by themself do not do anyting, they are used in actual vagrant configuration later
+# base boxes have port conflict amoung them, should be up by one at a time
+boxes = [
+  {:name=>"win7Base", :box_name=>'morden.ie/win7-ie11', :box_url=>'file://Q:/Automation/VM-Exports/IE11-Win7.box',
+    :rdp_host_port=>10389, :selenium_host_port=>10444, :ssh_host_port=>10022, :winrm_https_port=>10986, :winrm_http_port=>10985},
+  {:name=>"win7selenium01", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>11389, :selenium_host_port=>11444, :ssh_host_port=>11022, :winrm_https_port=>11986, :winrm_http_port=>11985},
+  {:name=>"win7selenium02", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>12389, :selenium_host_port=>12444, :ssh_host_port=>12022, :winrm_https_port=>12986, :winrm_http_port=>12985},
+  {:name=>"win7selenium03", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>13389, :selenium_host_port=>13444, :ssh_host_port=>13022, :winrm_https_port=>13986, :winrm_http_port=>13985},
+  {:name=>"win7selenium04", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>14389, :selenium_host_port=>14444, :ssh_host_port=>14022, :winrm_https_port=>14986, :winrm_http_port=>14985},
+  {:name=>"win7selenium05", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>15389, :selenium_host_port=>15444, :ssh_host_port=>15022, :winrm_https_port=>15986, :winrm_http_port=>15985},
+  {:name=>"win7selenium06", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>16389, :selenium_host_port=>16444, :ssh_host_port=>16022, :winrm_https_port=>16986, :winrm_http_port=>16985},
+  {:name=>"win7selenium07", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>17389, :selenium_host_port=>17444, :ssh_host_port=>17022, :winrm_https_port=>17986, :winrm_http_port=>17985},
+  {:name=>"win7selenium08", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>18389, :selenium_host_port=>18444, :ssh_host_port=>18022, :winrm_https_port=>18986, :winrm_http_port=>18985},
+  {:name=>"win7selenium09", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>19389, :selenium_host_port=>19444, :ssh_host_port=>19022, :winrm_https_port=>19986, :winrm_http_port=>19985},
+  {:name=>"win7selenium10", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>20389, :selenium_host_port=>20444, :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
+  {:name=>"win7selenium11", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>21389, :selenium_host_port=>21444, :ssh_host_port=>21022, :winrm_https_port=>21986, :winrm_http_port=>21985},
+  {:name=>"win7selenium12", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>22389, :selenium_host_port=>22444, :ssh_host_port=>22022, :winrm_https_port=>22986, :winrm_http_port=>22985},
+  {:name=>"win7selenium13", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>23389, :selenium_host_port=>23444, :ssh_host_port=>23022, :winrm_https_port=>23986, :winrm_http_port=>23985},
+  {:name=>"win7selenium14", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>24389, :selenium_host_port=>24444, :ssh_host_port=>24022, :winrm_https_port=>24986, :winrm_http_port=>24985},
+  {:name=>"win7selenium15", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>25389, :selenium_host_port=>25444, :ssh_host_port=>25022, :winrm_https_port=>25986, :winrm_http_port=>25985},
+  {:name=>"win7selenium16", :box_name=>'win7seleniumie', :box_url=>'file://Q:/Automation/VM-Exports/win7selenium.box',
+    :rdp_host_port=>26389, :selenium_host_port=>26444, :ssh_host_port=>26022, :winrm_https_port=>26986, :winrm_http_port=>26985},
+]
+
+Vagrant.configure("2") do |config|
+
+  ##############################################################
+  # Below we configure common stuff for all VMs in this folder #
+  config.vm.boot_timeout = 500
+  config.vm.box_check_update = false
+  config.vm.synced_folder configs['sync_folder_Projects'], "C:\\Users\\#{configs['vagrant_user']}\\Projects", run: "always"
+
+  # winrm config, uses modern.ie default user/password. If other credentials are used must be changed here
+  config.ssh.username = "#{configs['vagrant_user']}"
+  config.ssh.password = "#{configs['vagrant_password']}"
+  config.winrm.username = "#{configs['vagrant_user']}"
+  config.winrm.password = "#{configs['vagrant_password']}"
+  config.vm.communicator = ENV['communicator'] || "winrm"
+  config.ssh.sudo_command = ''
+  config.ssh.insert_key = false
+  config.winrm.basic_auth_only = true
+  config.ssh.shell = 'sh -l'
+
+  # for VirtualBox
+  config.vm.provider "virtualbox" do |vb|
+    # first setup requires gui to be enabled so scripts can be executed in virtualbox guest screen
+    vb.linked_clone = true
+    vb.gui = false
+    vb.cpus = configs['cpus']
+    vb.memory = configs['memory']
+    vb.customize ["modifyvm", :id, "--vram", "128"]
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
+    vb.customize ["modifyvm", :id, "--ioapic", "on"]
+    vb.customize ["modifyvm", :id, "--vrde", "on"]
+    vb.customize ["modifyvm", :id, "--vtxux", "off"]
+    vb.customize ["modifyvm", :id, "--vtxvpid", "off"]
+    vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
+    vb.customize ["modifyvm", :id, "--boot1", "disk"]
+    vb.customize ["modifyvm", :id, "--boot2", "dvd"]
+    vb.customize ["modifyvm", :id, "--usb", "on"]
+    vb.customize ["modifyvm", :id, "--usbehci", "off"]
+    vb.customize ["modifyvm", :id, "--audio", "none"]
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/ --timesync-set-threshold", 10000]
+  end
+
+  if Vagrant.has_plugin?("vagrant-vbguest")
+      config.vbguest.auto_update = true
+  end
+
+  # set corporate proxy
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http     = "http://#{configs['http_proxy_host_port']}"
+    config.proxy.https    = "http://#{configs['http_proxy_host_port']}"
+    config.proxy.no_proxy = "#{configs['no_proxy']}"
+  end
+
+  # Above we configure common stuff for all VMs in this folder #
+  # ############################################################
+
+  # Here we configure and provision stuff based on box name
+  boxes.each do |box|
+    config.vm.define box[:name] do |winbox|
+      winbox.vm.guest = :windows
+      winbox.vm.box = box[:box_name]
+      winbox.vm.box_url = box[:box_url]
+      winbox.vm.network :forwarded_port, guest: 22,   host: box[:ssh_host_port], id: "ssh", auto_correct: true
+      winbox.vm.network :forwarded_port, guest: 5985, host: box[:winrm_http_port], id: "winrm", auto_correct: true
+      winbox.vm.network :forwarded_port, guest: 3389, host: box[:rdp_host_port], id: "rdp3389", auto_correct: true
+      winbox.vm.network :forwarded_port, guest: 4444, host: box[:selenium_host_port], id: "sel4444", auto_correct: true
+      # set vm name in virtualbox
+      winbox.vm.provider "virtualbox" do |vb|
+        vb.name = box[:name]
+      end
+      if config.vm.communicator.to_s.include? "ssh"
+        config.vm.provision "shell", binary: true, privileged: false, inline: <<-SHELL
+          # winrm - Switch to private network
+          /cygdrive/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -InputFormat None -NoProfile -ExecutionPolicy Bypass -Command '$networkListManager = [Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]"{DCB00C01-570F-4A9B-8D69-199FDBA5723B}")) ; $connections = $networkListManager.GetNetworkConnections() ; $connections | % {$_.GetNetwork().SetCategory(1)}'
+        SHELL
+        winbox.vm.provision "authorized_keys", type: :file,  source: '../global/authorized_keys', destination: ".ssh/authorized_keys"
+        winbox.vm.provision "selnium_config", type: :file,  source: '../global/selenium-standalone-config.js', destination: "selenium-standalone-config.js"
+      end
+      if config.vm.communicator.to_s.include? "winrm"
+        # really base on box name
+        # puts "box name: " + winbox.vm.box.to_s
+        # puts "vm name: " + box[:name].to_s
+        if box[:name].to_s.include? "Base"
+          winbox.vm.provision "setIEProxyCACerts.bat", type: :shell, path: "./setIEProxyCACerts.bat", args: [configs['http_proxy_host_port']], privileged: true
+          winbox.vm.provision "setEnableRDP.bat", type: :shell, path: "./setEnableRDP.bat", privileged: true
+          winbox.vm.provision "installJre8", type: :shell, inline: "choco install jre8 -PackageParameters \"/exclude:64\" -y", privileged: true
+          winbox.vm.provision "installNodejsLTS", type: :shell, inline: "choco install nodejs-lts -y", privileged: true
+          winbox.vm.provision "installGoogleChrome", type: :shell, inline: "choco install googlechrome -y", privileged: true
+          winbox.vm.provision "installSDelete", type: :shell, inline: "choco install SDelete -y", privileged: true
+          winbox.vm.provision "keys_permission", type: :shell, inline: "cmd /c cacls %HOMEPATH%/.ssh/authorized_keys /e /c /d %username%", privileged: true
+          winbox.vm.provision "installSeleniumStandalone.bat", type: :shell, path: "./installSeleniumStandalone.bat", privileged: false
+          winbox.vm.provision "setAutoLogon.bat", type: :shell, path: "./setAutoLogon.bat", args: [configs['vagrant_user'],configs['vagrant_password']], privileged: true
+          winbox.vm.provision "setUnblockApps.bat", type: :shell, path: "./setUnblockApps.bat", privileged: true
+          winbox.vm.provision "installSeleniumDrivers.bat", type: :shell, path: "./installSeleniumDrivers.bat", privileged: false
+        end
+        winbox.vm.provision "runSeleniumStandalone.bat", type: :shell, path: "./runSeleniumStandalone.bat", powershell_args: "--–PassThru", powershell_elevated_interactive: true, privileged: true, run: "always"
+      end
+    end
+  end
+end
