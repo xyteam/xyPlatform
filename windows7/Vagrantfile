@@ -14,41 +14,27 @@ configs = YAML.load_file('configs.yaml')
 # These variables by themself do not do anyting, they are used in actual vagrant configuration later
 # base boxes have port conflict amoung them, should be up by one at a time
 boxes = [
-  {:name=>"win7Base", :box_name=>'morden.ie/win7-ie11', :box_url=>'https://app.vagrantup.com/mkallango/boxes/IE11_Win7',
+  {:name=>"win7Base", :box_name=>'morden.ie/win7-ie11', :box_url=>'file://Q:/Automation/VM-Exports/IE11-Win7.box',
     :rdp_host_port=>10389, :selenium_host_port=>10444, :ssh_host_port=>10022, :winrm_https_port=>10986, :winrm_http_port=>10985},
-  {:name=>"win7selenium01", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>11389, :selenium_host_port=>11444, :ssh_host_port=>11022, :winrm_https_port=>11986, :winrm_http_port=>11985},
-  {:name=>"win7selenium02", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>12389, :selenium_host_port=>12444, :ssh_host_port=>12022, :winrm_https_port=>12986, :winrm_http_port=>12985},
-  {:name=>"win7selenium03", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>13389, :selenium_host_port=>13444, :ssh_host_port=>13022, :winrm_https_port=>13986, :winrm_http_port=>13985},
-  {:name=>"win7selenium04", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>14389, :selenium_host_port=>14444, :ssh_host_port=>14022, :winrm_https_port=>14986, :winrm_http_port=>14985},
-  {:name=>"win7selenium05", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>15389, :selenium_host_port=>15444, :ssh_host_port=>15022, :winrm_https_port=>15986, :winrm_http_port=>15985},
-  {:name=>"win7selenium06", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>16389, :selenium_host_port=>16444, :ssh_host_port=>16022, :winrm_https_port=>16986, :winrm_http_port=>16985},
-  {:name=>"win7selenium07", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>17389, :selenium_host_port=>17444, :ssh_host_port=>17022, :winrm_https_port=>17986, :winrm_http_port=>17985},
-  {:name=>"win7selenium08", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>18389, :selenium_host_port=>18444, :ssh_host_port=>18022, :winrm_https_port=>18986, :winrm_http_port=>18985},
-  {:name=>"win7selenium09", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>19389, :selenium_host_port=>19444, :ssh_host_port=>19022, :winrm_https_port=>19986, :winrm_http_port=>19985},
-  {:name=>"win7selenium10", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>20389, :selenium_host_port=>20444, :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
-  {:name=>"win7selenium11", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>21389, :selenium_host_port=>21444, :ssh_host_port=>21022, :winrm_https_port=>21986, :winrm_http_port=>21985},
-  {:name=>"win7selenium12", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>22389, :selenium_host_port=>22444, :ssh_host_port=>22022, :winrm_https_port=>22986, :winrm_http_port=>22985},
-  {:name=>"win7selenium13", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>23389, :selenium_host_port=>23444, :ssh_host_port=>23022, :winrm_https_port=>23986, :winrm_http_port=>23985},
-  {:name=>"win7selenium14", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>24389, :selenium_host_port=>24444, :ssh_host_port=>24022, :winrm_https_port=>24986, :winrm_http_port=>24985},
-  {:name=>"win7selenium15", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>25389, :selenium_host_port=>25444, :ssh_host_port=>25022, :winrm_https_port=>25986, :winrm_http_port=>25985},
-  {:name=>"win7selenium16", :box_name=>'win7seleniumie', :box_url=>'file://./win7selenium.box',
-    :rdp_host_port=>26389, :selenium_host_port=>26444, :ssh_host_port=>26022, :winrm_https_port=>26986, :winrm_http_port=>26985},
-]
+#   {:name=>"win7desktop", :box_name=>'win7selenium', :box_url=>'file://win7selenium.box',
+#     :rdp_host_port=>10389, :selenium_host_port=>10444, :ssh_host_port=>10022, :winrm_https_port=>10986, :winrm_http_port=>10985},
+#   {:name=>"win7selenium01", :box_name=>'win7selenium', 
+#     :rdp_host_port=>11389, :selenium_host_port=>11444, :ssh_host_port=>11022, :winrm_https_port=>11986, :winrm_http_port=>11985},
+#   {:name=>"win7selenium02", :box_name=>'win7selenium', 
+#     :rdp_host_port=>12389, :selenium_host_port=>12444, :ssh_host_port=>12022, :winrm_https_port=>12986, :winrm_http_port=>12985},
+#   {:name=>"win7selenium03", :box_name=>'win7selenium', 
+#     :rdp_host_port=>13389, :selenium_host_port=>13444, :ssh_host_port=>13022, :winrm_https_port=>13986, :winrm_http_port=>13985},
+#   {:name=>"win7selenium04", :box_name=>'win7selenium', 
+#     :rdp_host_port=>14389, :selenium_host_port=>14444, :ssh_host_port=>14022, :winrm_https_port=>14986, :winrm_http_port=>14985},
+#   {:name=>"win7selenium05", :box_name=>'win7selenium', 
+#     :rdp_host_port=>15389, :selenium_host_port=>15444, :ssh_host_port=>15022, :winrm_https_port=>15986, :winrm_http_port=>15985},
+#   {:name=>"win7selenium06", :box_name=>'win7selenium', 
+#     :rdp_host_port=>16389, :selenium_host_port=>16444, :ssh_host_port=>16022, :winrm_https_port=>16986, :winrm_http_port=>16985},
+#   {:name=>"win7selenium07", :box_name=>'win7selenium', 
+#     :rdp_host_port=>17389, :selenium_host_port=>17444, :ssh_host_port=>17022, :winrm_https_port=>17986, :winrm_http_port=>17985},
+#   {:name=>"win7selenium08", :box_name=>'win7selenium', 
+#     :rdp_host_port=>18389, :selenium_host_port=>18444, :ssh_host_port=>18022, :winrm_https_port=>18986, :winrm_http_port=>18985}
+  ]
 
 Vagrant.configure("2") do |config|
 
@@ -135,16 +121,16 @@ Vagrant.configure("2") do |config|
         # puts "vm name: " + box[:name].to_s
         if box[:name].to_s.include? "Base"
           winbox.vm.provision "setIEProxyCACerts.bat", type: :shell, path: "./setIEProxyCACerts.bat", args: [configs['http_proxy_host_port']], privileged: true
-          winbox.vm.provision "setEnableRDP.bat", type: :shell, path: "./setEnableRDP.bat", privileged: true
           winbox.vm.provision "installJre8", type: :shell, inline: "choco install jre8 -PackageParameters \"/exclude:64\" -y", privileged: true
           winbox.vm.provision "installNodejsLTS", type: :shell, inline: "choco install nodejs-lts -y", privileged: true
           winbox.vm.provision "installGoogleChrome", type: :shell, inline: "choco install googlechrome -y", privileged: true
           winbox.vm.provision "installSDelete", type: :shell, inline: "choco install SDelete -y", privileged: true
           winbox.vm.provision "keys_permission", type: :shell, inline: "cmd /c cacls %HOMEPATH%/.ssh/authorized_keys /e /c /d %username%", privileged: true
           winbox.vm.provision "installSeleniumStandalone.bat", type: :shell, path: "./installSeleniumStandalone.bat", privileged: false
+          winbox.vm.provision "installSeleniumDrivers.bat", type: :shell, path: "./installSeleniumDrivers.bat", privileged: false
           winbox.vm.provision "setAutoLogon.bat", type: :shell, path: "./setAutoLogon.bat", args: [configs['vagrant_user'],configs['vagrant_password']], privileged: true
           winbox.vm.provision "setUnblockApps.bat", type: :shell, path: "./setUnblockApps.bat", privileged: true
-          winbox.vm.provision "installSeleniumDrivers.bat", type: :shell, path: "./installSeleniumDrivers.bat", privileged: false
+          winbox.vm.provision "setEnableRDP.bat", type: :shell, path: "./setEnableRDP.bat", privileged: true
         end
         winbox.vm.provision "runSeleniumStandalone.bat", type: :shell, path: "./runSeleniumStandalone.bat", powershell_args: "--–PassThru", powershell_elevated_interactive: true, privileged: true, run: "always"
       end
