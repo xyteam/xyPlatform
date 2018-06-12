@@ -14,7 +14,7 @@ export NVM_DIR="$HOME/.nvm"
 export NODE_VERSION=v8.11.1
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 nvm install $NODE_VERSION
-mkdir -p ~/.npm && sudo cat /usr/share/ca-certificates/private/CORPORATE_CACERT.crt > ~/.npm/cacerts
+mkdir -p ~/.npm && sudo cat /usr/share/ca-certificates/private/GeoTrustGlobalCA.crt > ~/.npm/cacerts
 
 # create .userEnv for .profile to source
 cat << END1 > ~/.userEnv
@@ -41,9 +41,9 @@ if [ -d "\$HOME/node_modules/.bin" ] ; then
 fi
 
 # set NPM
-npm config --global set proxy \$http_proxy
-npm config set proxy \$http_proxy
-npm config set https-proxy \$https_proxy
+# npm config --global set proxy \$http_proxy
+# npm config set proxy \$http_proxy
+# npm config set https-proxy \$https_proxy
 npm config set registry http://registry.npmjs.org
 npm config set progress false
 npm config set cafile \$HOME/.npm/cacerts
