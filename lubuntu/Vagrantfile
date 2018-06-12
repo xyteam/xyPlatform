@@ -6,7 +6,7 @@ configs = YAML.load_file('configs.yaml')
 # Here we define variables in a boxes array
 # These variables by themself do not do anyting, they are used in actual vagrant configuration later
 boxes = [
-  {:name => "lubuntuBase", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
+  {:name => "ldesktopBase", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
     :ssh_host_port=>1022, :http80=>1080, :http8080=>1880},
   {:name => "ldesktop02", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1604-desktop.box',
     :ssh_host_port=>2022, :http80=>2080, :http8080=>2880}
@@ -24,12 +24,11 @@ Vagrant.configure(2) do |config|
   if Vagrant.has_plugin?("vagrant-ca-certificates")
     config.ca_certificates.enabled = true
     config.ca_certificates.certs = [
-      '../global/corporate_cacerts/corporate_cacert.crt',
+      '../global/corporate_cacerts/GeoTrustGlobalCA.crt'
     ]
   end
 
-  # set corporate proxy
-  if Vagrant.has_plugin?("vagrant-proxyconf")
+  if (Vagrant.has_plugin?("vagrant-proxyconf") && (!configs['http_proxy_host_port'].to_s.empty?))
     config.proxy.enabled  = { npm: false }
     config.proxy.http     = "http://#{configs['http_proxy_host_port']}"
     config.proxy.https    = "http://#{configs['https_proxy_host_port']}"
@@ -88,14 +87,20 @@ Vagrant.configure(2) do |config|
         linuxbox.vm.provision "apt_install.sh",            type: :shell, path: "apt_install.sh",             privileged: true
         linuxbox.vm.provision "apt_installJava.sh",        type: :shell, path: "apt_installJava.sh",         privileged: true
         linuxbox.vm.provision "apt_installChrome.sh",      type: :shell, path: "apt_installChrome.sh",       privileged: true
-        linuxbox.vm.provision "apt_installDocker.sh",      type: :shell, path: "apt_installDocker.sh", args: [configs['http_proxy_host_port'],configs['no_proxy']], privileged: true
+        unless configs['http_proxy_host_port'].to_s.empty?
+          linuxbox.vm.provision "apt_installDocker.sh", 
+            type: :shell, path: "apt_installDocker.sh",
+            args: [configs['http_proxy_host_port'], configs['no_proxy']],
+            privileged: true
+        end
         linuxbox.vm.provision "sys_setJavaCerts.sh",       type: :shell, path: "sys_setJavaCerts.sh",        privileged: true
         linuxbox.vm.provision "user_installNVM.sh",        type: :shell, path: "user_installNVM.sh",         privileged: false
       end
       # more common stuff
       linuxbox.vm.provision "user_setTrustedCerts.sh",   type: :shell, path: "user_setTrustedCerts.sh", args: [configs['vagrant_user']], privileged: false
       linuxbox.vm.provision "user_setUserEnv.sh",        type: :shell, path: "user_setUserEnv.sh", args: [configs['vagrant_user']], privileged: false
-      linuxbox.vm.synced_folder configs['sync_folder_Projects'], "/home/#{configs['vagrant_user']}/Projects", create: true, type: "nfs", nfs_version: 4.1, run: "always"
+      linuxbox.vm.synced_folder configs['sync_folder_Projects'], "/home/#{configs['vagrant_user']}/Projects",
+        create: true, type: "nfs", nfs_version: 4.1, run: "always"
     end
   end
 end
