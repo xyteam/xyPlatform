@@ -87,12 +87,7 @@ Vagrant.configure(2) do |config|
         linuxbox.vm.provision "apt_install.sh",            type: :shell, path: "apt_install.sh",             privileged: true
         linuxbox.vm.provision "apt_installJava.sh",        type: :shell, path: "apt_installJava.sh",         privileged: true
         linuxbox.vm.provision "apt_installChrome.sh",      type: :shell, path: "apt_installChrome.sh",       privileged: true
-        unless configs['http_proxy_host_port'].to_s.empty?
-          linuxbox.vm.provision "apt_installDocker.sh", 
-            type: :shell, path: "apt_installDocker.sh",
-            args: [configs['http_proxy_host_port'], configs['no_proxy']],
-            privileged: true
-        end
+        linuxbox.vm.provision "apt_installDocker.sh",      type: :shell, path: "apt_installDocker.sh",       privileged: true
         linuxbox.vm.provision "sys_setJavaCerts.sh",       type: :shell, path: "sys_setJavaCerts.sh",        privileged: true
         linuxbox.vm.provision "user_installNVM.sh",        type: :shell, path: "user_installNVM.sh",         privileged: false
       end

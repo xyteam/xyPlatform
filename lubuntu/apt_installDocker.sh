@@ -10,7 +10,7 @@ cat << END1 > /etc/docker/daemon.json
 {
   "storage-driver":"aufs",
   "debug":true,
-  "insecure-registries":["corporate.docker.repo:5000"]
+  // "insecure-registries":["corporate.docker.repo:5000"]
 }
 END1
 

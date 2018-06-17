@@ -1,14 +1,11 @@
-# RUn this inside the directory containing this Dockerfile.
-# cd /home/vagrant/Projects/QA-Vagrant/dockers/chimpjs
-# 
 # To build the final image, run the entire Dockerfile
-# sudo docker build --tag chimpjs:desktop02 .
+# sudo docker build --tag xyplatform:ldesktop02 .
 # 
 # To make modifications, run section-by-section by commenting the sections after
 # and make changes to the section you intend to update
 # and continue running section-by-section all the way to the end
 
-# sudo docker build --tag chimpjs:ldesktop02 .
+# sudo docker build --tag xyplatform:ldesktop02 .
 
 FROM phusion/baseimage
 MAINTAINER Xinyu Wang <xywang68@gmail.com>
@@ -17,11 +14,13 @@ USER root
 ENV JAVA_VERSION 8
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV DEBIAN_FRONTEND noninteractive
+# ENV http_proxy http://corporate.proxy:80
+# ENV https_proxy http://corporate.proxy:80
 
 # upload files
-ADD ../global/environment /etc/environment
-ADD ../global/apt.conf /etc/apt/apt.conf
-ADD ../corporate_cacerts /usr/share/ca-certificates/corporate_cacerts
+# ADD environment /etc/environment
+# ADD apt.conf /etc/apt/apt.conf
+# ADD corporate_cacerts /usr/share/ca-certificates/corporate_cacerts
 
 # apt install essential tools for apt install/upgrade
 RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
@@ -48,20 +47,16 @@ RUN update-ca-certificates
 # instal google-chrome
 RUN rm -f /etc/apt/sources.list.d/google-chrome.list && \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
-    http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
  				wget -qO- --no-check-certificate https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
 		apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  && \
-		http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
 				apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
 				google-chrome-stable
 
 # install java8
 RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main' > /etc/apt/sources.list && \
-    http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
-    		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
     apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  && \
     echo oracle-java${JAVA_VERSION}-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    http_proxy=http://corporate.proxy:80 https_proxy=http://corporate.proxy:80 \
     		apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
     		oracle-java${JAVA_VERSION}-installer oracle-java${JAVA_VERSION}-set-default
 
@@ -114,7 +109,7 @@ RUN useradd -u 306267 -g g306267 \
 #   -v $HOME/node_modules:/home/u$(id -u)/node_modules \
 #   -v $HOME/Projects:/home/u$(id -u)/Projects \
 #   --shm-size 4G \
-#   chimpjs:ldesktop02 \
+#   xyPlatform:ldesktop02 \
 #   /bin/bash
 # 	
 # Inside the docker container:
