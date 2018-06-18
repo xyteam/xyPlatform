@@ -18,7 +18,7 @@ mkdir -p ~/.npm && sudo cat /usr/share/ca-certificates/private/GeoTrustGlobalCA.
 
 # create .userEnv for .profile to source
 cat << END1 > ~/.userEnv
-export TZ="PST8PDT"
+export TZ="America/Los_Angeles"
 # export DBUS_SESSION_BUS_ADDRESS="unix:path=/dev/null"
 export _JAVA_OPTIONS="-Xms512m -Xmx512m -Dcom.sun.net.ssl.checkRevocation=false"
 
