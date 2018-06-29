@@ -7,7 +7,7 @@ configs = YAML.load_file('configs.yaml')
 # These variables by themself do not do anyting, they are used in actual vagrant configuration later
 boxes = [
   {:name => "ldesktopBase", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
-    :ssh_host_port=>1022, :http80=>1080, :http8080=>1880},
+    :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :tensor6006=>6006, :tensor6007},
   # {:name => "ldesktop02", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1604-desktop.box',
   #   :ssh_host_port=>2022, :http80=>2080, :http8080=>2880}
 ]
@@ -76,6 +76,8 @@ Vagrant.configure(2) do |config|
       linuxbox.vm.network :forwarded_port, guest: 22, host: box[:ssh_host_port], id: "ssh", auto_correct: true
       linuxbox.vm.network :forwarded_port, guest: 80, host: box[:http80], id: "http80", auto_correct: false
       linuxbox.vm.network :forwarded_port, guest: 8080, host: box[:http8080], id: "http8080", auto_correct: false
+      linuxbox.vm.network :forwarded_port, guest: 6006, host: box[:tensor6006], id: "tensor6006", auto_correct: false
+      linuxbox.vm.network :forwarded_port, guest: 6007, host: box[:tensor6007], id: "tensor6007", auto_correct: false
       linuxbox.vm.provider "virtualbox" do |vb|
         vb.name = box[:name]
       end
