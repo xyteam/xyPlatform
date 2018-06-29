@@ -7,7 +7,7 @@ configs = YAML.load_file('configs.yaml')
 # These variables by themself do not do anyting, they are used in actual vagrant configuration later
 boxes = [
   {:name => "ldesktopBase", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
-    :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :tensor6006=>6006, :tensor6007},
+    :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :tensor6006=>6006, :tensor6007=>6007},
   # {:name => "ldesktop02", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1604-desktop.box',
   #   :ssh_host_port=>2022, :http80=>2080, :http8080=>2880}
 ]
