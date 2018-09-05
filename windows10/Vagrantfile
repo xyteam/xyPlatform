@@ -101,8 +101,8 @@ Vagrant.configure("2") do |config|
       winbox.vm.box_url = box[:box_url]
       winbox.vm.network :forwarded_port, guest: 22,   host: box[:ssh_host_port], id: "ssh", auto_correct: true
       winbox.vm.network :forwarded_port, guest: 5985, host: box[:winrm_http_port], id: "winrm", auto_correct: true
-      winbox.vm.network :forwarded_port, guest: 3389, host: box[:rdp_host_port], id: "rdp3389", auto_correct: true
-      winbox.vm.network :forwarded_port, guest: 4444, host: box[:selenium_host_port], id: "sel4444", auto_correct: true
+      # winbox.vm.network :forwarded_port, guest: 3389, host: box[:rdp_host_port], id: "rdp3389", auto_correct: true
+      # winbox.vm.network :forwarded_port, guest: 4444, host: box[:selenium_host_port], id: "sel4444", auto_correct: true
       # set vm name in virtualbox
       winbox.vm.provider "virtualbox" do |vb|
         vb.name = box[:name]
