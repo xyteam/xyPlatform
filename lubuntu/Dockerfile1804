@@ -5,9 +5,9 @@
 # and make changes to the section you intend to update
 # and continue running section-by-section all the way to the end
 
-# sudo docker build --tag xyplatform:ldesktop02 .
+# sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .
 
-FROM phusion/baseimage
+FROM ubuntu:18.04
 MAINTAINER Xinyu Wang <xywang68@gmail.com>
 USER root
 
@@ -33,12 +33,12 @@ RUN sudo dpkg-reconfigure -f noninteractive tzdata
 # # install standard linux tools needed for automation framework
 RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
 		ntpdate autofs rsync tree lsof zlib1g-dev \
-		python-software-properties java-common binutils \
+		dirmngr gpg-agent java-common binutils locales \
 		python2.7-minimal libpython2.7-stdlib python2.7-dev python-pip \
 		python3-minimal libpython3-stdlib python3-dev python3-pip \
 		unixodbc unixodbc-dev tdsodbc sqlite3 \
 		sshfs xvfb xdotool wmctrl xclip imagemagick ffmpeg \
-		rdesktop tesseract-ocr libopencv-highgui2.4v5 \
+		rdesktop tesseract-ocr libopencv-highgui-dev \
 		fonts-liberation libappindicator3-1 libatk-bridge2.0-0 libgtk-3-0 libnspr4 libxss1 xdg-utils libnss3
 
 # install additional tools (chrome and java) needed for automation framework
@@ -53,8 +53,9 @@ RUN rm -f /etc/apt/sources.list.d/google-chrome.list && \
 				google-chrome-stable
 
 # install java8
-RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main' > /etc/apt/sources.list && \
+RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu bionic main' > /etc/apt/sources.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A87FF9DF48BF1C90 && \
     apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  && \
     echo oracle-java${JAVA_VERSION}-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     		apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
