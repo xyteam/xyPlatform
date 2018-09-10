@@ -22,6 +22,10 @@ export TZ="America/Los_Angeles"
 # export DBUS_SESSION_BUS_ADDRESS="unix:path=/dev/null"
 export _JAVA_OPTIONS="-Xms512m -Xmx512m -Dcom.sun.net.ssl.checkRevocation=false"
 
+# set alias for quick file sync
+mkdir -p ~/runProjects
+alias sn="/usr/bin/rsync -aq --exclude=xyVagrant --exclude=xySublimeText3 --exclude=xyPlatform --exclude=xyDocker --exclude=xyCygwin --exclude=.*.swp ~/Projects/* ~/runProjects"
+
 # set node to ignore certificate error
 export NODE_TLS_REJECT_UNAUTHORIZED=0
 # overcome chrome and chrome-driver compatibility issue
