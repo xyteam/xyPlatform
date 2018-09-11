@@ -8,18 +8,19 @@
 ## Project Summary
 This project is licensed under the terms of the MIT license.
 
-This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. These VMs can be used for development and testing according to the OS provider's license agreement.
+This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. In addition, this project contains automatic configuration scripts to install additional applications that are useful for development, experiement, automation testing and screen documentation.
 
-Many develop and test automation features provided by the Ubuntu OS are accounted for and can be used directly. Namely:
-* ssh
+Many useful features provided by the Ubuntu OS are accounted for and can be used directly. Namely:
+* Openssh/Openssl
 * RDP (rdesktop)
-* screen capture (import)
-* video capture (ffmpeg)
-* concurrent users (xvfb)
-* node.js (node 8.11.1)
-* google-chrome browser
-* tensorflow board (port 6006)
-* and many more...
+* Screen capture (import)
+* Video capture (ffmpeg)
+* Concurrent user desktops (xvfb)
+* Node.js (node 8.11.1)
+* Google-chrome browser
+* Docker
+* Tensorflow board (port 6006)
+* And many more...
 
 ### The operating systems include:
 * Ubuntu 16.04 LTS, vagrant and docker
@@ -48,7 +49,7 @@ The Ubuntu systems have corresponding Vagrant and Docker configuration files, th
     * vagrant-timezone
     * vagrant-winrm
 * VirtualBox 5.2.10 and up
-* (Have not tested on Linux desktop host, feedback is welcome.)
+* (Have not tested on Linux desktop host, feedbacks are welcome.)
 
 ### Cloud hosting system:
 * Any Linux system that supports Docker
@@ -80,8 +81,11 @@ $ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .
 
 ### Ubuntu 16.04 Docker
 ```
+$ cd ~/Projects/xyPlatform/lubuntu
 $ sudo docker build --tag xyplatform:lubuntu1604 --file Dockerfile1604 .
 ```
+
+Reference to the comments in the Docker files for additional deployment and usage commands.
 
 ### Windows 10 and Windows 7
 reference to the README files inside the windows10 and windows7 directories respectively.
