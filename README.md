@@ -83,17 +83,7 @@ $ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .
 $ sudo docker build --tag xyplatform:lubuntu1604 --file Dockerfile1604 .
 ```
 
-### Windows 10
-#### bring up and shell login
-```
-CMD> cd ~/Projects/xyPlatform/windows10
-CMD> vagrant up win10Base
-CMD> vagrant reload win10Base (reload is only needed the first time)
-CMD> vagrant ssh win10Base
-```
-#### gui login
-IEUser/Passw0rd!
+### Windows 10 and Windows 7
+reference to the README files inside the windows10 and windows7 directories respectively.
 
-### Windows 7
-Same as Windows 10 except in Windows7 directory and change hostname to win7Base
 
