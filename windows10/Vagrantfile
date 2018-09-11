@@ -14,7 +14,7 @@ configs = YAML.load_file('configs.yaml')
 # These variables by themself do not do anyting, they are used in actual vagrant configuration later
 # base boxes have port conflict amoung them, should be up by one at a time
 boxes = [
-  {:name=>"win10Base", :box_name=>'Microsoft/EdgeOnWindows10', :box_url=>'file://Q:/Automation/VM-Exports/MSEdge-Win10.box',
+  {:name=>"win10Base", :box_name=>'Microsoft/EdgeOnWindows10', :box_url=>'https://app.vagrantup.com/Microsoft/boxes/EdgeOnWindows10',
     :rdp_host_port=>20389, :selenium_host_port=>20444, :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
 #   {:name=>"win10desktop", :box_name=>'win10selenium', :box_url=>'file://win10selenium.box',
 #     :rdp_host_port=>20389, :selenium_host_port=>20444, :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},

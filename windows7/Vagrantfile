@@ -14,7 +14,7 @@ configs = YAML.load_file('configs.yaml')
 # These variables by themself do not do anyting, they are used in actual vagrant configuration later
 # base boxes have port conflict amoung them, should be up by one at a time
 boxes = [
-  {:name=>"win7Base", :box_name=>'morden.ie/win7-ie11', :box_url=>'file://Q:/Automation/VM-Exports/IE11-Win7.box',
+  {:name=>"win7Base", :box_name=>'morden.ie/win7-ie11', :box_url=>'http://aka.ms/vagrant-win7-ie11',
     :rdp_host_port=>10389, :selenium_host_port=>10444, :ssh_host_port=>10022, :winrm_https_port=>10986, :winrm_http_port=>10985},
 #   {:name=>"win7desktop", :box_name=>'win7selenium', :box_url=>'file://win7selenium.box',
 #     :rdp_host_port=>10389, :selenium_host_port=>10444, :ssh_host_port=>10022, :winrm_https_port=>10986, :winrm_http_port=>10985},
