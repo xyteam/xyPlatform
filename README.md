@@ -41,6 +41,7 @@ The Ubuntu systems have corresponding Vagrant and Docker configuration files, th
 
 ### Local hosting system:
 * Windows 10 or Mac OS with reasonable RAM (16G+) and HD space (500G+)
+    - Have not tested on Linux desktop host, feedbacks are welcome
 * Vagrant 2.1.1 and up
 * Vagrant Plugins
     * vagrant-vbguest
@@ -49,7 +50,6 @@ The Ubuntu systems have corresponding Vagrant and Docker configuration files, th
     * vagrant-timezone
     * vagrant-winrm
 * VirtualBox 5.2.10 and up
-* (Have not tested on Linux desktop host, feedbacks are welcome.)
 
 ### Cloud hosting system:
 * Any Linux system that supports Docker
