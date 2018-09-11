@@ -1,6 +1,7 @@
 # xyPlatform
 ## Project Summary
 This project is licensed under the terms of the MIT license.
+
 This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. These VMs can be used for development and testing.
 
 Many develop and test automation features provided by the Ubuntu OS are accounted for and can be used directly. Namely:
