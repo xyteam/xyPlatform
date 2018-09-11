@@ -1,6 +1,7 @@
 # xyPlatform
-## Project
-This xyPlatform project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. These VMs can be used for development and testing.
+## Project Summary
+This project is licensed under the terms of the MIT license.
+This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. These VMs can be used for development and testing.
 
 Many develop and test automation features provided by the Ubuntu OS are accounted for and can be used directly. Namely:
 * ssh
@@ -31,8 +32,7 @@ The Ubuntu systems have corresponding Vagrant and Docker configuration files, th
 ## Prerequisites
 
 ### Local hosting system:
-```
-Windows 10 with reasonable RAM (16G+) and HD space (500G+)
+* Windows 10 or Mac OS with reasonable RAM (16G+) and HD space (500G+)
 * Vagrant 2.1.1 and up
 * Vagrant Plugins
     * vagrant-vbguest
@@ -41,19 +41,17 @@ Windows 10 with reasonable RAM (16G+) and HD space (500G+)
     * vagrant-timezone
     * vagrant-winrm
 * VirtualBox 5.2.10 and up
-```
+* (Have not tested on Linux desktop host, feedback is welcome.)
 
 ### Cloud hosting system:
-```
-Any Linux system that supports Docker
-```
+* Any Linux system that supports Docker
 
 ### Projects directory configuration:
 The project path of $HOME/Projects and ~/Projects are used through out, and is shared into VMs via Vagrant and Docker configurations, therefore a main diretory called Projects should be created under the user's home directory, and this and other related projects should be checkout into the Projects directory. The main benefit of sharing the Projects directory with the VMs is easy exchange of code between the host and VMs.
 
 ## Deploy VMs
 
-### Ubuntu 18.04
+### Ubuntu 18.04 VM
 #### bring up and shell login
 ```
 CMD> cd ~/Projects/xyPlatform/lubuntu
@@ -64,8 +62,19 @@ CMD> vagrant ssh l1804Base
 #### gui login
 vagrant/vagrant
 
-### Ubuntu 16.04
+### Ubuntu 16.04 VM
 Same as ubuntu 18.04 except change hostname with l1604Base
+
+### Ubuntu 18.04 Docker
+```
+$ cd ~/Projects/xyPlatform/lubuntu
+$ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .
+```
+
+### Ubuntu 16.04 Docker
+```
+$ sudo docker build --tag xyplatform:lubuntu1604 --file Dockerfile1604 .
+```
 
 ### Windows 10
 #### bring up and shell login
