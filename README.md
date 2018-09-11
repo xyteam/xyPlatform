@@ -1,4 +1,4 @@
-# xyPlatform: Vagrant and Docker configuration files and automatic configuration scripts
+## xyPlatform: Vagrant and Docker configuration files and automatic configuration scripts
 
 #### Disclaimer
 * All operating systems (OS) and applications (App) mentioned in this project, their licenses belong to the original product providers respectively.
@@ -60,15 +60,20 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 #### Deploy VMs
 
 ###### Ubuntu 18.04 VM
-bring up and shell login
+bring up
 ```
 CMD> cd ~/Projects/xyPlatform/lubuntu
 CMD> vagrant up l1804Base
 CMD> vagrant reload l1804Base (reload is only needed the first time)
+```
+shell login
+```
 CMD> vagrant ssh l1804Base
 ```
 gui login
+```
 vagrant/vagrant
+```
 
 ###### Ubuntu 16.04 VM
 Same as ubuntu 18.04 except change hostname with l1604Base
