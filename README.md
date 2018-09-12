@@ -1,4 +1,4 @@
-## xyPlatform: Vagrant and Docker configuration files and automatic configuration scripts
+## xyPlatform: develop and test locally, deploy and run in the cloud
 
 #### Disclaimer
 * All operating systems (OS) and applications (App) mentioned in this project, their licenses belong to the original product providers respectively.
