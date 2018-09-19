@@ -39,7 +39,7 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
 		python3-minimal libpython3-stdlib python3-dev python3-pip \
 		unixodbc unixodbc-dev tdsodbc sqlite3 \
 		sshfs xvfb xdotool wmctrl xclip imagemagick ffmpeg \
-		rdesktop tesseract-ocr libopencv-highgui2.4v5 \
+		rdesktop tesseract-ocr libopencv-dev \
 		fonts-liberation libappindicator3-1 libatk-bridge2.0-0 libgtk-3-0 libnspr4 libxss1 xdg-utils libnss3
 
 # install additional tools (chrome and java) needed for automation framework
@@ -66,6 +66,7 @@ RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--for
 RUN apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 RUN mkdir -p /tmp/.X11-unix
 RUN chmod 1777  /tmp/.X11-unix
+RUN ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
 
 # run finishing set up
 RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
