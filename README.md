@@ -10,7 +10,7 @@ This project is licensed under the terms of the MIT license.
 
 This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. In addition, this project contains automatic configuration scripts to install additional applications that are useful for development, experiement, automation testing and screen documentation.
 
-Many useful features provided by the Ubuntu OS are accounted for and can be used directly. Namely:
+Many useful features suppported on the Ubuntu OS are accounted for and can be used directly. Namely:
 * Java/JDK (oracle java v1.8.0)
 * Node.js and NPM (node v8.11.1 LTS and npm 5.6.0)
 * Python (v2.7 and v3.x)
