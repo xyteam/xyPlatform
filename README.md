@@ -31,14 +31,15 @@ Many useful features suppported on the Ubuntu OS are accounted for and can be us
 * Windows 10, vagrant only
 * Windows 7, vagrant only
 
-The Ubuntu systems have corresponding Vagrant and Docker configuration files, therefore one can develop and test at the local Ubuntu system and expect it to run at the cloud Docker container with no or minimal additional configuration.
+The Ubuntu systems have corresponding Vagrant and Docker configuration files, and the docker image can be built locally, therefore one can develop in the local Ubuntu system, test with the local Docker container, and ship the package to any cloud Docker host and expect it to be functional with no or minimal additional configuration.
 
 #### Benefits
 1. The deployment process have been automated to remove the technical pains and nuances for end-users.
 2. The configurations are captured in source code form for repeatability and future improvements.
 3. It can be deployed anywhere that has git access to this git repo.
 4. Easy repeatable deployment of multiple systems (i.e., deploy 32 windows systems and destroy them after use).
-5. And many more...
+5. Develop and test with the local Docker configuration and deploy and run in any cloud service.
+6. And many more...
 
 #### Prerequisites
 
