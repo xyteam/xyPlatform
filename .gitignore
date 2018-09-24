@@ -3,3 +3,4 @@
 **/unicode/
 **/*.box
 **/*.msu
+global/*_id_rsa*
