@@ -15,7 +15,7 @@ configs = YAML.load_file('configs.yaml')
 # base boxes have port conflict amoung them, should be up by one at a time
 boxes = [
   {:name=>"win10Base", :box_name=>'Microsoft/EdgeOnWindows10', :box_url=>'https://app.vagrantup.com/Microsoft/boxes/EdgeOnWindows10',
-    :rdp_host_port=>20389, :selenium_host_port=>20444, :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
+    :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
 #   {:name=>"win10desktop", :box_name=>'win10selenium', :box_url=>'file://win10selenium.box',
 #     :rdp_host_port=>20389, :selenium_host_port=>20444, :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
 #   {:name=>"win10selenium01", :box_name=>'win10selenium',
@@ -43,17 +43,19 @@ Vagrant.configure("2") do |config|
   config.vm.boot_timeout = 500
   config.vm.box_check_update = false
   config.vm.synced_folder configs['sync_folder_Projects'], "C:\\Users\\#{configs['vagrant_user']}\\Projects", run: "always"
+  config.vm.communicator = ENV['communicator'] || "winrm"
 
   # winrm config, uses modern.ie default user/password. If other credentials are used must be changed here
-  config.ssh.username = "#{configs['vagrant_user']}"
-  config.ssh.password = "#{configs['vagrant_password']}"
   config.winrm.username = "#{configs['vagrant_user']}"
   config.winrm.password = "#{configs['vagrant_password']}"
-  config.vm.communicator = ENV['communicator'] || "winrm"
-  config.ssh.sudo_command = ''
-  config.ssh.insert_key = false
   config.winrm.basic_auth_only = true
-  config.ssh.shell = 'sh -l'
+  config.ssh.private_key_path = "../global/platform_id_rsa"
+  config.ssh.forward_agent = true
+  config.ssh.username = "#{configs['vagrant_user']}"
+  config.ssh.password = "#{configs['vagrant_password']}"
+  config.ssh.insert_key = false
+  config.ssh.shell = 'bash -l'
+  config.ssh.sudo_command = ''
 
   # for VirtualBox
   config.vm.provider "virtualbox" do |vb|
@@ -83,12 +85,12 @@ Vagrant.configure("2") do |config|
       config.vbguest.auto_update = true
   end
 
-  # set corporate proxy
-  if Vagrant.has_plugin?("vagrant-proxyconf")
-    config.proxy.http     = "http://#{configs['http_proxy_host_port']}"
-    config.proxy.https    = "http://#{configs['http_proxy_host_port']}"
-    config.proxy.no_proxy = "#{configs['no_proxy']}"
-  end
+  # # set corporate proxy
+  # if Vagrant.has_plugin?("vagrant-proxyconf")
+  #   config.proxy.http     = "http://#{configs['http_proxy_host_port']}"
+  #   config.proxy.https    = "http://#{configs['http_proxy_host_port']}"
+  #   config.proxy.no_proxy = "#{configs['no_proxy']}"
+  # end
 
   # Above we configure common stuff for all VMs in this folder #
   # ############################################################
@@ -96,31 +98,29 @@ Vagrant.configure("2") do |config|
   # Here we configure and provision stuff based on box name
   boxes.each do |box|
     config.vm.define box[:name] do |winbox|
+      winbox.trigger.before :up, :reload do |trigger|
+        trigger.info = "Checking platform key"
+        trigger.run = {path: "../global/check_platformKey.sh"}
+      end
       winbox.vm.guest = :windows
       winbox.vm.box = box[:box_name]
       winbox.vm.box_url = box[:box_url]
       winbox.vm.network :forwarded_port, guest: 22,   host: box[:ssh_host_port], id: "ssh", auto_correct: true
       winbox.vm.network :forwarded_port, guest: 5985, host: box[:winrm_http_port], id: "winrm", auto_correct: true
-      # winbox.vm.network :forwarded_port, guest: 3389, host: box[:rdp_host_port], id: "rdp3389", auto_correct: true
-      # winbox.vm.network :forwarded_port, guest: 4444, host: box[:selenium_host_port], id: "sel4444", auto_correct: true
       # set vm name in virtualbox
       winbox.vm.provider "virtualbox" do |vb|
         vb.name = box[:name]
       end
       if config.vm.communicator.to_s.include? "ssh"
-        config.vm.provision "shell", binary: true, privileged: false, inline: <<-SHELL
-          # winrm - Switch to private network
-          /cygdrive/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -InputFormat None -NoProfile -ExecutionPolicy Bypass -Command '$networkListManager = [Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]"{DCB00C01-570F-4A9B-8D69-199FDBA5723B}")) ; $connections = $networkListManager.GetNetworkConnections() ; $connections | % {$_.GetNetwork().SetCategory(1)}'
-        SHELL
-          winbox.vm.provision "authorized_keys", type: :file,  source: '../global/authorized_keys', destination: "../.ssh/authorized_keys"
-          winbox.vm.provision "selnium_config", type: :file,  source: '../global/selenium-standalone-config.js', destination: "selenium-standalone-config.js"
+        winbox.vm.provision "authorized_keys", type: :file,  source: '../global/platform_id_rsa.pub', destination: ".ssh/authorized_keys"
+        winbox.vm.provision "selnium_config", type: :file,  source: '../global/selenium-standalone-config.js', destination: "selenium-standalone-config.js"
       end
       if config.vm.communicator.to_s.include? "winrm"
         # really base on box name
         # puts "box name: " + winbox.vm.box.to_s
         # puts "vm name: " + box[:name].to_s
         if box[:name].to_s.include? "Base"
-          winbox.vm.provision "setIEProxyCACerts.bat", type: :shell, path: "./setIEProxyCACerts.bat", args: [configs['http_proxy_host_port']], privileged: true
+          # winbox.vm.provision "setIEProxyCACerts.bat", type: :shell, path: "./setIEProxyCACerts.bat", args: [configs['http_proxy_host_port']], privileged: true
           winbox.vm.provision "installJre8", type: :shell, inline: "choco install jre8 -PackageParameters \"/exclude:32\" -y", privileged: true
           winbox.vm.provision "installNodejsLTS", type: :shell, inline: "choco install nodejs-lts -y", privileged: true
           winbox.vm.provision "installGoogleChrome", type: :shell, inline: "choco install googlechrome -y", privileged: true

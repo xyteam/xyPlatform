@@ -1,0 +1,1 @@
+Set-NetConnectionProfile -Confirm:$false -Name "Network" -NetworkCategory Private
