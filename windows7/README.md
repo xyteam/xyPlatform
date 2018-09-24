@@ -1,6 +1,6 @@
 ##Windows 7 Selenium boxes
 ```
-pre: download these files to this folder. This folder will be inside the guest vm as c:\vagrant
+pre: Download and copy these files to this folder. This folder will be posted inside the guest vm as c:\vagrant
   Win7-KB3191566-x86.msu
   Windows6.1-KB958830-x86-RefreshPkg.msu
 cygwin$ communicator=ssh vagrant up win7Base --provision
