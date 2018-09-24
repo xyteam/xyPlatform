@@ -32,12 +32,12 @@ Vagrant.configure(2) do |config|
     ]
   end
 
-  if (Vagrant.has_plugin?("vagrant-proxyconf") && (!configs['http_proxy_host_port'].to_s.empty?))
-    config.proxy.enabled  = { npm: false }
-    config.proxy.http     = "http://#{configs['http_proxy_host_port']}"
-    config.proxy.https    = "http://#{configs['https_proxy_host_port']}"
-    config.proxy.no_proxy = "#{configs['no_proxy']}"
-  end
+  # if (Vagrant.has_plugin?("vagrant-proxyconf") && (!configs['http_proxy_host_port'].to_s.empty?))
+  #   config.proxy.enabled  = { npm: false }
+  #   config.proxy.http     = "http://#{configs['http_proxy_host_port']}"
+  #   config.proxy.https    = "http://#{configs['https_proxy_host_port']}"
+  #   config.proxy.no_proxy = "#{configs['no_proxy']}"
+  # end
 
   # set timezone to California
   if Vagrant.has_plugin?("vagrant-timezone")
@@ -71,8 +71,16 @@ Vagrant.configure(2) do |config|
 
   # Here we configure and provision stuff based on box name
   boxes.each do |box|
+    # common stuff
+    # config.ssh.private_key_path = ['../global/platform_id_rsa']
+    # config.ssh.insert_key = true
+    config.ssh.forward_agent = true
+    config.ssh.username = "#{configs['vagrant_user']}"
     config.vm.define box[:name] do |linuxbox|
-      # common stuff
+      linuxbox.trigger.before :up, :reload do |trigger|
+        trigger.info = "Checking platform key"
+        trigger.run = {path: "../global/check_platformKey.sh"}
+      end
       linuxbox.vm.box = box[:box_name]
       linuxbox.vm.box_url = box[:box_url]
       linuxbox.vm.box_download_insecure = true
@@ -99,6 +107,18 @@ Vagrant.configure(2) do |config|
         linuxbox.vm.provision "user_installNVM.sh",        type: :shell, path: "user_installNVM.sh",         privileged: false
       end
       # more common stuff
+      linuxbox.vm.provision "platform_id_rsa", type: :file,  source: '../global/platform_id_rsa', destination: "/home/#{configs['vagrant_user']}/.ssh/platform_id_rsa", run: "always"
+      linuxbox.vm.provision "platform_id_rsa_chmod", type: :shell, privileged: false, run: "always", inline: <<-SHELL
+          chmod 600 /home/#{configs['vagrant_user']}/.ssh/platform_id_rsa
+        SHELL
+      linuxbox.vm.provision "platform_id_rsa.pub", type: :file,  source: '../global/platform_id_rsa.pub', destination: "/home/#{configs['vagrant_user']}/.ssh/platform_id_rsa.pub", run: "always"
+      # linuxbox.vm.provision "authorized_keys", type: :file,  source: '../global/platform_id_rsa.pub', destination: "/home/#{configs['vagrant_user']}/.ssh/authorized_keys", run: "always"
+      linuxbox.vm.provision "platform_id_rsa.pub_chmod", type: :shell, privileged: false, run: "always", inline: <<-SHELL
+          chmod 644 /home/#{configs['vagrant_user']}/.ssh/platform_id_rsa.pub
+          if ! grep -q xyPlatform "/home/#{configs['vagrant_user']}/.ssh/authorized_keys" ; then
+            cat /home/#{configs['vagrant_user']}/.ssh/platform_id_rsa.pub >> /home/#{configs['vagrant_user']}/.ssh/authorized_keys
+          fi
+        SHELL
       linuxbox.vm.provision "user_setTrustedCerts.sh",   type: :shell, path: "user_setTrustedCerts.sh", args: [configs['vagrant_user']], privileged: false
       linuxbox.vm.provision "user_setUserEnv.sh",        type: :shell, path: "user_setUserEnv.sh", args: [configs['vagrant_user']], privileged: false
       linuxbox.vm.synced_folder configs['sync_folder_Projects'], "/home/#{configs['vagrant_user']}/Projects",
