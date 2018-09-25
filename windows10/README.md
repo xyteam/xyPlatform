@@ -27,7 +27,7 @@ cygwin$ vagrant reload win10Base
 At this point win10Base VM is ready to be used.
 
 #### Step 4: (Optional) Building win10desktopxx VM
-Optionally, when the configuraiton of this box is stable and is ready for scaled deployment, you can create a box out of it and use that box for scaled deployment.
+Optionally, when the configuraiton of this box is stable and is ready for scaled deployment, you can create a box out of win10Base and use that box for scaled deployment (win10desktop01 win10desktop02 win10desktop03 win10desktop04, etc, modify the Vagrant file to add more VMs as needed).
 ###### Caution: win10desktop01 and win10Base share the same ports and cannot be run at the same time.
 ```
 cygwin$ vagrant package --base win10Base --output win10Base.box
