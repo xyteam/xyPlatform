@@ -3,4 +3,5 @@
 **/unicode/
 **/*.box
 **/*.msu
+**/Install-WMF5.1.ps1
 global/*_id_rsa*
