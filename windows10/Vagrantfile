@@ -17,7 +17,7 @@ boxes = [
   {:name=>"win10Base", :box_name=>'Microsoft/EdgeOnWindows10', :box_url=>'https://app.vagrantup.com/Microsoft/boxes/EdgeOnWindows10',
     :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
   {:name=>"win10desktop01", :box_name=>'win10Base', :box_url=>'file://win10Base.box',
-    :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
+    :ssh_host_port=>21022, :winrm_https_port=>21986, :winrm_http_port=>21985},
   {:name=>"win10desktop02", :box_name=>'win10Base',
     :ssh_host_port=>22022, :winrm_https_port=>22986, :winrm_http_port=>22985},
   {:name=>"win10desktop03", :box_name=>'win10Base',
