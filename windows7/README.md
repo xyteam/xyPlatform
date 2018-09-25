@@ -6,7 +6,7 @@ Read through below steps for more details.
 #### Step 1: Download MS preparation files
 Download below files from Microsoft and Unzip to this folder (xyPlatform/windows7):
   * [IE11.Win7.Vagrant.zip](https://az792536.vo.msecnd.net/vms/VMBuild_20150916/Vagrant/IE11/IE11.Win7.Vagrant.zip)
-  * [Win7-KB3191566-x86.msu.zip] (https://www.microsoft.com/en-us/download/details.aspx?id=54616)
+  * [Win7-KB3191566-x86.msu.zip](https://www.microsoft.com/en-us/download/details.aspx?id=54616)
   * [Windows6.1-KB958830-x86-RefreshPkg.msu.zip](https://www.microsoft.com/en-us/download/details.aspx?id=7887)
 
 #### Step 2: Building win7Base VM
