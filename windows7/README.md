@@ -15,8 +15,7 @@ cygwin$ communicator=ssh vagrant up win7Base --provision
 ```
 
 #### Step 3: Manual installation of MS preparation files
-  Open win7Base VM GUI (virtualBox => win7Base => Show)
-  The above downloaded files will be posted inside the VM in c:\varant
+Open win7Base VM GUI (virtualBox => win7Base => Show). The above downloaded files will be posted inside the VM in c:\varant
 ```
   Admin CMD> cd c:\vagrant
   Admin CMD> Win7-KB3191566-x86.msu
@@ -40,7 +39,7 @@ cygwin$ vagrant reload win7Base --provision
 cygwin$ vagrant reload win7Base
 ```
 #### Step 6: (Optional) Building win7desktopxx VM
-    Optionally, when the configuraiton of this box is stable and is ready for scaled deployment, you can create a box out of win7Base VM and use that box for scaled deployment (win7desktop01 win7desktop02 win7desktop03 win7desktop04, etc, modify the Vagrant file to add more VMs as needed).
+Optionally, when the configuraiton of this box is stable and is ready for scaled deployment, you can create a box out of win7Base VM and use that box for scaled deployment (win7desktop01 win7desktop02 win7desktop03 win7desktop04, etc, modify the Vagrant file to add more VMs as needed).
 ```
 cygwin$ vagrant package --base win7Base --output win7Base.box
 cygwin$ vagrant up win7desktop01 win7desktop02 win7desktop03 win7desktop04
@@ -49,9 +48,9 @@ cygwin$ VagrantAll.sh up All
 ```
 #### win7Base and win7desktop## VM Access Note:
 ###### GUI Console:
-    Preparing for scaled deployment, the VM GUI console is disabled by default. You can enable indivual directly through VirtualBox application.
+Preparing for scaled deployment, the VM GUI console is disabled by default. You can enable indivual directly through VirtualBox application.
 ###### SSH:
-    SSH ports are pre-mapped inside the Vagrantfile for each VM.
+SSH ports are pre-mapped inside the Vagrantfile for each VM.
 From the host PC:
 ```
 cygwin$ vagrant ssh win7desktop01
@@ -64,7 +63,7 @@ From lubuntu1804 or lubuntu1604:
 ```
 $ ssh -i .ssh/platform_id_rsa IEUser@10.0.2.2 -p 11022 -L10389:localhost:3389 -L11444:localhost:4444 -N &
 ```
-    The above ssh command from lubuntu1804 or lubuntu1604 will map the remote RDP and Selenium ports to the Linux system on port 11389 and port 11444 respectively.
+The above ssh command from lubuntu1804 or lubuntu1604 will map the remote RDP and Selenium ports to the Linux system on port 11389 and port 11444 respectively.
 RDP from lubuntu1804 or lubuntu1604 to win7desktop01 VM:
 ```
 $ DISPLAY=:0 rdesktop -u IEUser -p Passw0rd! -g 1920x1080 -a 16 localhost:11389 &
