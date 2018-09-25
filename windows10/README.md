@@ -7,10 +7,10 @@ Read through below steps for more details.
 ```
 cygwin$ communicator=ssh vagrant up win10Base
 ```
-There is no automatic GUI to win1oBase VM. To gain GUI access start VirtualBox application, select the win10Base VM and click "Show GUI" option.
-From GUI console perform step 2 below.
 
-#### Step 2: Manual configuration for step 3 
+#### Step 2: Manual configuration for the next step 
+    There is no automatic GUI to win1oBase VM. To gain GUI access start VirtualBox application, select the win10Base VM and click "Show GUI" option.
+From GUI console perform step 2 below.
 ```
   Admin CMD> c:\vagrant\setPrivateNetwork.bat
   Admin CMD> c:\vagrant\setEnableWinRM.bat
@@ -27,7 +27,7 @@ cygwin$ vagrant reload win10Base
 At this point win10Base VM is ready to be used.
 
 #### Step 4: (Optional) Building win10desktopxx VM
-Optionally, when the configuraiton of this box is stable and is ready for scaled deployment, you can create a box out of win10Base and use that box for scaled deployment (win10desktop01 win10desktop02 win10desktop03 win10desktop04, etc, modify the Vagrant file to add more VMs as needed).
+    Optionally, when the configuraiton of this box is stable and is ready for scaled deployment, you can create a box out of win10Base and use that box for scaled deployment (win10desktop01 win10desktop02 win10desktop03 win10desktop04, etc, modify the Vagrant file to add more VMs as needed).
 ###### Caution: win10desktop01 and win10Base share the same ports and cannot be run at the same time.
 ```
 cygwin$ vagrant package --base win10Base --output win10Base.box
@@ -36,11 +36,11 @@ or
 cygwin$ VagrantAll.sh up All
 ```
 
-#### VM Access Note:
+#### win10Base and win10desktop## VM Access Note:
 ###### GUI Console:
-Preparing for scaled deployment, the VM GUI console is disabled by default. You can enable indivual directly through VirtualBox application.
+    Preparing for scaled deployment, the VM GUI console is disabled by default. You can enable indivual directly through VirtualBox application.
 ###### SSH:
-SSH ports are pre-mapped inside the Vagrantfile for each VM.
+    SSH ports are pre-mapped inside the Vagrantfile for each VM.
 From the host PC:
 ```
 cygwin$ vagrant ssh win10desktop01
@@ -53,7 +53,7 @@ From lubuntu1804 or lubuntu1604:
 ```
 $ ssh -i .ssh/platform_id_rsa IEUser@10.0.2.2 -p 20022 -L20389:localhost:3389 -L20444:localhost:4444 -N &
 ```
-The above ssh command from lubuntu1804 or lubuntu1604 will map the remote RDP and Selenium ports to the Linux system on port 20389 and port 20444 respectively.
+    The above ssh command from lubuntu1804 or lubuntu1604 will map the remote RDP and Selenium ports to the Linux system on port 20389 and port 20444 respectively.
 RDP from lubuntu1804 or lubuntu1604 to win10desktop01 VM:
 ```
 $ DISPLAY=:0 rdesktop -u IEUser -p Passw0rd! -g 1920x1080 -a 16 localhost:20389 &
