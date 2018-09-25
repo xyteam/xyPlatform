@@ -97,7 +97,7 @@ $ sudo docker build --tag xyplatform:lubuntu1604 --file Dockerfile1604 .
 Reference to the comments in the Docker files for additional deployment and usage commands.
 
 ###### Windows 10 and Windows 7
-reference to the README files inside the windows10 and windows7 directories respectively.
+Reference to the README files inside the windows10 and windows7 directories respectively.
 
 [Windows 7 README.md](./windows7/README.md)
 
