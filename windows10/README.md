@@ -1,4 +1,4 @@
-##Windows 10 Selenium boxes
+## Windows 10 Selenium boxes
 The Vagrant file in this folder will download Windows 10 from Vagrant repo. The configuration steps will install and config the Windows 10 VM for Java, NodeJS, Chrome, SSH, RDP and Selenium-Standalone.
 The Vagrant file is prepared for scaled deployment of this VM for scaled automation testing.
 Read through below steps for more details.
