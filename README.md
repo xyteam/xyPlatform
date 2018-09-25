@@ -99,7 +99,7 @@ Reference to the comments in the Docker files for additional deployment and usag
 ###### Windows 10 and Windows 7
 reference to the README files inside the windows10 and windows7 directories respectively.
 
-[./windows7/README.md]
+[Windows 7 README.md](./windows7/README.md)
 
-[./windows10/README.md]
+[Windows 10 README.md](./windows10/README.md)
 
