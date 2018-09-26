@@ -48,7 +48,7 @@ cygwin$ VagrantAll.sh up All
 ```
 #### win7Base and win7desktop## VM Access Note:
 ###### GUI Console:
-Preparing for scaled deployment, the VM GUI console is disabled by default. You can enable indivual directly through VirtualBox application.
+The VM GUI console is disabled for all Windows 10 VM by default. You can enable indivual directly through VirtualBox application by "Show GUI" button. You can detach a GUI if you do not need the GUI console.
 ###### SSH:
 SSH ports are pre-mapped inside the Vagrantfile for each VM.
 From the host PC:
@@ -64,7 +64,7 @@ From lubuntu1804 or lubuntu1604:
 $ ssh -i .ssh/platform_id_rsa IEUser@10.0.2.2 -p 11022 -L10389:localhost:3389 -L11444:localhost:4444 -N &
 ```
 The above ssh command from lubuntu1804 or lubuntu1604 will map the remote RDP and Selenium ports to the Linux system on port 11389 and port 11444 respectively.
-RDP from lubuntu1804 or lubuntu1604 to win7desktop01 VM:
+RDP to win7desktop01 VM:
 ```
 $ DISPLAY=:0 rdesktop -u IEUser -p Passw0rd! -g 1920x1080 -a 16 localhost:11389 &
 ```
