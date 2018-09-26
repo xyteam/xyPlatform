@@ -19,9 +19,10 @@ Many useful features suppported on the Ubuntu OS are accounted for and can be us
 * Docker (docker-ce)
 * Openssh/Openssl
 * RDP (rdesktop)
-* Screen capture (import)
-* Video capture (ffmpeg)
-* Concurrent user desktops (xvfb)
+* Screen image capture (import)
+* Video video capture (ffmpeg)
+* Normal X desktop (lightdm)
+* Virtual X desktops (Xvfb)
 * Tensorflow board (port 6006)
 * And many more...
 
@@ -41,7 +42,7 @@ The Ubuntu systems have corresponding Vagrant and Docker configuration files, an
 5. Develop and test with the local Docker configuration and deploy and run in any cloud service.
 6. And many more...
 
-#### Prerequisites
+#### Overall Prerequisites
 
 ###### Local hosting system:
 * Windows 10 or Mac OS with reasonable RAM (16G+) and HD space (500G+)
@@ -61,45 +62,18 @@ The Ubuntu systems have corresponding Vagrant and Docker configuration files, an
 ###### Projects directory configuration:
 The project path of $HOME/Projects and ~/Projects are used through out, and is shared into VMs via Vagrant and Docker configurations, therefore a main diretory called Projects should be created under the user's home directory, and this and other related projects should be checkout into the Projects directory. The main benefit of sharing the Projects directory with the VMs is easy exchange of code between the host and VMs.
 
-#### Deploy VMs
+#### Additional README files
+Additional information and steps are provided in individual README files.
 
-###### Ubuntu 18.04 VM
-bring up
-```
-CMD> cd ~/Projects/xyPlatform/lubuntu
-CMD> vagrant up l1804Base
-CMD> vagrant reload l1804Base (reload is only needed the first time)
-```
-shell login
-```
-CMD> vagrant ssh l1804Base
-```
-gui login
-```
-vagrant/vagrant
-```
+###### Ubuntu VM and Docker information
+Reference to the README files inside the lubuntu directory.
 
-###### Ubuntu 16.04 VM
-Same as ubuntu 18.04 except change hostname with l1604Base
-
-###### Ubuntu 18.04 Docker
-```
-$ cd ~/Projects/xyPlatform/lubuntu
-$ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .
-```
-
-###### Ubuntu 16.04 Docker
-```
-$ cd ~/Projects/xyPlatform/lubuntu
-$ sudo docker build --tag xyplatform:lubuntu1604 --file Dockerfile1604 .
-```
-
-Reference to the comments in the Docker files for additional deployment and usage commands.
+    *  [Ubuntu 18.04/16.04 README.md](./lubuntu/README.md)
 
 ###### Windows 10 and Windows 7
 Reference to the README files inside the windows10 and windows7 directories respectively.
 
-[Windows 7 README.md](./windows7/README.md)
+    *  [Windows 7 README.md](./windows7/README.md)
 
-[Windows 10 README.md](./windows10/README.md)
+    *  [Windows 10 README.md](./windows10/README.md)
 
