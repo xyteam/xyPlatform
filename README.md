@@ -68,12 +68,11 @@ Additional information and steps are provided in individual README files.
 ###### Ubuntu VM and Docker information
 Reference to the README files inside the lubuntu directory.
 
-    *  [Ubuntu 18.04/16.04 README.md](./lubuntu/README.md)
+* [Ubuntu 18.04/16.04 README.md](./lubuntu/README.md)
 
 ###### Windows 10 and Windows 7
 Reference to the README files inside the windows10 and windows7 directories respectively.
 
-    *  [Windows 7 README.md](./windows7/README.md)
+* [Windows 7 README.md](./windows7/README.md)
 
-    *  [Windows 10 README.md](./windows10/README.md)
-
+* [Windows 10 README.md](./windows10/README.md)
