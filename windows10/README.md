@@ -14,7 +14,6 @@ From GUI console perform step 2 below.
 ```
   Admin CMD> c:\vagrant\setPrivateNetwork.bat
   Admin CMD> c:\vagrant\setEnableWinRM.bat
-  Admin CMD> c:\vagrant\setEnableRemotePowerShell.bat
   Admin CMD> c:\vagrant\installChoco.bat
 ```
 
