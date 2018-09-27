@@ -2,6 +2,7 @@
 This folder contains configuration files for two versions of Linux light-weight ubuntu desktop boxes:
 * 18.04 LTS
 * 16.04 LTS 
+
 These two boxes have almost mirrored configurations. Pick wichever one that is suitable for your project.
 
 #### Feature Highlight
