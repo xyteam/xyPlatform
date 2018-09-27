@@ -12,14 +12,19 @@ This project contains Vagrant and Docker configuration files for a few general p
 
 ###### Some Obvious Benefits
 * Automated Deployment Process
-The VM and Docker deployment process have been automated to remove the technical pains and nuances for end-users.
 * Source controlled configuration
-The configurations and automated scripts are captured in source code form for repeatability and future improvements.
 * Deploy anywhere
-It can be deployed anywhere that has git access to this git repo and internet access to OS and Application providers.
 * Scale deployable
-One can deploy 32 windows VMs and destroy them after use.
 * Local and Cloud coherency
+
+The VM and Docker deployment process have been automated to remove the technical pains and nuances for end-users.
+
+The configurations and automated scripts are captured in source code form for repeatability and future improvements.
+
+It can be deployed anywhere that has git access to this git repo and internet access to OS and Application providers.
+
+One can deploy 32 windows VMs and destroy them after use.
+
 Develop and test with the local Docker configuration and deploy and run in any cloud service.
 
 ###### Main purpose

@@ -15,7 +15,7 @@ We have chosen a light-weight desktop environment for easy deployment and CPU po
 
 We provided a mirrored Docker configuration file, and provided Docker command examples to show how to run commands outside and inside docker. You can build docker images locally, and test your application inside and outside of docker for direct compairsion. This way you can deploy your application to the cloud later with higher confidence.
 
-A dedicated private is created in xyPlatform, and its public key is shared in all Linux and Windows boxes in this project. It is convenient to create SSH tunnels between xyPlatform systems, therefore it is easy to do many automation testing between them. Example on a few key tunnels such as SSHFS, RDP and Selenium Webdriver are provided.
+A dedicated private key is created in xyPlatform, and its public key is shared in all Linux and Windows boxes in this project. It is convenient to create SSH tunnels between xyPlatform systems, therefore it is easy to do many automation testing between them. Example on a few key tunnels such as SSHFS, RDP and Selenium Webdriver are provided.
 
 #### Deploy VMs
 Normally you would only need one of Ubuntu 18.04 or Ubuntu 16.04. In general Ubuntu 16.04 has more matured 3rd party support then Ubuntu 18.04, such as RobotJS, Sikuli and Selenium Webdriver. Ubuntu 18.04 support is getting matured therefore you might as well go ahead with it. We provide both versions in case there is a glitch need for the older.
