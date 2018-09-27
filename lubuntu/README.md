@@ -1,14 +1,14 @@
 ## Light-Weight Ubuntu Desktop Boxes
 This folder contains configuration files for two versions of Linux light-weight ubuntu desktop boxes:
-    * 18.04 LTS
-    * 16.04 LTS 
+* 18.04 LTS
+* 16.04 LTS 
 These two boxes have almost mirrored configurations. Pick wichever one that is suitable for your project.
 
 #### Feature Highlight
 Here is a list of key features worth mentioning with detail explainations below the list:
-    * Light-Weight Linux
-    * Mirrored Docker configuration
-    * Single key for SSH tunneling
+* Light-Weight Linux
+* Mirrored Docker configuration
+* Single key for SSH tunneling
 
 We have chosen a light-weight desktop environment for easy deployment and CPU power reservation. If you need richer UI feature you can install additional packages later.
 
