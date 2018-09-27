@@ -11,21 +11,11 @@ This project is licensed under the terms of the MIT license.
 This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. In addition, this project contains automatic configuration scripts to install additional applications that are useful for development, experiement, automation testing and screen documentation.
 
 ###### Some Obvious Benefits
-* Automated Deployment Process
-* Source controlled configuration
-* Deploy anywhere
-* Scale deployable
-* Local and Cloud coherency
-
-The VM and Docker deployment process have been automated to remove the technical pains and nuances for end-users.
-
-The configurations and automated scripts are captured in source code form for repeatability and future improvements.
-
-It can be deployed anywhere that has git access to this git repo and internet access to OS and Application providers.
-
-One can deploy 32 windows VMs and destroy them after use.
-
-Develop and test with the local Docker configuration and deploy and run in any cloud service.
+* Automated Deployment Process  - The VM and Docker deployment process have been automated to remove the technical pains and nuances for end-users.
+* Source controlled configuration - The configurations and automated scripts are captured in source code form for repeatability and future improvements.
+* Deploy anywhere - It can be deployed anywhere that has git access to this git repo and internet access to OS and Application providers.
+* Scale deployable - One can deploy 32 windows VMs and destroy them after use.
+* Local and Cloud coherency - Develop and test with the local Docker configuration and deploy and run in any cloud service.
 
 ###### Main purpose
 The main purpose of this project is to create an E2E automation environment. In this environment the Ubuntu system can act as the main driver, and the Windows VMs can act as the remote PC clients.
