@@ -11,21 +11,28 @@ This project is licensed under the terms of the MIT license.
 This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. In addition, this project contains automatic configuration scripts to install additional applications that are useful for development, experiement, automation testing and screen documentation.
 
 ###### Some Obvious Benefits
-1. The deployment process have been automated to remove the technical pains and nuances for end-users.
-2. The configurations are captured in source code form for repeatability and future improvements.
-3. It can be deployed anywhere that has git access to this git repo.
-4. Easy repeatable deployment of multiple systems (i.e., deploy 32 windows VMs and destroy them after use).
-5. Develop and test with the local Docker configuration and deploy and run in any cloud service.
+* Automated Deployment Process
+The VM and Docker deployment process have been automated to remove the technical pains and nuances for end-users.
+* Source controlled configuration
+The configurations and automated scripts are captured in source code form for repeatability and future improvements.
+* Deploy anywhere
+It can be deployed anywhere that has git access to this git repo and internet access to OS and Application providers.
+* Scale deployable
+One can deploy 32 windows VMs and destroy them after use.
+* Local and Cloud coherency
+Develop and test with the local Docker configuration and deploy and run in any cloud service.
 
 ###### Main purpose
-The main purpose of this project is to create and configure a coherent E2E automation environment with the Ubuntu system being the main driver and windows 10 and windows 7 PCs being the clients. In this environemt the Ubuntu VM can sprawn many virtual X environments simulating human's eyes and hands, where each X environment can use RDP to access a windows client, simulating a computer in front of a human. To achieve this, Sikuli is used as the human eyes, where it can see the entire X screen, and RobotJS is used as the hands, where it can control the mouse and keyboards of the X envirnment.
+The main purpose of this project is to create an E2E automation environment. In this environment the Ubuntu system can act as the main driver, and the Windows VMs can act as the remote PC clients.
 
-In addition to the Sikuli and and RobotJS control, additional network tunnels can also be created to further control the remote VM's file system and browser through SSHFS and Selenium Webdriver.
+The idea behind this automation environment is, we can use Ubuntu X environments to simulate people, where each X environment simulates one person. Multiple X environment can be sprawn by using virutal frame buffer (Xvfb). Inside each X environment Sikuli can be used to see the X screen, and RobotJS can be used to control the keyboard and mouse.
 
-As already pointed out, this Ubuntu system can simulate many human at the same time. Using this project we are able to achieve 2Core + 2G per X environment and the same per VM, meaning, an Amazon EC2 Linux system with 32 logical cores and 32G RAM can run 16x X environments inside Docker, and a physical PC with 4x8 cores and 32G RAM can run 16x windows VMs, and each Linux X environment remote controls a windows VM.
+In addition to the Sikuli and and RobotJS control, other network tunnels can also be created to further control the remote PCs. For example, SSHFS can be used to access remote file systems, and Selenium Webdriver can be used to control remote PC browsers.
+
+Using this project we are able to achieve 1 Core + 1G RAM per X environment and 2 Core + 1G RAM per Windows VM, meaning, an Amazon EC2 Linux host with 16 logical cores and 30G RAM (c4.4xlarge) can run 16x virtual X environments inside a Docker instance, and a physical PC with 4x8 cores and 32G RAM can run 16x Windows VMs.
 
 ###### Other General Purpose
-Besides an E2E automation environment, the VMs in this project can also be use for other general purposes. Many useful features suppported on the Ubuntu OS are accounted for and can be used directly. Namely:
+Besides an E2E automation environment, the Ubuntu VMs in this project can also be use for other general purposes. Many useful features suppported on the Ubuntu OS are accounted for and can be used directly. Namely:
 * Java/JDK (oracle java v1.8.0)
 * Node.js and NPM (node v8.11.1 LTS and npm 5.6.0)
 * Python (v2.7 and v3.x)
