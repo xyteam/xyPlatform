@@ -40,9 +40,7 @@ if [ -d "\$HOME/.nvm" ] ; then
   nvm use --delete-prefix \$NODE_VERSION
 fi
 # set NPM path
-if [ -d "\$HOME/node_modules/.bin" ] ; then
-    PATH="\$HOME/node_modules/.bin:\$PATH"
-fi
+    PATH="\$PATH:./node_modules/.bin"
 
 # set NPM
 # npm config --global set proxy \$http_proxy
