@@ -111,7 +111,7 @@ Vagrant.configure("2") do |config|
       end
       if config.vm.communicator.to_s.include? "ssh"
         winbox.vm.provision "authorized_keys", type: :file,  source: '../global/platform_id_rsa.pub', destination: ".ssh/authorized_keys"
-        winbox.vm.provision "selnium_config", type: :file,  source: '../global/selenium-standalone-config.js', destination: "selenium-standalone-config.js"
+        winbox.vm.provision "selnium_config", type: :file,  source: '../global/selenium-standalone_config.js', destination: "selenium-standalone_config.js"
       end
       if config.vm.communicator.to_s.include? "winrm"
         # really base on box name
