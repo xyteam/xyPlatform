@@ -123,8 +123,7 @@ Vagrant.configure(2) do |config|
       linuxbox.vm.provision "user_setTrustedCerts.sh",   type: :shell, path: "user_setTrustedCerts.sh", args: [configs['vagrant_user']], privileged: false
       linuxbox.vm.provision "user_setUserEnv.sh",        type: :shell, path: "user_setUserEnv.sh", args: [configs['vagrant_user']], privileged: false
       linuxbox.vm.synced_folder configs['sync_folder_Projects'], "/home/#{configs['vagrant_user']}/Projects", create: true,
-        id: 'Projects', owner: 'vagrant', group: 'vagrant',
-        type: "nfs", nfs_version: 4.1
+        id: 'Projects', owner: 'vagrant', group: 'vagrant'
     end
   end
 end
