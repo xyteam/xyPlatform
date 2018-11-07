@@ -46,6 +46,7 @@ fi
 # npm config set proxy \$http_proxy
 # npm config set https-proxy \$https_proxy
 npm config set registry http://registry.npmjs.org
+# npm config set strict-ssl false
 npm config set progress false
 npm config set cafile \$HOME/.npm/cacerts
 npm config set unsafe-perm true
