@@ -53,6 +53,10 @@ npm config set unsafe-perm true
 npm config set user $vagrant_user
 npm config set umask 0022
 
+# set alias for rsync between Projects and Run
+alias spr="rsync --archive --exclude .git/ --exclude node_modules/ $HOME/Projects/AutoBDD $HOME/Projects/xySikulixApi $HOME/Run"
+alias srp="rsync --archive --exclude .git/ --exclude node_modules/ $HOME/Run $HOME/Projects"
+
 END1
 
 # create .envrc
