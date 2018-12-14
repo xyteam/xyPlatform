@@ -3,5 +3,10 @@ memory: 2048
 http_proxy_host_port: 
 https_proxy_host_port: 
 no_proxy: "localhost,127.0.0.1,10.0.2.2,::1"
+# sync folder will be mounted rw from guest to host using NFS.
+# uncomment line base on your vagrant host os
+# Mac and Linux host format:
+# sync_folder_Projects: ../../../Projects
+# Windows host format:
 sync_folder_Projects: ..\\..\\..\\Projects
 vagrant_user: vagrant
