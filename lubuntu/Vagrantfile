@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
 
   # set timezone to California
   if Vagrant.has_plugin?("vagrant-timezone")
-    config.timezone.value = "America/Los_Angeles"
+    config.timezone.value = configs['timezone_value']
   end
 
   # set virtualbox properties for the box
