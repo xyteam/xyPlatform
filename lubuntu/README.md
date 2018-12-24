@@ -24,7 +24,7 @@ Normally you would only need one of Ubuntu 18.04 or Ubuntu 16.04. In general Ubu
 bring up VM
 ```
 CMD> cd ~/Projects/xyPlatform/lubuntu
-CMD> vagrant up l1804Base
+CMD> VAGRANT_LOG=INFO vagrant up l1804Base 2>&1 | tee vagrant.log
 CMD> vagrant reload l1804Base (reload is only needed the first time)
 ```
 shell login from host
