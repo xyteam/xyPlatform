@@ -33,7 +33,7 @@ RUN sudo dpkg-reconfigure -f noninteractive tzdata
 # # install standard linux tools needed for automation framework
 RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
 		ntpdate autofs rsync tree lsof zlib1g-dev \
-		dirmngr gpg-agent java-common binutils locales \
+		dirmngr gpg-agent java-common binutils locales maven\
 		python2.7-minimal libpython2.7-stdlib python2.7-dev python-pip \
 		python3-minimal libpython3-stdlib python3-dev python3-pip \
 		build-essential unixodbc unixodbc-dev tdsodbc sqlite3 \
@@ -115,7 +115,7 @@ RUN useradd -u 500 -g g500 \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
 #   -v $HOME/.nvm:/home/u$(id -u)/.nvm \
 #   --net=host \
-#   --shm-size 1G \
+#   --shm-size 256M \
 #   xyplatform:lubuntu1804 \
 #   /bin/bash
 
@@ -127,13 +127,13 @@ RUN useradd -u 500 -g g500 \
 # ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-webpage test-download
 
 # # run test from docker host with 2 docker containers one for each test module (suite):
-# sudo docker run -d --rm=false --user=u$(id -u) --privileged \
+# sudo docker run -d --rm=true --user=u$(id -u) --privileged \
 #   -v $HOME/Projects:/home/u$(id -u)/Projects \
 #   -v $HOME/.bashrc:/home/u$(id -u)/.bashrc \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
 #   -v $HOME/.nvm:/home/u$(id -u)/.nvm \
 #   --net=host \
-#   --shm-size 1G \
+#   --shm-size 256M \
 #   xyplatform:lubuntu1804 \
 #   /bin/bash -c "cd; . .bashrc; nvm use v8; cd ~/Projects/AutoBDD; npm rebuild; . .autoPathrc.sh; ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-webpage"
 # sudo docker run -d --rm=true --user=u$(id -u) --privileged \
@@ -142,7 +142,7 @@ RUN useradd -u 500 -g g500 \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
 #   -v $HOME/.nvm:/home/u$(id -u)/.nvm \
 #   --net=host \
-#   --shm-size 1G \
+#   --shm-size 256M \
 #   xyplatform:lubuntu1804 \
 #   /bin/bash -c "cd; . .bashrc; nvm use v8; cd ~/Projects/AutoBDD; npm rebuild; . .autoPathrc.sh; ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-download"
 # #####################################################################
