@@ -33,7 +33,7 @@ RUN sudo dpkg-reconfigure -f noninteractive tzdata
 # # install standard linux tools needed for automation framework
 RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
 		ntpdate autofs rsync tree lsof zlib1g-dev \
-		dirmngr gpg-agent java-common binutils locales maven\
+		git dirmngr gpg-agent java-common binutils locales maven\
 		python2.7-minimal libpython2.7-stdlib python2.7-dev python-pip \
 		python3-minimal libpython3-stdlib python3-dev python3-pip \
 		build-essential unixodbc unixodbc-dev tdsodbc sqlite3 \
