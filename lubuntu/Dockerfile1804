@@ -73,7 +73,15 @@ RUN ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
 # run finishing set up
 RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
 
-# create u1000:g1000 for ldesktop vagrant
+# create u900:g900 for l1804Base vagrant
+RUN groupadd g900 -g 900
+RUN useradd -u 900 -g g900 \
+	-d /home/u900 -ms /bin/bash \
+	-G sudo \
+	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
+	u900
+
+# create u1000:g1000 for l1604Base vagrant
 RUN groupadd g1000 -g 1000
 RUN useradd -u 1000 -g g1000 \
 	-d /home/u1000 -ms /bin/bash \
