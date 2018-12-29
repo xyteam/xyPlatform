@@ -7,7 +7,6 @@
 
 # sudo docker build --tag xyplatform:lubuntu1604 --file Dockerfile1604 .
 
-# FROM phusion/baseimage
 FROM ubuntu:16.04
 MAINTAINER Xinyu Wang <xywang68@gmail.com>
 USER root

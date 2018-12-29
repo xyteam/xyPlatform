@@ -100,11 +100,11 @@ Vagrant.configure(2) do |config|
       # puts "vm name: " + box[:name].to_s
       unless linuxbox.vm.box.to_s.include? "desktop"
         linuxbox.vm.provision "apt_upgrade.sh",            type: :shell, path: "apt_upgrade.sh",             privileged: true
+        linuxbox.vm.provision "apt_update.sh",             type: :shell, path: "apt_update.sh",              privileged: true
         linuxbox.vm.provision "apt_install.sh",            type: :shell, path: "apt_install.sh",             privileged: true
         linuxbox.vm.provision "apt_installJava.sh",        type: :shell, path: "apt_installJava.sh",         privileged: true
         linuxbox.vm.provision "apt_installChrome.sh",      type: :shell, path: "apt_installChrome.sh",       privileged: true
         linuxbox.vm.provision "apt_installDocker.sh",      type: :shell, path: "apt_installDocker.sh",       privileged: true
-		linuxbox.vm.provision "apt_installMaven.sh",	   type: :shell, path: "apt_installMaven.sh",		 privileged: true
         linuxbox.vm.provision "sys_setJavaCerts.sh",       type: :shell, path: "sys_setJavaCerts.sh",        privileged: true
         linuxbox.vm.provision "user_installNVM.sh",        type: :shell, path: "user_installNVM.sh",         privileged: false
       end
@@ -114,7 +114,6 @@ Vagrant.configure(2) do |config|
           chmod 600 /home/#{configs['vagrant_user']}/.ssh/platform_id_rsa
         SHELL
       linuxbox.vm.provision "platform_id_rsa.pub", type: :file,  source: '../global/platform_id_rsa.pub', destination: "/home/#{configs['vagrant_user']}/.ssh/platform_id_rsa.pub", run: "always"
-      # linuxbox.vm.provision "authorized_keys", type: :file,  source: '../global/platform_id_rsa.pub', destination: "/home/#{configs['vagrant_user']}/.ssh/authorized_keys", run: "always"
       linuxbox.vm.provision "platform_id_rsa.pub_chmod", type: :shell, privileged: false, run: "always", inline: <<-SHELL
           chmod 644 /home/#{configs['vagrant_user']}/.ssh/platform_id_rsa.pub
           if ! grep -q xyPlatform "/home/#{configs['vagrant_user']}/.ssh/authorized_keys" ; then
