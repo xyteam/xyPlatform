@@ -14,7 +14,7 @@ git config --global url."https://github.com/".insteadOf git://github.com/
 
 # install node version
 export NVM_DIR="$HOME/.nvm"
-export NODE_VERSION=v8.11.1
+export NODE_VERSION=v8.11.4
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install $NODE_VERSION
 mkdir -p ~/.npm && sudo cat /usr/share/ca-certificates/private/GeoTrustGlobalCA.crt > ~/.npm/cacerts
 

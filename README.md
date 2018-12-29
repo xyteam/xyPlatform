@@ -29,7 +29,7 @@ Using this project we are able to achieve 1 Core + 1G RAM per X environment and 
 ###### Other General Purpose
 Besides an E2E automation environment, the Ubuntu VMs in this project can also be use for other general purposes. Many useful features suppported on the Ubuntu OS are accounted for and can be used directly. Namely:
 * Java/JDK (oracle java v1.8.0)
-* Node.js and NPM (node v8.11.1 LTS and npm 5.6.0)
+* Node.js and NPM (node v8.11.4 LTS and npm 5.6.0)
 * Python (v2.7 and v3.x)
 * Linux build essential
 * Google-chrome browser (latest)
