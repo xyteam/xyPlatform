@@ -16,4 +16,4 @@ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(
 # java
 add-apt-repository ppa:webupd8team/java --yes --update
 
-apt update -q
+apt clean && apt update -q
