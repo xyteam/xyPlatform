@@ -29,6 +29,7 @@ apt install --fix-missing -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Op
   libyaml-dev \
   lightdm \
   linux-headers-$(uname -r) \
+  lubuntu-core \
   lxde-core \
   maven \
   module-assistant \
