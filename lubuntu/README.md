@@ -42,7 +42,7 @@ vagrant/vagrant
 Same as ubuntu 18.04 except change hostname with l1604Base and change ssh port 2022 to 1022.
 
 #### Deploy Docker
-We provided two Docker configuration files for our supported Ubuntu versions with mirrored configurations. For direct compairsion purpose the Ubunto version between the host and docker should be the same. For cross version checking purpose they can also be cross deployed.
+We provided two Docker configuration files for our supported Ubuntu versions with mirrored configurations. For direct compairsion purpose the Ubuntu version between the host and docker should be the same. For cross version checking purpose they can also be cross deployed.
 
 ###### Build Ubuntu 18.04 Docker
 ```
