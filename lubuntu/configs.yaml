@@ -1,4 +1,4 @@
-cpus: 2
+cpus: 4
 memory: 2048
 http_proxy_host_port: 
 https_proxy_host_port: 
