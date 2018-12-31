@@ -1,5 +1,7 @@
+# this file is updateable per local spec
+
 cpus: 4
-memory: 2048
+memory: 4096
 http_proxy_host_port: 
 https_proxy_host_port: 
 no_proxy: "localhost,127.0.0.1,10.0.2.2,::1"

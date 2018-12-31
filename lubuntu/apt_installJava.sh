@@ -1,4 +1,7 @@
-echo "installing and setting oracle-java"
+echo "==========================="
+echo "= apt install oracle-java ="
+echo "==========================="
+
 export DEBIAN_FRONTEND=noninteractive
 # add-apt-repository ppa:webupd8team/java --yes --update
 # apt update -q 

@@ -1,4 +1,7 @@
-# set trusted certs for ubuntu user
+echo "=========================="
+echo "= user set trusted certs ="
+echo "=========================="
+
 vagrant_user=$1
 echo "Setting trusted certs for user $vagrant_user"
 export user_home=/home/$vagrant_user

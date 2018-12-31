@@ -1,4 +1,7 @@
-echo "updating apt repository"
+echo "=============================="
+echo "= apt update 3rd party repos ="
+echo "=============================="
+
 export DEBIAN_FRONTEND=noninteractive
 # chrome
 cat << CHROME_END > /etc/apt/sources.list.d/google-chrome.list

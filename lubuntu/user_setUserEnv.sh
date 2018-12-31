@@ -1,3 +1,7 @@
+echo "========================"
+echo "= user set .userEnv.sh ="
+echo "========================"
+
 vagrant_user=$1
 echo "setting $vagrant_user user env"
 

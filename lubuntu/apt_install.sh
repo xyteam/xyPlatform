@@ -1,4 +1,7 @@
-echo "installing apt packages"
+echo "================================"
+echo "= apt install lubuntu packages ="
+echo "================================"
+
 export DEBIAN_FRONTEND=noninteractive
 apt install --fix-missing -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
   autofs \
@@ -29,8 +32,8 @@ apt install --fix-missing -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Op
   libyaml-dev \
   lightdm \
   linux-headers-$(uname -r) \
-  lubuntu-core \
   lxde-core \
+  lxterminal \
   maven \
   module-assistant \
   nodejs \

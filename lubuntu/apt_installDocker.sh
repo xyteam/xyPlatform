@@ -1,4 +1,7 @@
-echo "installing Docker"
+echo "========================="
+echo "= apt install docker-ce ="
+echo "========================="
+
 export DEBIAN_FRONTEND=noninteractive
 # apt remove -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker docker-engine docker.io
 # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
