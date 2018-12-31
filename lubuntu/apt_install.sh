@@ -56,5 +56,5 @@ apt install --fix-missing -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Op
   xvfb \
   zlib1g-dev
 apt purge -q -y gnome-screensaver xscreensaver light-locker
-apt autoremove -y
+apt --purge autoremove -y
 ln -sf /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
