@@ -23,23 +23,62 @@ ENV DEBIAN_FRONTEND noninteractive
 # ADD corporate_cacerts /usr/share/ca-certificates/corporate_cacerts
 
 # apt install essential tools for apt install/upgrade
+RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
 RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
+RUN apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
 RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
 		apt-utils curl wget software-properties-common sudo tzdata
 # Set the timezone.
 RUN sudo dpkg-reconfigure -f noninteractive tzdata
 
 # # install standard linux tools needed for automation framework
-RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-		ntpdate autofs rsync tree lsof zlib1g-dev \
-		git dirmngr gpg-agent java-common binutils locales maven\
-		python2.7-minimal libpython2.7-stdlib python2.7-dev python-pip \
-		python3-minimal libpython3-stdlib python3-dev python3-pip \
-		build-essential unixodbc unixodbc-dev tdsodbc sqlite3 \
-		sshfs xvfb xdotool wmctrl xclip imagemagick ffmpeg \
-		rdesktop tesseract-ocr libopencv-dev \
-		fonts-liberation libappindicator3-1 libatk-bridge2.0-0 libgtk-3-0 libnspr4 libxss1 xdg-utils libnss3
+RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" \
+ -o Dpkg::Options::="--force-confold" \
+    autofs \
+    binutils \
+    build-essential \
+    dirmngr \
+    ffmpeg \
+    fonts-liberation \
+    git \
+    gpg-agent \
+    imagemagick \
+    java-common \
+    libappindicator3-1 \
+    libatk-bridge2.0-0 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libopencv-dev \
+    libpython2.7-stdlib \
+    libpython3-stdlib \
+    libxss1 \
+    locales \
+    lsof \
+    lubuntu-core \
+    maven \
+    ntpdate \
+    python2.7-dev \
+    python2.7-minimal \
+    python3-dev \
+    python3-minimal \
+    python3-pip \
+    python-pip \
+    rdesktop \
+    rsync \
+    sqlite3 \
+    sshfs \
+    tdsodbc \
+    tesseract-ocr \
+    tree \
+    unixodbc \
+    unixodbc-dev \
+    wmctrl \
+    xclip \
+    xdg-utils \
+    xdotool \
+    xvfb \
+    zlib1g-dev
 
 # install additional tools (chrome and java) needed for automation framework
 RUN update-ca-certificates
@@ -76,7 +115,7 @@ RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.co
 # create u900:g900 for l1804Base vagrant
 RUN groupadd g900 -g 900
 RUN useradd -u 900 -g g900 \
-	-d /home/u900 -ms /bin/bash \
+	-m -d /home/u900 -s /bin/bash \
 	-G sudo \
 	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
 	u900
@@ -84,7 +123,7 @@ RUN useradd -u 900 -g g900 \
 # create u1000:g1000 for l1604Base vagrant
 RUN groupadd g1000 -g 1000
 RUN useradd -u 1000 -g g1000 \
-	-d /home/u1000 -ms /bin/bash \
+	-m -d /home/u1000 -s /bin/bash \
 	-G sudo \
 	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
 	u1000
@@ -92,7 +131,7 @@ RUN useradd -u 1000 -g g1000 \
 # create u500:g500 for aws ec2-user
 RUN groupadd g500 -g 500
 RUN useradd -u 500 -g g500 \
-	-d /home/u500 -ms /bin/bash \
+	-m -d /home/u500 -s /bin/bash \
 	-G sudo \
 	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
 	u500
@@ -100,7 +139,7 @@ RUN useradd -u 500 -g g500 \
 # # create u306267:g306267 for aws build
 # RUN groupadd g306267 -g 306267
 # RUN useradd -u 306267 -g g306267 \
-#   -d /home/u306267 -ms /bin/bash \
+#   -m -d /home/u306267 -s /bin/bash \
 #   -G sudo \
 #   -p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
 #   u306267
@@ -112,7 +151,8 @@ RUN useradd -u 500 -g g500 \
 # wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 # source .bashrc
 # nvm install --lts v8
-# cd ~/Projects/AutoBDD
+# spr
+# cd ~/Run/AutoBDD
 # npm install
 # . .autoPathrc.sh
 # selenium-standalone install --config=./framework/configs/selenium-standalone_config.js
@@ -120,7 +160,7 @@ RUN useradd -u 500 -g g500 \
 
 # # Spin up docker container and bash inside the docker container:
 # sudo docker run -it --rm=true --user=u$(id -u) --privileged \
-#   -v $HOME/Projects:/home/u$(id -u)/Projects \
+#   -v $HOME/Run:/home/u$(id -u)/Run \
 #   -v $HOME/.bashrc:/home/u$(id -u)/.bashrc \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
 #   -v $HOME/.nvm:/home/u$(id -u)/.nvm \
@@ -130,29 +170,31 @@ RUN useradd -u 500 -g g500 \
 #   /bin/bash
 
 # # Run test manually inside docker container:
+# cd
+# . .bashrc
 # nvm use v8
-# cd ~/Projects/AutoBDD
+# cd ~/Run/AutoBDD
 # npm rebuild
 # . .autoPathrc.sh
-# ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-webpage test-download
+# ./framework/scripts/chimp_autorun.py --parallel 4 --movie 1 --platform Linux --browser CH --module test-webpage test-download
 
 # # run test from docker host with 2 docker containers one for each test module (suite):
-# sudo docker run -d --rm=true --user=u$(id -u) --privileged \
-#   -v $HOME/Projects:/home/u$(id -u)/Projects \
+# sudo docker run -d --rm=true --user=u$(id -u) \
+#   -v $HOME/Run:/home/u$(id -u)/Run \
 #   -v $HOME/.bashrc:/home/u$(id -u)/.bashrc \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
 #   -v $HOME/.nvm:/home/u$(id -u)/.nvm \
 #   --net=host \
 #   --shm-size 256M \
 #   xyplatform:lubuntu1804 \
-#   /bin/bash -c "cd; . .bashrc; nvm use v8; cd ~/Projects/AutoBDD; npm rebuild; . .autoPathrc.sh; ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-webpage"
+#   /bin/bash -c "cd; . .bashrc; . .nvm/nvm.sh; . .nvm/bash_completion; nvm use v8; cd ~/Run/AutoBDD; npm rebuild; . .autoPathrc.sh; ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-webpage"
 # sudo docker run -d --rm=true --user=u$(id -u) --privileged \
-#   -v $HOME/Projects:/home/u$(id -u)/Projects \
+#   -v $HOME/Run:/home/u$(id -u)/Run \
 #   -v $HOME/.bashrc:/home/u$(id -u)/.bashrc \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
 #   -v $HOME/.nvm:/home/u$(id -u)/.nvm \
 #   --net=host \
 #   --shm-size 256M \
 #   xyplatform:lubuntu1804 \
-#   /bin/bash -c "cd; . .bashrc; nvm use v8; cd ~/Projects/AutoBDD; npm rebuild; . .autoPathrc.sh; ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-download"
+#   /bin/bash -c "cd; . .bashrc; . .nvm/nvm.sh; . .nvm/bash_completion; nvm use v8; cd ~/Run/AutoBDD; npm rebuild; . .autoPathrc.sh; ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-download"
 # #####################################################################
