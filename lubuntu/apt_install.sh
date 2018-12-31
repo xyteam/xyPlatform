@@ -32,8 +32,7 @@ apt install --fix-missing -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Op
   libyaml-dev \
   lightdm \
   linux-headers-$(uname -r) \
-  lxde-core \
-  lxterminal \
+  lubuntu-core \
   maven \
   module-assistant \
   nodejs \
@@ -41,7 +40,6 @@ apt install --fix-missing -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Op
   python \
   python-pip \
   rdesktop \
-  slick-greeter \
   software-properties-common \
   sqlite3 \
   sshfs \
