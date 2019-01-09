@@ -62,7 +62,7 @@ We may add additional systems in the future as needed. Contributions are very we
     * vagrant-ca-certificates
     * vagrant-proxyconf
     * vagrant-timezone
-    * vagrant-winrm
+    * vagrant-winrm [Do **Not** install this plugin for VirtualBox 6.0]
 * VirtualBox 5.2.10 and up
 
 ###### Cloud hosting system:

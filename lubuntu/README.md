@@ -27,6 +27,16 @@ CMD> cd ~/Projects/xyPlatform/lubuntu
 CMD> VAGRANT_LOG=INFO vagrant up l1804Base 2>&1 | tee vagrant.log
 CMD> vagrant reload l1804Base (reload is only needed the first time)
 ```
+troubleshooting 
+```
+PROBLEM: unable to sync between Projects directory between host and lubuntu box
+WORKAROUND:
+In Cygwin terminal
+$ nano .bashrc (and enter below alias)
+-> alias slr='rsync --archive -e "ssh -p 2022 -i ~\Projects\xyPlatform\global\platform_id_rsa" ~/Projects/ vagrant@localhost:~/Projects/'
+$ . .bashrc
+$ slr (to perform one-time one-way sync from host's Project directory to lubuntu)
+```
 shell login from host
 ```
 CMD> vagrant ssh l1804Base
