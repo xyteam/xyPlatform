@@ -29,13 +29,14 @@ CMD> vagrant reload l1804Base (reload is only needed the first time)
 ```
 troubleshooting 
 ```
-PROBLEM: unable to sync between Projects directory between host and lubuntu box
-WORKAROUND:
+**PROBLEM:** unable to sync Projects directory between host and lubuntu box
+**WORKAROUND:**
 In Cygwin terminal
 $ nano .bashrc (and enter below alias)
 -> alias slr='rsync --archive -e "ssh -p 2022 -i ~\Projects\xyPlatform\global\platform_id_rsa" ~/Projects/ vagrant@localhost:~/Projects/'
+-> save and exit the fiel
 $ . .bashrc
-$ slr (to perform one-time one-way sync from host's Project directory to lubuntu)
+$ slr (to perform one-time one-way sync from Host -> lubuntu)
 ```
 shell login from host
 ```
