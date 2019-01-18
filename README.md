@@ -101,7 +101,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ ssh-keygen```
         - If ssh-keygen not found, please ensure openssh is properly installed when setting up cygwin
         - If permission denied error, please refer to [troubleshooting section](#troubleshooting-section) before proceed
-- Create directory with name **Projects** under *C:/Users/<username>/*, and run following commands:
+- Create directory with name **Projects** under *C:/Users/your_username/*, and run following commands:
     - ```$ cd ~/Projects```
     - ```$ git clone https://github.com/xyteam/xyPlatform.git```
     - ```$ git clone https://github.com/xyteam/AutoBDD.git```
