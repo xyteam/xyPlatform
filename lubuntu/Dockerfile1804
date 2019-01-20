@@ -153,6 +153,7 @@ RUN useradd -u 500 -g g500 \
 
 # # Spin up docker container and bash inside the docker container:
 # sudo docker run -it --rm=true --user=u$(id -u) --privileged \
+#   -v $HOME/.m2:/home/u$(id -u)/.m2 \
 #   -v $HOME/Run:/home/u$(id -u)/Run \
 #   -v $HOME/.bashrc:/home/u$(id -u)/.bashrc \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
@@ -173,6 +174,7 @@ RUN useradd -u 500 -g g500 \
 
 # # run test from docker host with 2 docker containers one for each test module (suite):
 # sudo docker run -d --rm=true --user=u$(id -u) \
+#   -v $HOME/.m2:/home/u$(id -u)/.m2 \
 #   -v $HOME/Run:/home/u$(id -u)/Run \
 #   -v $HOME/.bashrc:/home/u$(id -u)/.bashrc \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
@@ -182,6 +184,7 @@ RUN useradd -u 500 -g g500 \
 #   xyplatform:lubuntu1804 \
 #   /bin/bash -c "cd; . .bashrc; . .nvm/nvm.sh; . .nvm/bash_completion; nvm use v8; cd ~/Run/AutoBDD; npm rebuild; . .autoPathrc.sh; ./framework/scripts/chimp_autorun.py --parallel 2 --movie 1 --platform Linux --browser CH --module test-webpage"
 # sudo docker run -d --rm=true --user=u$(id -u) --privileged \
+#   -v $HOME/.m2:/home/u$(id -u)/.m2 \
 #   -v $HOME/Run:/home/u$(id -u)/Run \
 #   -v $HOME/.bashrc:/home/u$(id -u)/.bashrc \
 #   -v $HOME/.pki:/home/u$(id -u)/.pki \
