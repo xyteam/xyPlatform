@@ -3,17 +3,17 @@ This folder contains configuration files for two versions of Linux light-weight 
 * 18.04 LTS
 * 16.04 LTS 
 
-These two boxes have almost mirrored configurations. Pick wichever one that is suitable for your project.
+These two boxes have almost mirrored configurations. Pick whichever one that is suitable for your project.
 
 #### Feature Highlight
-Here is a list of key features worth mentioning with detail explainations below the list:
+Here is a list of key features worth mentioning with detail explanations below the list:
 * Light-Weight Linux
 * Mirrored Docker configuration
 * Single key for SSH tunneling
 
 We have chosen a light-weight desktop environment for easy deployment and CPU power reservation. If you need richer UI feature you can install additional packages later.
 
-We provided a mirrored Docker configuration file, and provided Docker command examples to show how to run commands outside and inside docker. You can build docker images locally, and test your application inside and outside of docker for direct compairsion. This way you can deploy your application to the cloud later with higher confidence.
+We provided a mirrored Docker configuration file, and provided Docker command examples to show how to run commands outside and inside docker. You can build docker images locally, and test your application inside and outside of docker for direct comparison. This way you can deploy your application to the cloud later with higher confidence.
 
 A dedicated private key is created in xyPlatform, and its public key is shared in all Linux and Windows boxes in this project. It is convenient to create SSH tunnels between xyPlatform systems, therefore it is easy to do many automation testing between them. Example on a few key tunnels such as SSHFS, RDP and Selenium Webdriver are provided.
 
@@ -53,7 +53,7 @@ vagrant/vagrant
 Same as ubuntu 18.04 except change hostname with l1604Base and change ssh port 2022 to 1022.
 
 #### Deploy Docker
-We provided two Docker configuration files for our supported Ubuntu versions with mirrored configurations. For direct compairsion purpose the Ubuntu version between the host and docker should be the same. For cross version checking purpose they can also be cross deployed.
+We provided two Docker configuration files for our supported Ubuntu versions with mirrored configurations. For direct comparison purpose the Ubuntu version between the host and docker should be the same. For cross version checking purpose they can also be cross deployed.
 
 ###### Build Ubuntu 18.04 Docker
 ```

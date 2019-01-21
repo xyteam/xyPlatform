@@ -20,14 +20,14 @@ This project contains Vagrant and Docker configuration files for a few general p
 ###### Main purpose
 The main purpose of this project is to create an E2E automation environment. In this environment the Ubuntu system can act as the main driver, and the Windows VMs can act as the remote PC clients.
 
-The idea behind this automation environment is, we can use Ubuntu X environments to simulate people, where each X environment simulates one person. Multiple X environment can be sprawn by using virutal frame buffer (Xvfb). Inside each X environment Sikuli can be used to see the X screen, and RobotJS can be used to control the keyboard and mouse.
+The idea behind this automation environment is, we can use Ubuntu X environments to simulate people, where each X environment simulates one person. Multiple X environment can be spawn by using virtual frame buffer (Xvfb). Inside each X environment Sikuli can be used to see the X screen, and RobotJS can be used to control the keyboard and mouse.
 
 In addition to the Sikuli and and RobotJS control, other network tunnels can also be created to further control the remote PCs. For example, SSHFS can be used to access remote file systems, and Selenium Webdriver can be used to control remote PC browsers.
 
 Using this project we are able to achieve 1 Core + 1G RAM per X environment and 2 Core + 1G RAM per Windows VM, meaning, an Amazon EC2 Linux host with 16 logical cores and 30G RAM (c4.4xlarge) can run 16x virtual X environments inside a Docker instance, and a physical PC with 4x8 cores and 32G RAM can run 16x Windows VMs.
 
 ###### Other General Purpose
-Besides an E2E automation environment, the Ubuntu VMs in this project can also be use for other general purposes. Many useful features suppported on the Ubuntu OS are accounted for and can be used directly. Namely:
+Besides an E2E automation environment, the Ubuntu VMs in this project can also be use for other general purposes. Many useful features supported on the Ubuntu OS are accounted for and can be used directly. Namely:
 * Java/JDK (oracle java v1.8.0)
 * Node.js and NPM (node v8.11.4 LTS and npm 5.6.0)
 * Python (v2.7 and v3.x)
@@ -69,7 +69,7 @@ We may add additional systems in the future as needed. Contributions are very we
 * Any Linux system that supports Docker
 
 ###### Projects directory configuration:
-The project path of $HOME/Projects and ~/Projects are used through out, and is shared into VMs via Vagrant and Docker configurations, therefore a main diretory called Projects should be created under the user's home directory, and this and other related projects should be checkout into the Projects directory. The main benefit of sharing the Projects directory with the VMs is easy exchange of code between the host and VMs.
+The project path of $HOME/Projects and ~/Projects are used through out, and is shared into VMs via Vagrant and Docker configurations, therefore a main directory called Projects should be created under the user's home directory, and this and other related projects should be checkout into the Projects directory. The main benefit of sharing the Projects directory with the VMs is easy exchange of code between the host and VMs.
 
 #### Step by Step configuration
 ##### Cygwin Setup (for Windows host)
@@ -83,6 +83,11 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ cd ../..``` 
     - ```$ rm -rf ./home``` &rightarrow; to remove cygwin-generated home dir at */cygwin64/home/*
     - ```$ ln -s /cygdrive/c/Users/ /home``` &rightarrow; to create symbolic link to your home dir
+##### VirtualBox Setup
+- Install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+- Install [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
+- Launch Oracle VirtualBox &rightarrow; File &rightarrow; Preferences &rightarrow; Extensions
+	- Verify that *Oracle VM VirtualBox Extension Pack* is listed
 ##### Vagrant Setup
 - Install [Vagrant](https://www.vagrantup.com/)
 - Install vagrant plugins with following commands:
@@ -90,12 +95,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ vagrant plugin install vagrant-ca-certificates```
     - ```$ vagrant plugin install vagrant-timezone```
     - ```$ vagrant plugin install vagrant-winrm``` (Only for VirtualBox **below** 6.0)
-    - ```$ vagrant plugin list``` (To verify installed plugins)
-##### VirtualBox Setup
-- Install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-- Install [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
-- Launch Oracle VirtualBox &rightarrow; File &rightarrow; Preferences &rightarrow; Extensions
-    - Verify that *Oracle VM VirtualBox Extension Pack* is listed
+    - ```$ vagrant plugin list``` &rightarrow; To verify installed plugins
 ##### Create Guest Machine (Lubuntu 1804)
 - Verify ssh-keygen command permission, execute following command:
     - ```$ ssh-keygen```
@@ -116,15 +116,14 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 - Screen Resolution configuration
     - Maximize your linux box &rightarrow; View &rightarrow; Virtual Screen 1 &rightarrow; Resize to 1920x1200
     - View &rightarrow; Scaled Mode
-##### Build docker image and Jenkins
-- Inside Lubuntu box (or ssh into it), run following commands:
+##### Build docker image and Setup Jenkins
+- To build docker image, go to Lubuntu box (or ssh into it) and run following commands:
     - ```$ cd ~/Projects/xyPlatform/lubuntu```
     - ```$ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .``` &rightarrow; to build docker image from specified dockerfile
     - ```$ sudo docker images``` &rightarrow; Verify if *xyplatform* and *ubuntu* docker image is created
-    - ```$ sudo chmod 777 apt_installJenkins.sh```
-    - ```$ sudo ./apt_installJenkins.sh``` &rightarrow; to install jenkins
-        - Jenkins is accessible from your Chrome browser at http://localhost:8080
-        - Install all recommended plugins and setup jenkins credential with **xyAdmin** and **xyPassword**
+- To setup Jenkins
+	- Access Jenkins from your lubuntu Chrome browser at http://localhost:8080
+    - Install all recommended plugins and setup jenkins credential with **xyAdmin** and **xyPassword**
 ##### Setup Verification
 - In your Lubuntu box, verify following:
     - ```$ xdpyinfo | grep dimensions``` &rightarrow; should returns **1920x1200**
@@ -139,7 +138,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 | configure_docker_proxy.rb:50:in write': No such file or directory @ rb_sysopen -/tmp/vagrant-proxyconf-docker-config.json (Errno::ENOENT) | Uninstall proxyconf plugin with `vagrant plugin uninstall vagrant-proxyconf`
 | -bash: /usr/bin/ssh-keygen: Permission denied | *) Generate key using [PuTTYgen](https://www.putty.org/) with *key 4096* and *comment xyPlatform* <br> *) copy generated public key into file *~/Projects/xyPlatform/global/platform_id_rsa.pub* <br> *) Conversion &rightarrow; Export OpenSSH Key &rightarrow; *~/Projects/xyPlatform/global/platform_id_rsa* <br> *) Open Vagrantfile under ../xyPlatform/lubuntu/ and comment out lines `trigger.info = checking...` and `trigger.run = {path:...}`|
 |Unable to sync between **%userprofile%/Projects/** *(windows)* with **~/Projects/** *(linux)* directory | *) Install [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads) <br> *) run `vagrant plugin install vagrant-vbguest`|
-| VBoxManage.exe: error: VT-x is disabled in the BIOS for all CPU modes (VERR_VMX_MSR_ALL_VMX_DISABLED) | *) Enable Virtualization Technology (VTx) and Virtualization Technology for Directed I/O (VTd) from your BIOS setting <br> *) open *Turn Windows features on or off* and disable **Hyper-V** features. &<br> - run `systeminfo` to verify virtualization is enabled |
+| VBoxManage.exe: error: VT-x is disabled in the BIOS for all CPU modes (VERR_VMX_MSR_ALL_VMX_DISABLED) | *) Enable Virtualization Technology (VTx) and Virtualization Technology for Directed I/O (VTd) from your BIOS setting <br> *) open *Turn Windows features on or off* and disable **Hyper-V** features. &<br> *) run `systeminfo` to verify virtualization is enabled |
 | UI not visible, Docker/maven/java/chrome/... not available | *) Ensure there is no network loss and laptop doesn't goes to sleep during `vagrant up` <br> *) run `vagrant reload` right after the `vagrant up` completed before doing other thing such as restart laptop etc..
 
 
