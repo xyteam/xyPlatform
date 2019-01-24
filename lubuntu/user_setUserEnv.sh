@@ -57,8 +57,8 @@ npm config set user $vagrant_user
 npm config set umask 0022
 
 # set alias for rsync between Projects and Run
-alias spr="rsync --archive --exclude .git/ --exclude node_modules/ $HOME/Projects/AutoBDD $HOME/Run"
-alias srp="rsync --archive --exclude node_modules/ $HOME/Run/ $HOME/Projects"
+alias spr="rsync --human-readable --progress --archive --exclude .git/ --exclude node_modules/ $HOME/Projects/AutoBDD $HOME/Run"
+alias srp="rsync --human-readable --progress --update --exclude node_modules/ --exclude target/ $HOME/Run/ $HOME/Projects"
 
 END1
 
