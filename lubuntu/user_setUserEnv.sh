@@ -57,8 +57,8 @@ npm config set user $vagrant_user
 npm config set umask 0022
 
 # set alias for rsync between Projects and Run
-alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ $HOME/Projects/AutoBDD $HOME/Run'
-alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ $HOME/Run/ $HOME/Projects'
+alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ --exclude xyPlatform/ $HOME/Projects/ $HOME/Run'
+alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ --exclude logs/ $HOME/Run/ $HOME/Projects'
 alias xvfb-auto='xvfb-run --auto-servernum --server-args="-screen 0 1920x1200x16"'
 END1
 
