@@ -23,7 +23,7 @@ We may add additional systems in the future as needed. Contributions are very we
 
 #### Overall Prerequisites
 
-**Local hosting system:**
+######Local hosting system:
 
 * Windows 10 or Mac OS 10 with reasonable RAM (16G+) and HD space (500G+)
     - Have not tested on Linux desktop host, feedbacks are welcome
@@ -35,16 +35,16 @@ We may add additional systems in the future as needed. Contributions are very we
     * vagrant-timezone
     * vagrant-proxyconf (optional)
 
-**Cloud hosting system:**
+######Cloud hosting system:
 
 * Any Cloud system that supports Linux Docker
 
-**Projects directory configuration:**
+######Projects directory configuration:
 
 The project path of $HOME/Projects and ~/Projects are used through out, and is shared into VMs via Vagrant and Docker configurations, therefore a main directory called Projects should be created under the user's home directory, and this and other related projects should be checkout into the Projects directory. The main benefit of sharing the Projects directory with the VMs is easy exchange of code between the host and VMs.
 
 #### Step by Step configuration
-##### Cygwin Setup (for Windows host)
+##### Cygwin Setup (for Windows host only, Mac and Linux skip this step)
 - Install [Cygwin](https://www.cygwin.com/)
 - On the cygwin setup window:
     - Change the view to **Category**
