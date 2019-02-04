@@ -8,12 +8,12 @@
 #### Project Summary
 This project is licensed under the terms of the MIT license.
 
-This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud. In addition, this project contains automatic configuration scripts to install additional applications that are useful for development, experiement, automation testing and screen documentation.
+This project contains Vagrant and Docker configuration files for a few general purpose operating systems that can be deployed locally in desktop environment or in the cloud.
 
-###### Main purpose
+#### Main purpose
 The main purpose of this project is to provide easy-to-use VMs for E2E QA Automation.
 
-###### Current included systems:
+#### Current included systems:
 * Ubuntu 16.04 LTS, vagrant and docker
 * Ubuntu 18.04 LTS, vagrant and docker
 * Windows 10, vagrant only
@@ -23,7 +23,8 @@ We may add additional systems in the future as needed. Contributions are very we
 
 #### Overall Prerequisites
 
-###### Local hosting system:
+**Local hosting system:**
+
 * Windows 10 or Mac OS 10 with reasonable RAM (16G+) and HD space (500G+)
     - Have not tested on Linux desktop host, feedbacks are welcome
 * VirtualBox 6.0.0 and up
@@ -34,10 +35,12 @@ We may add additional systems in the future as needed. Contributions are very we
     * vagrant-timezone
     * vagrant-proxyconf (optional)
 
-###### Cloud hosting system:
+**Cloud hosting system:**
+
 * Any Cloud system that supports Linux Docker
 
-###### Projects directory configuration:
+**Projects directory configuration:**
+
 The project path of $HOME/Projects and ~/Projects are used through out, and is shared into VMs via Vagrant and Docker configurations, therefore a main directory called Projects should be created under the user's home directory, and this and other related projects should be checkout into the Projects directory. The main benefit of sharing the Projects directory with the VMs is easy exchange of code between the host and VMs.
 
 #### Step by Step configuration
@@ -115,12 +118,12 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 #### Additional README files
 Additional information and steps are provided in individual README files.
 
-###### Ubuntu VM and Docker information
+#### Ubuntu VM and Docker information
 Reference to the README files inside the lubuntu directory.
 
 * [Ubuntu 18.04/16.04 README.md](./lubuntu/README.md)
 
-###### Windows 10 and Windows 7
+#### Windows 10 and Windows 7
 Reference to the README files inside the windows10 and windows7 directories respectively.
 
 * [Windows 7 README.md](./windows7/README.md)
