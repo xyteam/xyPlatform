@@ -36,10 +36,13 @@ CMD> vagrant reload l1804Base (reload is only needed the first time)
 Login GUI:
 * login as vagrant/vagrant
 * Set VM resolution to 1920x1200, Scaled Mode.
+
 Login Bash:
 * CMD> vagrant ssh l1804Base
+
 Reboot VM:
 * CMD> vagrant reload l1804Base
+
 Stop VM:
 * CMD> vagrant halt l1804Base
 * or close the VM window and select "Power-Off", there is no need to save the VM state
