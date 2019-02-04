@@ -106,8 +106,9 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ git clone https://github.com/xyteam/xyPlatform.git```
     - ```$ git clone https://github.com/xyteam/AutoBDD.git```
     - ```$ cd ~/Projects/xyPlatform/lubuntu```
+    - ```edit config.yaml for desired CPU/Memory and synced folder lien format```
     - ```$ VAGRANT_LOG=INFO vagrant up l1804Base 2>&1 | tee vagrant.log```
-        - Vagrant up will take roughly an hour depending on your internet speed
+        - Vagrant up will take roughly 20-40 minutes depending on your internet speed
         - Please ensure your laptop does not go to sleep or disconnected from network while running this command
         - If you hit into any error, please refer to [troubleshooting section](#troubleshooting-section)
     - ```$ vagrant reload l1804Base``` (Only required for initial setup)
