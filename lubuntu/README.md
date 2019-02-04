@@ -1,7 +1,9 @@
-## Light-Weight Ubuntu Desktop Boxes
-This folder contains configuration files for two versions of Linux light-weight ubuntu desktop boxes:
+## Ubuntu Desktop VM for Automation
+This folder contains Vagrant configuration files for two Linux Ubuntu desktop VMs:
 * Ubuntu 18.04 LTS
 * Ubuntu 16.04 LTS 
+
+These VMs are pre-configured with tools suitable for QA Automation.
 
 Normally you would only need one of Ubuntu 18.04 or Ubuntu 16.04. These two boxes have almost mirrored configurations. Pick whichever one that is suitable for your project.
 
@@ -9,6 +11,7 @@ Normally you would only need one of Ubuntu 18.04 or Ubuntu 16.04. These two boxe
 Legend:
 * CMD> indicates the PC host cmd prompt in the xyPlatform/lubuntu folder
 * $ indicates the VM's bash shell
+
 Prepare:
 * Edit config.yaml
     * select the desire CPU/Memory for the VM
@@ -25,6 +28,7 @@ $ ls -al ~/Projects
 
 ###### Complete the VM provisioning and reboot the VM
 Here we provision the VM with necessary packages and configurations. This step will take about 20~40 minutes depending on the power of your host system and the network. There maybe some error messages which in general you can ignore.
+
 You need to reboot the VM at least once after the provisioning. Afterward in you can keep the VM running all the time, and only reboot when the VM is hung.
 ```
 $ exit
@@ -40,17 +44,26 @@ Login GUI:
 Login Bash:
 * CMD> vagrant ssh l1804Base
 
-Reboot VM:
+Reboot the VM:
 * CMD> vagrant reload l1804Base
 
-Stop VM:
+Stop the VM:
 * CMD> vagrant halt l1804Base
-* or close the VM window and select "Power-Off", there is no need to save the VM state
+
+or
+
+* Close the VM window and select "Power-Off" optioin. there is no need to save the VM state
+
+Start the VM:
+* CMD> vagrant halt l1804Base
 
 **Troubleshooting**
 
-**PROBLEM:** unable to sync Projects directory between host and lubuntu box
+**PROBLEM:**
+
+Unable to sync Projects directory between host and lubuntu box
 Normally this is due to VirtualBox Guest Addition and Extension Pack are not installed. Installing them should solve the problem.
+
 In a rare case that you can not resolve this problem, here is a workaround. 
 
 **WORKAROUND:**
