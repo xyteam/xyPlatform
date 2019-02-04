@@ -44,7 +44,8 @@ We may add additional systems in the future as needed. Contributions are very we
 The project path of $HOME/Projects and ~/Projects are used through out, and is shared into VMs via Vagrant and Docker configurations, therefore a main directory called Projects should be created under the user's home directory, and this and other related projects should be checkout into the Projects directory. The main benefit of sharing the Projects directory with the VMs is easy exchange of code between the host and VMs.
 
 #### Step by Step configuration
-##### Cygwin Setup (for Windows host only, Mac and Linux skip this step)
+
+###### Cygwin Setup (for Windows host only, Mac and Linux skip this step)
 - Install [Cygwin](https://www.cygwin.com/)
 - On the cygwin setup window:
     - Change the view to **Category**
@@ -55,20 +56,23 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ cd /``` 
     - ```$ rm -rf /home``` &rightarrow; to remove cygwin-generated home dir at */cygwin64/home/*
     - ```$ ln -s /cygdrive/c/Users/ /home``` &rightarrow; to create symbolic link to your home dir
-##### VirtualBox Setup
+
+###### VirtualBox Setup
 - Install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 - Install [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
 - Launch Oracle VirtualBox &rightarrow; File &rightarrow; Preferences &rightarrow; Extensions
 	- Verify that *Oracle VM VirtualBox Extension Pack* is listed
 - Oracle Guest Additions is required and will be installed automatically. Please be mindful that in some rare case it needs to be re-installed manually
-##### Vagrant Setup
+
+###### Vagrant Setup
 - Install [Vagrant](https://www.vagrantup.com/)
 - Install vagrant plugins with following commands:
     - ```$ vagrant plugin install vagrant-vbguest```
     - ```$ vagrant plugin install vagrant-ca-certificates```
     - ```$ vagrant plugin install vagrant-timezone```
     - ```$ vagrant plugin list``` &rightarrow; To verify installed plugins
-##### Create Guest Machine (Lubuntu 1804)
+
+###### Create Guest Machine (Lubuntu 1804)
 - Verify ssh-keygen command permission, execute following command:
     - ```$ ssh-keygen```
         - If ssh-keygen not found, please ensure openssh is properly installed when setting up cygwin
@@ -89,7 +93,8 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 - Screen Resolution configuration
     - Maximize your linux box &rightarrow; View &rightarrow; Virtual Screen 1 &rightarrow; Resize to 1920x1200
     - View &rightarrow; Scaled Mode
-##### Build docker image and Setup Jenkins
+
+###### Build docker image and Setup Jenkins
 - To build docker image, go to Lubuntu box (or ssh into it) and run following commands:
     - ```$ cd ~/Projects/xyPlatform/lubuntu```
     - ```$ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .``` &rightarrow; to build docker image from specified dockerfile
@@ -97,7 +102,8 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 - To setup Jenkins
 	- Access Jenkins from host at http://localhost:2880 or from lubuntu Chrome browser at http://localhost:8080
     - Install all recommended plugins and setup jenkins credential with **xyAdmin** and **xyPassword**
-##### Setup Verification
+
+###### Setup Verification
 - In your Lubuntu box, verify following:
     - ```$ DISPLAY=:0 xdpyinfo | grep dimensions``` &rightarrow; should returns **1920x1200**
     - ```$ mvn -version``` &rightarrow; able to return maven version
@@ -105,7 +111,8 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ cd ~/Projects/``` &rightarrow; this folder should in-sync with your windows host (**%userprofile%/Projects/**)
     - ```$ DISPLAY=:0 google-chrome``` &rightarrow; launch chrome browser
 
-##### Troubleshooting Section
+
+###### Troubleshooting Section
 | Error | Resolutions |
 | ------ | ------ |
 | configure_docker_proxy.rb:50:in write': No such file or directory @ rb_sysopen -/tmp/vagrant-proxyconf-docker-config.json (Errno::ENOENT) | Uninstall proxyconf plugin with `vagrant plugin uninstall vagrant-proxyconf`
