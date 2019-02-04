@@ -44,18 +44,6 @@ fi
 # set NPM path
     PATH="\$PATH:./node_modules/.bin"
 
-# set NPM
-# npm config --global set proxy \$http_proxy
-# npm config set proxy \$http_proxy
-# npm config set https-proxy \$https_proxy
-npm config set registry http://registry.npmjs.org
-# npm config set strict-ssl false
-npm config set progress false
-npm config set cafile \$HOME/.npm/cacerts
-npm config set unsafe-perm true
-npm config set user $vagrant_user
-npm config set umask 0022
-
 # set alias for rsync between Projects and Run
 alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ --exclude xyPlatform/ $HOME/Projects/ $HOME/Run'
 alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ --exclude logs/ $HOME/Run/ $HOME/Projects'
