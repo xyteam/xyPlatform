@@ -47,10 +47,12 @@ Stop VM:
 * CMD> vagrant halt l1804Base
 * or close the VM window and select "Power-Off", there is no need to save the VM state
 
-Troubleshooting
+**Troubleshooting**
+
 **PROBLEM:** unable to sync Projects directory between host and lubuntu box
 Normally this is due to VirtualBox Guest Addition and Extension Pack are not installed. Installing them should solve the problem.
 In a rare case that you can not resolve this problem, here is a workaround. 
+
 **WORKAROUND:**
 Add the below 2 aliases to your .bashrc or profile and use them when you need to sync the folders
 
