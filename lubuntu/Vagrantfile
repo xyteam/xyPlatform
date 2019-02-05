@@ -116,7 +116,7 @@ Vagrant.configure(2) do |config|
         linuxbox.vm.provision "apt_upgrade.sh",            type: :shell, path: "apt_upgrade.sh",             privileged: true
         linuxbox.vm.provision "apt_update.sh",             type: :shell, path: "apt_update.sh",              privileged: true
         linuxbox.vm.provision "apt_install.sh",            type: :shell, path: "apt_install.sh",             privileged: true
-        linuxbox.vm.provision "apt_installJava.sh",        type: :shell, path: "apt_installJava.sh",         privileged: true
+        # linuxbox.vm.provision "apt_installJava.sh",        type: :shell, path: "apt_installJava.sh",         privileged: true
         linuxbox.vm.provision "apt_installJenkins.sh",     type: :shell, path: "apt_installJenkins.sh",      privileged: true
         linuxbox.vm.provision "apt_installChrome.sh",      type: :shell, path: "apt_installChrome.sh",       privileged: true
         linuxbox.vm.provision "apt_installDocker.sh",      type: :shell, path: "apt_installDocker.sh",       privileged: true
