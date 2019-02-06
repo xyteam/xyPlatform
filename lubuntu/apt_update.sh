@@ -16,7 +16,7 @@ apt remove -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--forc
 curl -sL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -a | grep Codename | cut -d\: -f2 | xargs) stable"
 
-# java
-add-apt-repository ppa:webupd8team/java --yes --update
+# oracle-java
+# add-apt-repository ppa:webupd8team/java --yes --update
 
 apt clean && apt update -q

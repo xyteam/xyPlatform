@@ -50,6 +50,8 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     lubuntu-core \
     maven \
     ntpdate \
+    openjdk-8-jdk \
+    openjdk-8-jre \
     python2.7-dev \
     python2.7-minimal \
     python3-dev \
@@ -84,15 +86,15 @@ RUN rm -f /etc/apt/sources.list.d/google-chrome.list && \
                 google-chrome-stable
 
 # install java8
-RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu bionic main' > /etc/apt/sources.list && \
-    # apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
-    # apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A87FF9DF48BF1C90 && \
-    curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC2518248EEA14886" | sudo apt-key add && \
-    curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xA87FF9DF48BF1C90" | sudo apt-key add && \
-    apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  && \
-    echo oracle-java${JAVA_VERSION}-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-            apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-            oracle-java${JAVA_VERSION}-installer oracle-java${JAVA_VERSION}-set-default
+# RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu bionic main' > /etc/apt/sources.list && \
+#     # apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
+#     # apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A87FF9DF48BF1C90 && \
+#     curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC2518248EEA14886" | sudo apt-key add && \
+#     curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xA87FF9DF48BF1C90" | sudo apt-key add && \
+#     apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"  && \
+#     echo oracle-java${JAVA_VERSION}-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
+#             apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+#             oracle-java${JAVA_VERSION}-installer oracle-java${JAVA_VERSION}-set-default
 
 # final autoremove
 RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
@@ -103,6 +105,7 @@ RUN ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
 
 # run finishing set up
 RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 # create u900:g900 for l1604Base vagrant
 RUN groupadd g900 -g 900
