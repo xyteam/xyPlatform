@@ -10,7 +10,7 @@ boxes = [
   # {:name => "l1604Base", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
   #   :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :http8082=>1882, :tensor6006=>6106, :tensor6008=>6208},
   {:name => "l1804Base", :box_name => 'geerlingguy/ubuntu1804', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1804',
-    :ssh_host_port=>2022, :http80=>2080, :http8080=>2880, :http8082=>2882, :tensor6006=>6206, :tensor6008=>6208},
+    :ssh_host_port=>2022, :http80=>2080, :http8080=>2880, :http8082=>2882, :http3000=>2300, :http8000=>2800},
   # {:name => "l1604Desktop", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1604-desktop.box',
   #   :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :http8082=>1882}
   # {:name => "l1804Desktop", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1804-desktop.box',
@@ -92,8 +92,8 @@ Vagrant.configure(2) do |config|
       linuxbox.vm.network :forwarded_port, guest: 80, host: box[:http80], id: "http80", auto_correct: false
       linuxbox.vm.network :forwarded_port, guest: 8080, host: box[:http8080], id: "http8080", auto_correct: false
       linuxbox.vm.network :forwarded_port, guest: 8082, host: box[:http8082], id: "http8082", auto_correct: false
-      linuxbox.vm.network :forwarded_port, guest: 6006, host: box[:tensor6006], id: "tensor6006", auto_correct: false
-      linuxbox.vm.network :forwarded_port, guest: 6008, host: box[:tensor6008], id: "tensor6008", auto_correct: false
+      linuxbox.vm.network :forwarded_port, guest: 3000, host: box[:http3000], id: "http3000", auto_correct: false
+      linuxbox.vm.network :forwarded_port, guest: 8000, host: box[:http8000], id: "http8000", auto_correct: false
       linuxbox.vm.provider "virtualbox" do |vb|
         vb.name = box[:name]
       end
