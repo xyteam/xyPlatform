@@ -75,6 +75,9 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     xvfb \
     zlib1g-dev
 
+# install tinydb used for autorunner framework
+RUN pip install tinydb
+
 # install additional tools (chrome and java) needed for automation framework
 RUN update-ca-certificates
 
