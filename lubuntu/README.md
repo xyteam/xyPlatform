@@ -97,4 +97,14 @@ $ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 . # the '
 Same process as 18.04 Docker excapt change to -file Dockerfile1604
 
 #### Docker run examples
-For now reference to the comments in the Docker files for additional deployment and usage commands. We will update/add examples to this README later.
+* CD to ~/Run/AutoBDD
+* To run all available test defined in docker-compose.yml (1 container per test)
+	```sudo MYUSER=u$(id -u) docker-compose up -d --rm```
+* To run specific test on docker container
+    ```sudo MYUSER=u$(id -u) docker-compose run -d <service_name>``` &rightarrow; <service_name> can be found in docker-compose.yml
+    * Sample Chimpy project run
+    ```sudo MYUSER=u$(id -u) docker-compose run -d test_download```
+    * Sample Maven project run
+    ```sudo MYUSER=u$(id -u) docker-compose run -d javatest_example```
+* To clean up all stopped container
+    ```sudo MYUSER=u$(id -u) docker-compose down```

@@ -66,3 +66,6 @@ apt --purge autoremove -y
 ln -sf /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
 # set default java version to java 8 (needed by Jenkins)
 sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+#install tinydb to use autorunner framework
+pip install tinydb
