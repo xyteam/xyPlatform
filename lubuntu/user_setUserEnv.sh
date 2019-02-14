@@ -48,6 +48,7 @@ fi
 alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ --exclude xyPlatform/ $HOME/Projects/ $HOME/Run'
 alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ --exclude logs/ $HOME/Run/ $HOME/Projects'
 alias xvfb-auto='xvfb-run --auto-servernum --server-args="-screen 0 1920x1200x16"'
+alias init-auto='cd ~/Run/AutoBDD && npm install && . .autoPathrc.sh && npm run test-init'
 END1
 
 # create .envrc

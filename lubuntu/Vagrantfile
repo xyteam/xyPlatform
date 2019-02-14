@@ -112,7 +112,7 @@ Vagrant.configure(2) do |config|
       # Below 2 lines will display variable nemes for debugging purpose
       # puts "box name: " + linuxbox.vm.box.to_s
       # puts "vm name: " + box[:name].to_s
-      unless linuxbox.vm.box.to_s.include? "desktop"
+      unless linuxbox.vm.box.to_s.include? "Desktop"
         linuxbox.vm.provision "apt_upgrade.sh",            type: :shell, path: "apt_upgrade.sh",             privileged: true
         linuxbox.vm.provision "apt_update.sh",             type: :shell, path: "apt_update.sh",              privileged: true
         linuxbox.vm.provision "apt_install.sh",            type: :shell, path: "apt_install.sh",             privileged: true
