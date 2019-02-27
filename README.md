@@ -72,7 +72,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ vagrant plugin install vagrant-timezone```
     - ```$ vagrant plugin list``` &rightarrow; To verify installed plugins
 
-##### Create Guest Machine (Lubuntu 1804)
+##### Credentials and Directory setup
 - Verify ssh-keygen command permission, execute following command:
     - ```$ ssh-keygen```
         - If ssh-keygen not found, please ensure openssh is properly installed when setting up cygwin
@@ -81,8 +81,13 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ cd ~/Projects```
     - ```$ git clone https://github.com/xyteam/xyPlatform.git```
     - ```$ git clone https://github.com/xyteam/AutoBDD.git```
+##### Create Guest Machine (Lubuntu 1804)
+- If you want to build platform from scratch, refer to this [Build from scratch](#build-from-scratch) Guideline
+- If you want to build platform from pre-built vagrant box, refer to this [Build from box](#build-from-vagrant-box) Guideline
+##### Build from scratch #####
+- To build the platform from scratch, run following commands:
     - ```$ cd ~/Projects/xyPlatform/lubuntu```
-    - ```edit config.yaml for desired CPU/Memory and synced folder lien format```
+        - edit config.yaml for desired CPU/Memory and synced folder line format
     - ```$ VAGRANT_LOG=INFO vagrant up l1804Base 2>&1 | tee vagrant.log```
         - Vagrant up will take roughly 20-40 minutes depending on your internet speed
         - Please ensure your laptop does not go to sleep or disconnected from network while running this command
@@ -93,8 +98,6 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 - Screen Resolution configuration
     - Maximize your linux box &rightarrow; View &rightarrow; Virtual Screen 1 &rightarrow; Resize to 1920x1200
     - View &rightarrow; Scaled Mode
-
-##### Build docker image and Setup Jenkins
 - To build docker image, go to Lubuntu box (or ssh into it) and run following commands:
     - ```$ cd ~/Projects/xyPlatform/lubuntu```
     - ```$ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .``` &rightarrow; to build docker image from specified dockerfile
@@ -102,7 +105,20 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 - To setup Jenkins
 	- Access Jenkins from host at http://localhost:2880 or from lubuntu Chrome browser at http://localhost:8080
     - Install all recommended plugins and setup jenkins credential with **xyAdmin** and **xyPassword**
-
+- Once completed, go to [Setup Verification](#setup-verification) section
+##### Build from Vagrant box #####
+- To build the platform from pre-built vagrant box, run following commands:
+    - ```$ cd ~/Projects/xyPlatform/lubuntu```
+        - Ensure your Vagrant-Box is located in this directory
+        - Edit config.yaml for desired CPU/Memory and synced folder line format
+        - Edit Vagrantfile to have following config under boxes = [...] section (assume your box-name is **l1804Desktop.box**)
+            - ```{:name => "l1804Desktop", :box_name => 'l1804Desktop', :box_url => 'l1804Desktop.box', :ssh_host_port=>2022, :http80=>2080, :http8080=>2880, :http8082=>2882, :http3000=>2300, :http8000=>2800}```
+    - ```$ VAGRANT_LOG=INFO vagrant up l1804Desktop 2>&1 | tee vagrant.log```
+        - Vagrant up will take roughly 3-5 minutes
+        - Please ensure your laptop does not go to sleep while running this command
+        - Login with username **vagrant** and password **vagrant**
+        - If you hit into any error, please refer to [troubleshooting section](#troubleshooting-section)
+- Once completed, go to [Setup Verification](#setup-verification) section
 ##### Setup Verification
 - In your Lubuntu box, verify following:
     - ```$ DISPLAY=:0 xdpyinfo | grep dimensions``` &rightarrow; should returns **1920x1200**
@@ -110,7 +126,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ sudo docker version``` &rightarrow; able to return docker version
     - ```$ cd ~/Projects/``` &rightarrow; this folder should in-sync with your windows host (**%userprofile%/Projects/**)
     - ```$ DISPLAY=:0 google-chrome``` &rightarrow; launch chrome browser
-
+    - ```$ sudo docker images``` &rightarrow; should returns 2 entries with name **xyplatform** and **ubuntu**
 
 ##### Troubleshooting Section
 | Error | Resolutions |
