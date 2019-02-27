@@ -13,8 +13,10 @@ boxes = [
     :ssh_host_port=>2022, :http80=>2080, :http8080=>2880, :http8082=>2882, :http3000=>2300, :http8000=>2800},
   # {:name => "l1604Desktop", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1604-desktop.box',
   #   :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :http8082=>1882}
-  # {:name => "l1804Desktop", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1804-desktop.box',
+  # {:name => "l1804Desktop", :box_name => 'lubuntu1804-desktop', :box_url => 'file://./lubuntu1804-desktop.box',
   #   :ssh_host_port=>2022, :http80=>2080, :http8080=>2880, :http8082=>2882}
+  # {:name => "l1804Desktop", :box_name => 'l1804Desktop', :box_url => 'l1804Desktop.box',
+  #   :ssh_host_port=>2022, :http80=>2080, :http8080=>2880, :http8082=>2882, :http3000=>2300, :http8000=>2800}
 ] # boxes []
 
 Vagrant.configure(2) do |config|
