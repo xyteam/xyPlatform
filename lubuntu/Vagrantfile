@@ -7,8 +7,8 @@ configs = YAML.load_file('configs.yaml')
 # These variables by themself do not do anyting, they are used in the box configuration below
 # Caution: Uncommented box entry will be active entry if a vagrant command is issued without a box target. 
 boxes = [
-  # {:name => "l1604Base", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
-  #   :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :http8082=>1882, :tensor6006=>6106, :tensor6008=>6208},
+  {:name => "l1604Base", :box_name => 'geerlingguy/ubuntu1604', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1604',
+    :ssh_host_port=>1022, :http80=>1080, :http8080=>1880, :http8082=>1882, :http3000=>1300, :http8000=>1800},
   {:name => "l1804Base", :box_name => 'geerlingguy/ubuntu1804', :box_url => 'https://app.vagrantup.com/geerlingguy/boxes/ubuntu1804',
     :ssh_host_port=>2022, :http80=>2080, :http8080=>2880, :http8082=>2882, :http3000=>2300, :http8000=>2800},
   # {:name => "l1604Desktop", :box_name => 'lubuntu1604-desktop', :box_url => 'file://./lubuntu1604-desktop.box',
@@ -122,8 +122,8 @@ Vagrant.configure(2) do |config|
         linuxbox.vm.provision "apt_installJenkins.sh",     type: :shell, path: "apt_installJenkins.sh",      privileged: true
         linuxbox.vm.provision "apt_installChrome.sh",      type: :shell, path: "apt_installChrome.sh",       privileged: true
         linuxbox.vm.provision "apt_installDocker.sh",      type: :shell, path: "apt_installDocker.sh",       privileged: true
-	linuxbox.vm.provision "apt_installDockerCompose.sh",      type: :shell, path: "apt_installDockerCompose.sh", 	     privileged: true
-	#linuxbox.vm.provision "setup_buildDocker.sh",        type: :shell, path: "setup_buildDocker.sh",         privileged: false
+        linuxbox.vm.provision "apt_installDockerCompose.sh",     type: :shell, path: "apt_installDockerCompose.sh", 	     privileged: true
+        linuxbox.vm.provision "setup_buildDocker.sh",      type: :shell, path: "setup_buildDocker.sh",         privileged: false
         linuxbox.vm.provision "sys_setJavaCerts.sh",       type: :shell, path: "sys_setJavaCerts.sh",        privileged: true
         linuxbox.vm.provision "user_installNVM.sh",        type: :shell, path: "user_installNVM.sh",         privileged: false
       end
