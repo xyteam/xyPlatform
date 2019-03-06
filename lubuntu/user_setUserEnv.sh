@@ -26,6 +26,7 @@ mkdir -p ~/.npm && sudo cat /usr/share/ca-certificates/private/GeoTrustGlobalCA.
 cat << END1 > ~/.userEnv
 export TZ="America/Los_Angeles"
 # export DBUS_SESSION_BUS_ADDRESS="unix:path=/dev/null"
+JAVA_HOME=\$(update-alternatives --query java | grep 'Value: ' | grep -o '/.*/jre')
 export _JAVA_OPTIONS="-Xms512m -Xmx512m -Dcom.sun.net.ssl.checkRevocation=false"
 
 # set node to ignore certificate error
