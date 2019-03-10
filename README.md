@@ -1,3 +1,5 @@
+<p align="left"><img src="logo/logo.png" alt="xyPlatform" height="120px"></p>
+
 ### xyPlatform: develop and test locally, deploy and run in the cloud
 
 #### Disclaimer
