@@ -27,8 +27,7 @@ We may add additional systems in the future as needed. Contributions are very we
 
 ##### Local hosting system:
 
-* Windows 10 or Mac OS 10 with reasonable RAM (16G+) and HD space (500G+)
-    - Have not tested on Linux desktop host, feedbacks are welcome
+* Windows 10, Mac OS 10 or Ubuntu 18.04 with reasonable RAM (16G+) and HD space (500G+)
 * VirtualBox 6.0.0 and up
 * Vagrant 2.2.2 and up
 * Vagrant Plugins
