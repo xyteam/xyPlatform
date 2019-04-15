@@ -1,9 +1,15 @@
-# sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 .
+# sudo docker build \
+#      --build-arg USER_ID=$(id -u) \
+#      --build-arg GROUP_ID=$(id -g) \
+#      --tag xyplatform:lubuntu1804 \
+#      --file Dockerfile1804 \
+#      ${PWD}
 
 FROM ubuntu:18.04
 MAINTAINER Xinyu Wang <xywang68@gmail.com>
 USER root
-
+ARG USER_ID
+ARG GROUP_ID
 ENV JAVA_VERSION 8
 ENV DEBIAN_FRONTEND noninteractive
 # ENV http_proxy http://corporate.proxy:80
@@ -99,37 +105,13 @@ RUN ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
 RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
 
-# create u900:g900 for l1804Base vagrant
-RUN groupadd g900 -g 900
-RUN useradd -u 900 -g g900 \
-	-m -d /home/u900 -s /bin/bash \
+# create u${USER_ID}:g${GROUP_ID} for l1804Base vagrant
+RUN groupadd g${GROUP_ID} -g ${GROUP_ID}
+RUN useradd -u ${USER_ID} -g g${GROUP_ID} \
+	-m -d /home/u${USER_ID} -s /bin/bash \
 	-G sudo \
 	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
-	u900
-
-# create u1000:g1000 for l1604Base vagrant
-RUN groupadd g1000 -g 1000
-RUN useradd -u 1000 -g g1000 \
-	-m -d /home/u1000 -s /bin/bash \
-	-G sudo \
-	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
-	u1000
-
-# create u500:g500 for aws ec2-user
-RUN groupadd g500 -g 500
-RUN useradd -u 500 -g g500 \
-	-m -d /home/u500 -s /bin/bash \
-	-G sudo \
-	-p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
-	u500
-
-# # create u306267:g306267 for aws build
-# RUN groupadd g306267 -g 306267
-# RUN useradd -u 306267 -g g306267 \
-#   -m -d /home/u306267 -s /bin/bash \
-#   -G sudo \
-#   -p '$6$sn/6mAt0$NbuFud/aFMN4YdpY2xRMyA5JrH.V212IAGxyRgKji3f2UGSkaXbMujkbG0csPnYoi5ktkgnHaTsHJ20TldwTZ/' \
-#   u306267
+	u${USER_ID}
 
 # #####################################################################
 # This Dockerfile ends here. Below is additional information.
@@ -142,8 +124,6 @@ RUN useradd -u 500 -g g500 \
 # cd ~/Run/AutoBDD
 # npm install
 # . .autoPathrc.sh
-# selenium-standalone install --config=./framework/configs/selenium-standalone_config.js
-# selenium-standalone start --config=./framework/configs/selenium-standalone_config.js > /dev/null 2>&1 & 
 
 # # Spin up docker container and bash inside the docker container:
 # sudo docker run -it --rm=true --user=u$(id -u) --privileged \

@@ -90,7 +90,7 @@ We provided two Docker configuration files for our supported Ubuntu versions wit
 ##### Build Ubuntu 18.04 Docker
 ```
 $ cd ~/Projects/xyPlatform/lubuntu
-$ sudo docker build --tag xyplatform:lubuntu1804 --file Dockerfile1804 . # the '.' here means the current dir
+$ sudo docker build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --tag xyplatform:lubuntu1804 --file Dockerfile1804 ${PWD}
 ```
 
 ##### Build Ubuntu 16.04 Docker
