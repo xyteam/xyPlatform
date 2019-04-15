@@ -1,3 +1,5 @@
+<p align="left"><img src="logo/logo.png" alt="xyPlatform" height="120px"></p>
+
 ### xyPlatform: develop and test locally, deploy and run in the cloud
 
 #### Disclaimer
@@ -25,8 +27,7 @@ We may add additional systems in the future as needed. Contributions are very we
 
 ##### Local hosting system:
 
-* Windows 10 or Mac OS 10 with reasonable RAM (16G+) and HD space (500G+)
-    - Have not tested on Linux desktop host, feedbacks are welcome
+* Windows 10, Mac OS 10 or Ubuntu 18.04 with reasonable RAM (16G+) and HD space (500G+)
 * VirtualBox 6.0.0 and up
 * Vagrant 2.2.2 and up
 * Vagrant Plugins
@@ -65,7 +66,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 - Oracle Guest Additions is required and will be installed automatically. Please be mindful that in some rare case it needs to be re-installed manually
 
 ##### Vagrant Setup
-- Install [Vagrant](https://www.vagrantup.com/)
+- Install [Vagrant](https://releases.hashicorp.com/vagrant/) (**version <= 2.2.3** Only)
 - Install vagrant plugins with following commands:
     - ```$ vagrant plugin install vagrant-vbguest```
     - ```$ vagrant plugin install vagrant-ca-certificates```
@@ -137,6 +138,8 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 | VBoxManage.exe: error: VT-x is disabled in the BIOS for all CPU modes (VERR_VMX_MSR_ALL_VMX_DISABLED) | *) Enable Virtualization Technology (VTx) and Virtualization Technology for Directed I/O (VTd) from your BIOS setting <br> *) open *Turn Windows features on or off* and disable **Hyper-V** features. &<br> *) run `systeminfo` to verify virtualization is enabled |
 | UI not visible, Docker/maven/java/chrome/... not available | *) Ensure there is no network loss and laptop doesn't goes to sleep during `vagrant up` <br> *) run `vagrant reload` right after the `vagrant up` completed before doing other thing such as restart laptop etc.. |
 | The version of powershell currently installed on this host is less than the required minimum version. | *) Download and install Windows6.1-KB2506143-x64.msu from [Here](https://www.microsoft.com/en-us/download/details.aspx?id=34595) <br> *) Open windows Powershell and run `$PSVersionTable.PSVersion` to verify the Major version is now >=3 |
+| C:/HashiCorp/Vagrant/embedded/mingw64/lib/ruby/2.4.0/resolv.rb:784:in \`[]=': incompatible character encodings: UTF-8 and ASCII-8BIT (Encoding::CompatibilityError) | *) Open the resolv.rb file located at the mentioned location in the error <br> *) Edit line 784, replace `request[0,2] = [id].pack('n')` to `request[0,2] = [id].pack('U')` |
+| Segmentation fault when running vagrant from cygwin | *) Uninstall vagrant and delete `.vagrant.d` directory <br> *) Delete all your cygwin directory <br> *) Reinstall cygwin and vagrant |
 
 
 #### Additional README files
