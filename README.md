@@ -111,7 +111,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 - (Optional) To build the platform from pre-built vagrant box
 
     After you have built the VM and configured it for your application, you can repackage the VM into a box and save it for future use.
-    - ```$ vagrant package --base NAME l1804Base --output l1804Desktop.box```
+    - ```$ vagrant package --base l1804Base --output l1804Desktop.box```
     - ```$ cd ~/Projects/xyPlatform/lubuntu```
         - Ensure your Vagrant-Box is located in this directory
         - Edit config.yaml for desired CPU/Memory and synced folder line format
