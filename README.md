@@ -108,7 +108,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - Install all recommended plugins and setup jenkins credential with **xyAdmin** and **xyPassword**
 - Once completed, go to [Setup Verification](#setup-verification) section
 ##### Build from Vagrant box #####
-- To build the platform from pre-built vagrant box, run following commands:
+- (Optional) To build the platform from pre-built vagrant box, run following commands:
     After you have built the VM and configured it for your application, you can repackage the VM into a box and save it for future use.
     to repackage the VM:
     - ```$ vagrant package --base NAME l1804Base --output l1804Desktop.box```
