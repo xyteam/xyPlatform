@@ -28,8 +28,8 @@ We may add additional systems in the future as needed. Contributions are very we
 ##### Local hosting system:
 
 * Windows 10, Mac OS 10 or Ubuntu 18.04 with reasonable RAM (16G+) and HD space (500G+)
-* VirtualBox 6.0.0 and up
-* Vagrant 2.2.2 and up
+* VirtualBox 6.0.0
+* Vagrant 2.2.3
 * Vagrant Plugins
     * vagrant-vbguest
     * vagrant-ca-certificates
@@ -59,7 +59,7 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
     - ```$ ln -s /cygdrive/c/Users/ /home``` &rightarrow; to create symbolic link to your home dir
 
 ##### VirtualBox Setup
-- Install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+- Install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads) (**version <= 6.0.0** Only)
 - Install [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
 - Launch Oracle VirtualBox &rightarrow; File &rightarrow; Preferences &rightarrow; Extensions
 	- Verify that *Oracle VM VirtualBox Extension Pack* is listed
