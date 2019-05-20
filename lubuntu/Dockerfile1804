@@ -55,6 +55,7 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     lsof \
     lubuntu-core \
     maven \
+    net-tools \
     ntpdate \
     openjdk-8-jdk \
     openjdk-8-jre \
@@ -67,18 +68,23 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     rdesktop \
     rsync \
     sqlite3 \
-    sshfs \
+    openssh-server \  
     tdsodbc \
     tesseract-ocr \
     tree \
     unixodbc \
     unixodbc-dev \
     wmctrl \
+    x11vnc \
     xclip \
     xdg-utils \
     xdotool \
     xvfb \
     zlib1g-dev
+
+# sshd and vnc
+EXPOSE 222
+EXPOSE 5900
 
 # install tinydb used for autorunner framework
 RUN pip install tinydb
