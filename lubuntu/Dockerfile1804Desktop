@@ -1,7 +1,5 @@
 # docker build \
-#   --build-arg USER_ID=$(id -u) \
-#   --build-arg GROUP_ID=$(id -g) \
-#   --tag xyplatform:lubuntu1804 \
+#   --tag xyplatform:autobdd \
 #   --file Dockerfile1804Desktop \
 #   ${PWD}
 #
@@ -128,3 +126,6 @@ RUN mkdir -p /root/Projects && cd /root/Projects && \
     wget https://github.com/xwvArmour/AutoBDD/archive/master.zip && \
     unzip master.zip && rm master.zip && \
     mv AutoBDD-master AutoBDD && cd AutoBDD && npm install
+
+EXPOSE 5900
+EXPOSE 22
