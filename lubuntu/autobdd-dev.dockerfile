@@ -23,9 +23,9 @@ ENV DEBIAN_FRONTEND noninteractive
 ARG AutoBDD_Ver
 
 # full upgrade
-RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
+RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
+    apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
+    apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
 
 # apt install essential tools for apt install/upgrade
 RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
@@ -118,10 +118,10 @@ RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--for
 RUN mkdir -p /var/run/sshd && echo "\n\n[program:sshd]\npriority=10\ncommand=/usr/sbin/sshd -d\nstopsignal=KILL\n\n" >> /etc/supervisor/conf.d/supervisord.conf
 
 # run finishing set up
-RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-RUN ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
-RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
-RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; \
+    ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so; \
+    /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf; \
+    mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
 # download AutoBDD
 RUN mkdir -p /${USER}/Projects && cd /${USER}/Projects && \
@@ -135,8 +135,8 @@ RUN echo "alias spr='rsync --human-readable --progress --update --archive --excl
     chmod +x /${USER}/.bashrc
 
 # upon launch set .bashrc for the running user and let running user take over the Projects folder
-RUN sed -i "/^exec \/bin\/tini .*/i cat /${USER}/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh
-RUN sed -i "/^exec \/bin\/tini .*/i cd /${USER} && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects\n" /startup.sh
+RUN sed -i "/^exec \/bin\/tini .*/i cat /${USER}/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh && \
+    sed -i "/^exec \/bin\/tini .*/i cd /${USER} && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects\n" /startup.shsed -i "/^exec \/bin\/tini .*/i sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\n\"" /startup.sh
 
 EXPOSE 5900
 EXPOSE 22

@@ -5,13 +5,13 @@
 #   ${PWD}
 #
 # docker run -d --rm=true --privileged \
-#   -e USER=${USER} \
-#   -e RESOLUTION=1920x1200 \
-#   -v ~/.ssh:/home/${USER}/.ssh:rw \
 #   -v ~/.m2:/home/${USER}/.m2:rw \
-#   -v ~/Projects/my_bdd_project:/home/${USER}/Projects/AutoBDD/test-projects/my_bdd_project \
+#   -v ~/Projects/${BDD_PROJECT}:/home/${USER}/Projects/AutoBDD/test-projects/${BDD_PROJECT} \
+#   -e ENV1=env1 \
+#   -e ENV2=env2 \
 #   --shm-size 1024M \
-#   autobdd-run:1.0.0
+#   autobdd-run:1.0.0 \
+#   "--project ${BDD_PROJECT} --movie=0"
 
 FROM ubuntu:18.04
 USER root
@@ -108,18 +108,35 @@ RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--for
     apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
 # run finishing set up
-RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-RUN ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
-RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
-RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; \
+    ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so; \
+    /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf; \
+    mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
 # download AutoBDD
 RUN mkdir -p /${USER}/Projects && cd /${USER}/Projects && \
     curl -Lo- https://github.com/xyteam/AutoBDD/archive/${AutoBDD_Ver}.tar.gz | gzip -cd | tar xf - && \
     mv AutoBDD-${AutoBDD_Ver} AutoBDD
 
-# create convenient alias for AutoBDD
-RUN echo "alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ --exclude xyPlatform/ \${HOME}/Projects/ \${HOME}/Run'" > /${USER}/.bashrc && \
-    echo "alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ --exclude logs/ \${HOME}/Run/ \${HOME}/Projects'" >> /${USER}/.bashrc && \
-    echo "alias xvfb-auto='xvfb-run --auto-servernum --server-args=\"-screen 0 1920x1200x16\"'" >> /${USER}/.bashrc && \
-    chmod +x /${USER}/.bashrc
+# upon launch set .bashrc for the running user and let running user take over the Projects folder
+RUN echo "#!/bin/bash\n" > startup.sh && \
+    echo "USER=\${USER:-root}" >> /startup.sh && \
+    echo "HOME=/root" >> /startup.sh && \
+    echo "if [ \"\$USER\" != \"root\" ]; then" >> /startup.sh && \
+    echo "  echo \"* enable custom user: \$USER\"" >> /startup.sh && \
+    echo "  useradd --create-home --shell /bin/bash --user-group --groups adm,sudo \$USER" >> /startup.sh && \
+    echo "  if [ -z \"\$PASSWORD\" ]; then" >> /startup.sh && \
+    echo "    echo \"  set default password to \\\"ubuntu\\\"\"" >> /startup.sh && \
+    echo "    PASSWORD=ubuntu" >> /startup.sh && \
+    echo "  fi" >> /startup.sh && \
+    echo "  HOME=/home/\$USER" >> /startup.sh && \
+    echo "  echo \"\$USER:\$PASSWORD\" | chpasswd" >> /startup.sh && \
+    echo "fi" >> /startup.sh && \
+    echo "cat /${USER}/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile" >> /startup.sh && \
+    echo "cd /${USER} && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects" >> /startup.sh && \
+    echo "sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\"" >> /startup.sh && \
+    echo "sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && source .autoPathrc.sh && ./framework/scripts/autorunner.py \$@\"" >> startup.sh
+RUN chmod +x /startup.sh
+
+ENTRYPOINT ["/bin/bash", "/startup.sh"]
+CMD ["--help"]
