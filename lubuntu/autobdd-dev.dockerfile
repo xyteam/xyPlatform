@@ -1,34 +1,41 @@
 # docker build \
-#   --tag xyplatform:autobdd \
-#   --file Dockerfile1804Desktop \
+#   --tag autobdd-dev:1.0.0 \
+#   --build-arg AutoBDD_Ver=1.0.0 \
+#   --file autobdd-dev.dockerfile \
 #   ${PWD}
 #
 # docker run -d --rm=true --privileged \
+#   -p 6080:80 \
 #   -p 5910:5900 \
-#   -p 222:22 \
+#   -p 2222:22 \
+#   -e USER=${USER} \
 #   -e RESOLUTION=1920x1200 \
-#   -v ~/.ssh:/root/.ssh \
-#   -v ~/.m2:/root/.m2:rw \
+#   -v ~/.ssh:/home/${USER}/.ssh:rw \
+#   -v ~/.m2:/home/${USER}/.m2:rw \
+#   -v ~/Projects/my_bdd_project:/home/${USER}/Projects/AutoBDD/test-projects/my_bdd_project \
 #   --shm-size 1024M \
-#   xyplatform:autobdd
+#   autobdd-dev:1.0.0
 
 FROM dorowu/ubuntu-desktop-lxde-vnc:latest
 USER root
-ENV HOME /root
-ENV JAVA_VERSION 8
+ENV USER root
 ENV DEBIAN_FRONTEND noninteractive
+ARG AutoBDD_Ver
+
+# full upgrade
+RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
+    apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
+    apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
 
 # apt install essential tools for apt install/upgrade
-RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
 RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-		apt-utils \
-        wget
+    apt-utils \
+    wget
+
 # Set the timezone.
 RUN sudo dpkg-reconfigure -f noninteractive tzdata
 
-# # install standard linux tools needed for automation framework
+# install standard linux tools needed for automation framework
 RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" \
  -o Dpkg::Options::="--force-confold" \
     autofs \
@@ -41,6 +48,7 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     gpg-agent \
     imagemagick \
     java-common \
+    less \
     libappindicator3-1 \
     libatk-bridge2.0-0 \
     libgtk-3-0 \
@@ -106,26 +114,31 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
 RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
     apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
-# Allow root ssh by key
-RUN sed -i "s/^#PermitRootLogin/PermitRootLogin/" /etc/ssh/sshd_config
+# configure to start sshd
+RUN mkdir -p /var/run/sshd && echo "\n\n[program:sshd]\npriority=10\ncommand=/usr/sbin/sshd -d\nstopsignal=KILL\n\n" >> /etc/supervisor/conf.d/supervisord.conf
 
 # run finishing set up
-RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
-RUN ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so
-RUN /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf
-RUN mkdir -p /tmp/.X11-unix && chmod 1777  /tmp/.X11-unix
-
-# create convenient alias for AutoBDD
-RUN echo "alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ --exclude xyPlatform/ ${HOME}/Projects/ ${HOME}/Run'" > /root/.bashrc && \
-    echo "alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ --exclude logs/ $HOME/Run/ ${HOME}/Projects'" >> /root/.bashrc && \
-    echo "alias xvfb-auto='xvfb-run --auto-servernum --server-args=\"-screen 0 1920x1200x16\"'" >> /root/.bashrc && \
-    chmod +x /root/.bashrc
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; \
+    ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so; \
+    /usr/sbin/locale-gen "en_US.UTF-8"; echo LANG="en_US.UTF-8" > /etc/locale.conf; \
+    mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
 # download AutoBDD
-RUN mkdir -p /root/Projects && cd /root/Projects && \
-    wget https://github.com/xwvArmour/AutoBDD/archive/master.zip && \
-    unzip master.zip && rm master.zip && \
-    mv AutoBDD-master AutoBDD && cd AutoBDD && npm install
+RUN mkdir -p /${USER}/Projects && cd /${USER}/Projects && \
+    curl -Lo- https://github.com/xyteam/AutoBDD/archive/${AutoBDD_Ver}.tar.gz | gzip -cd | tar xf - && \
+    mv AutoBDD-${AutoBDD_Ver} AutoBDD
+
+# create convenient alias for AutoBDD
+RUN echo "alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ --exclude xyPlatform/ \${HOME}/Projects/ \${HOME}/Run'" > /${USER}/.bashrc && \
+    echo "alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ --exclude logs/ \${HOME}/Run/ \${HOME}/Projects'" >> /${USER}/.bashrc && \
+    echo "alias xvfb-auto='xvfb-run --auto-servernum --server-args=\"-screen 0 1920x1200x16\"'" >> /${USER}/.bashrc && \
+    chmod +x /${USER}/.bashrc
+
+# upon launch set .bashrc for the running user and let running user take over the Projects folder
+RUN sed -i "/^exec \/bin\/tini .*/i cat /${USER}/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh && \
+    sed -i "/^exec \/bin\/tini .*/i cd /${USER} && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects\n" /startup.sh && \
+    sed -i "/^exec \/bin\/tini .*/i sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\n\"" /startup.sh
 
 EXPOSE 5900
 EXPOSE 22
+EXPOSE 80
