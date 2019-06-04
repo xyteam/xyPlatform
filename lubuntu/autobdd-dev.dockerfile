@@ -137,7 +137,7 @@ RUN echo "alias spr='rsync --human-readable --progress --update --archive --excl
 # upon launch set .bashrc for the running user and let running user take over the Projects folder
 RUN sed -i "/^exec \/bin\/tini .*/i cat /root/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh && \
     sed -i "/^exec \/bin\/tini .*/i cd /root && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects\n" /startup.sh && \
-    sed -i "/^exec \/bin\/tini .*/i sudo su \$USER -E -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\"" /startup.sh
+    sed -i "/^exec \/bin\/tini .*/i sudo -E su \$USER -m -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\"" /startup.sh
 
 EXPOSE 5900
 EXPOSE 22
