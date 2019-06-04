@@ -7,9 +7,9 @@
 # docker run -d --rm=true --privileged \
 #   -v ~/.m2:/home/${USER}/.m2:rw \
 #   -v ~/Projects/${BDD_PROJECT}:/home/${USER}/Projects/AutoBDD/test-projects/${BDD_PROJECT} \
-#   -e ENV1=env1 \
-#   -e ENV2=env2 \
+#   -e USER=${USER} \
 #   --shm-size 1024M \
+#   --name autobdd-run \
 #   autobdd-run:1.0.0 \
 #   "--project ${BDD_PROJECT} --movie=0"
 
@@ -132,10 +132,10 @@ RUN echo "#!/bin/bash\n" > startup.sh && \
     echo "  HOME=/home/\$USER" >> /startup.sh && \
     echo "  echo \"\$USER:\$PASSWORD\" | chpasswd" >> /startup.sh && \
     echo "fi" >> /startup.sh && \
-    echo "cat /${USER}/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile" >> /startup.sh && \
-    echo "cd /${USER} && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects" >> /startup.sh && \
-    echo "sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\"" >> /startup.sh && \
-    echo "sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && source .autoPathrc.sh && ./framework/scripts/autorunner.py \$@\"" >> startup.sh
+    echo "cat /root/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile" >> /startup.sh && \
+    echo "cd /root && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME" >> /startup.sh && \
+    echo "sudo -E su \$USER -m -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\"" >> /startup.sh && \
+    echo "sudo -E su \$USER -m -c \"cd \$HOME/Projects/AutoBDD && source .autoPathrc.sh && ./framework/scripts/autorunner.py \$@\"" >> startup.sh
 RUN chmod +x /startup.sh
 
 ENTRYPOINT ["/bin/bash", "/startup.sh"]

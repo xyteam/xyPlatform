@@ -6,13 +6,15 @@
 #
 # docker run -d --rm=true --privileged \
 #   -p 6080:80 \
-#   -p 5910:5900 \
+#   -p 5901:5900 \
 #   -p 2222:22 \
 #   -e USER=${USER} \
 #   -e RESOLUTION=1920x1200 \
+#   -e ENVVAR1=env_var_1
+#   -e ENVVAR2=env_var_2
 #   -v ~/.ssh:/home/${USER}/.ssh:rw \
 #   -v ~/.m2:/home/${USER}/.m2:rw \
-#   -v ~/Projects/my_bdd_project:/home/${USER}/Projects/AutoBDD/test-projects/my_bdd_project \
+#   -v ~/Projects/${BDD_PROJECT}:/home/${USER}/Projects/AutoBDD/test-projects/${BDD_PROJECT} \
 #   --shm-size 1024M \
 #   autobdd-dev:1.0.0
 
@@ -135,9 +137,9 @@ RUN echo "alias spr='rsync --human-readable --progress --update --archive --excl
     chmod +x /${USER}/.bashrc
 
 # upon launch set .bashrc for the running user and let running user take over the Projects folder
-RUN sed -i "/^exec \/bin\/tini .*/i cat /${USER}/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh && \
-    sed -i "/^exec \/bin\/tini .*/i cd /${USER} && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects\n" /startup.sh && \
-    sed -i "/^exec \/bin\/tini .*/i sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\n\"" /startup.sh
+RUN sed -i "/^exec \/bin\/tini .*/i cat /root/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh && \
+    sed -i "/^exec \/bin\/tini .*/i cd /root && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects\n" /startup.sh && \
+    sed -i "/^exec \/bin\/tini .*/i sudo su \$USER -E -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\"" /startup.sh
 
 EXPOSE 5900
 EXPOSE 22
