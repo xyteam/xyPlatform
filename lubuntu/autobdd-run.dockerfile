@@ -8,6 +8,8 @@
 #   -v ~/.m2:/home/${USER}/.m2:rw \
 #   -v ~/Projects/${BDD_PROJECT}:/home/${USER}/Projects/AutoBDD/test-projects/${BDD_PROJECT} \
 #   -e USER=${USER} \
+#   -e ENVVAR1=env_var_1 \
+#   -e ENVVAR2=env_var_2 \
 #   --shm-size 1024M \
 #   --name autobdd-run \
 #   autobdd-run:1.0.0 \
