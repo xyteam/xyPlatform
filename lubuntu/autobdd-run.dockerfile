@@ -58,7 +58,6 @@ RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--forc
     net-tools \
     ntpdate \
     openjdk-8-jdk \
-    openjdk-8-jre \
     python2.7-dev \
     python2.7-minimal \
     python3-dev \
@@ -67,7 +66,6 @@ RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--forc
     python-pip \
     rdesktop \
     rsync \
-    sqlite3 \
     tdsodbc \
     tesseract-ocr \
     tree \
