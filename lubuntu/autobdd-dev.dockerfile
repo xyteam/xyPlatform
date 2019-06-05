@@ -83,10 +83,9 @@ RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--forc
     zlib1g-dev; \
 # final autoremove
     apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
-    apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-
-# install additional tools (chrome and java) needed for automation framework
-RUN update-ca-certificates
+    apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"; \
+# update ca certs
+    update-ca-certificates
 
 # instal google-chrome
 RUN rm -f /etc/apt/sources.list.d/google-chrome.list && \
@@ -113,17 +112,18 @@ RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/jav
 RUN pip install tinydb; \
     mkdir -p /${USER}/Projects && cd /${USER}/Projects && \
     curl -Lo- https://github.com/xyteam/AutoBDD/archive/${AutoBDD_Ver}.tar.gz | gzip -cd | tar xf - && \
-    mv AutoBDD-${AutoBDD_Ver} AutoBDD;
-RUN /bin/bash -c "cd /${USER}/Projects/AutoBDD && npm install && . .autoPathrc.sh && xvfb-run -a npm run test-init"
+    mv AutoBDD-${AutoBDD_Ver} AutoBDD; \
+    /bin/bash -c "cd /${USER}/Projects/AutoBDD && npm install && . .autoPathrc.sh && xvfb-run -a npm run test-init"
 
 # create convenient alias for AutoBDD
 RUN echo "alias spr='rsync --human-readable --progress --update --archive --exclude .git/ --exclude node_modules/ --exclude xyPlatform/ \${HOME}/Projects/ \${HOME}/Run'" > /${USER}/.bashrc && \
     echo "alias srp='rsync --human-readable --progress --update --archive --exclude node_modules/ --exclude target/ --exclude logs/ \${HOME}/Run/ \${HOME}/Projects'" >> /${USER}/.bashrc && \
     echo "alias xvfb-auto='xvfb-run --auto-servernum --server-args=\"-screen 0 1920x1200x16\"'" >> /${USER}/.bashrc && \
     chmod +x /${USER}/.bashrc
-
+# configure to start sshd
 # upon launch set .bashrc for the running user and let running user take over the Projects folder
-RUN sed -i "/^exec \/bin\/tini .*/i cat /root/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh && \
+RUN mkdir -p /var/run/sshd && echo "\n\n[program:sshd]\npriority=10\ncommand=/usr/sbin/sshd -d\nstopsignal=KILL\n\n" >> /etc/supervisor/conf.d/supervisord.conf; \
+    sed -i "/^exec \/bin\/tini .*/i cat /root/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile\n" /startup.sh && \
     sed -i "/^exec \/bin\/tini .*/i cd /root && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects\n" /startup.sh
 
 EXPOSE 5900

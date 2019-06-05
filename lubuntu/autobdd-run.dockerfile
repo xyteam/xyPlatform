@@ -80,10 +80,9 @@ RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--forc
     zlib1g-dev; \
 # final autoremove
     apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
-    apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-
-# install additional tools (chrome and java) needed for automation framework
-RUN update-ca-certificates
+    apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"; \
+# update ca certs
+    update-ca-certificates
 
 # instal google-chrome
 RUN rm -f /etc/apt/sources.list.d/google-chrome.list && \
@@ -110,8 +109,8 @@ RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/jav
 RUN pip install tinydb; \
     mkdir -p /${USER}/Projects && cd /${USER}/Projects && \
     curl -Lo- https://github.com/xyteam/AutoBDD/archive/${AutoBDD_Ver}.tar.gz | gzip -cd | tar xf - && \
-    mv AutoBDD-${AutoBDD_Ver} AutoBDD;
-RUN /bin/bash -c "cd /${USER}/Projects/AutoBDD && npm install && . .autoPathrc.sh && xvfb-run -a npm run test-init"
+    mv AutoBDD-${AutoBDD_Ver} AutoBDD; \
+    /bin/bash -c "cd /${USER}/Projects/AutoBDD && npm install && . .autoPathrc.sh && xvfb-run -a npm run test-init"
 
 # upon launch set .bashrc for the running user and let running user take over the Projects folder
 RUN echo "#!/bin/bash\n" > startup.sh && \
