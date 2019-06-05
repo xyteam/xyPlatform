@@ -7,9 +7,11 @@
 # docker run -d --rm=true --privileged \
 #   -v ~/.m2:/home/${USER}/.m2:rw \
 #   -v ~/Projects/${BDD_PROJECT}:/home/${USER}/Projects/AutoBDD/test-projects/${BDD_PROJECT} \
-#   -e ENV1=env1 \
-#   -e ENV2=env2 \
+#   -e USER=${USER} \
+#   -e ENVVAR1=env_var_1 \
+#   -e ENVVAR2=env_var_2 \
 #   --shm-size 1024M \
+#   --name autobdd-run \
 #   autobdd-run:1.0.0 \
 #   "--project ${BDD_PROJECT} --movie=0"
 
@@ -20,17 +22,15 @@ ENV DEBIAN_FRONTEND noninteractive
 ARG AutoBDD_Ver
 
 # apt install essential tools for apt install/upgrade
-RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
-RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-		apt-utils curl wget software-properties-common sudo tzdata
+RUN apt clean -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"; \
+    apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"; \
+    apt full-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"; \ 
+    apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+		apt-utils curl wget software-properties-common sudo tzdata; \
 # Set the timezone.
-RUN sudo dpkg-reconfigure -f noninteractive tzdata
-
+    sudo dpkg-reconfigure -f noninteractive tzdata; \
 # install standard linux tools needed for automation framework
-RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" \
- -o Dpkg::Options::="--force-confold" \
+    apt install -q -y --allow-unauthenticated --fix-missing --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
     autofs \
     binutils \
     build-essential \
@@ -58,7 +58,6 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     net-tools \
     ntpdate \
     openjdk-8-jdk \
-    openjdk-8-jre \
     python2.7-dev \
     python2.7-minimal \
     python3-dev \
@@ -67,8 +66,6 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     python-pip \
     rdesktop \
     rsync \
-    sqlite3 \
-    openssh-server \  
     tdsodbc \
     tesseract-ocr \
     tree \
@@ -76,18 +73,16 @@ RUN apt install -q -y --allow-unauthenticated --fix-missing --no-install-recomme
     unixodbc-dev \
     unzip \
     wmctrl \
-    x11vnc \
     xclip \
     xdg-utils \
     xdotool \
     xvfb \
-    zlib1g-dev
-
-# install tinydb used for autorunner framework
-RUN pip install tinydb
-
-# install additional tools (chrome and java) needed for automation framework
-RUN update-ca-certificates
+    zlib1g-dev; \
+# final autoremove
+    apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
+    apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"; \
+# update ca certs
+    update-ca-certificates
 
 # instal google-chrome
 RUN rm -f /etc/apt/sources.list.d/google-chrome.list && \
@@ -103,10 +98,6 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
     apt install -q -y --allow-unauthenticated --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
     nodejs
 
-# final autoremove
-RUN apt update -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
-    apt --purge autoremove -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-
 # run finishing set up
 RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; \
     ln -s /usr/lib/jni/libopencv_java*.so /usr/lib/libopencv_java.so; \
@@ -114,9 +105,12 @@ RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/jav
     mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
 
 # download AutoBDD
-RUN mkdir -p /${USER}/Projects && cd /${USER}/Projects && \
+# install tinydb used for autorunner framework
+RUN pip install tinydb; \
+    mkdir -p /${USER}/Projects && cd /${USER}/Projects && \
     curl -Lo- https://github.com/xyteam/AutoBDD/archive/${AutoBDD_Ver}.tar.gz | gzip -cd | tar xf - && \
-    mv AutoBDD-${AutoBDD_Ver} AutoBDD
+    mv AutoBDD-${AutoBDD_Ver} AutoBDD; \
+    /bin/bash -c "cd /${USER}/Projects/AutoBDD && npm install && . .autoPathrc.sh && xvfb-run -a npm run test-init"
 
 # upon launch set .bashrc for the running user and let running user take over the Projects folder
 RUN echo "#!/bin/bash\n" > startup.sh && \
@@ -132,10 +126,9 @@ RUN echo "#!/bin/bash\n" > startup.sh && \
     echo "  HOME=/home/\$USER" >> /startup.sh && \
     echo "  echo \"\$USER:\$PASSWORD\" | chpasswd" >> /startup.sh && \
     echo "fi" >> /startup.sh && \
-    echo "cat /${USER}/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile" >> /startup.sh && \
-    echo "cd /${USER} && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME/Projects" >> /startup.sh && \
-    echo "sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && npm install && source .autoPathrc.sh && xvfb-run -a npm run test-init\"" >> /startup.sh && \
-    echo "sudo su \$USER -c \"cd \$HOME/Projects/AutoBDD && source .autoPathrc.sh && ./framework/scripts/autorunner.py \$@\"" >> startup.sh
+    echo "cat /root/.bashrc >> \$HOME/.bash_profile && chown \$USER:\$USER \$HOME/.bash_profile" >> /startup.sh && \
+    echo "cd /root && tar cf - ./Projects | (cd \$HOME && tar xf -) && chown -R \$USER:\$USER \$HOME" >> /startup.sh && \
+    echo "sudo -E su \$USER -m -c \"cd \$HOME/Projects/AutoBDD && . .autoPathrc.sh && ./framework/scripts/autorunner.py \$@\"" >> startup.sh
 RUN chmod +x /startup.sh
 
 ENTRYPOINT ["/bin/bash", "/startup.sh"]
