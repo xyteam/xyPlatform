@@ -16,7 +16,6 @@ This project contains Vagrant and Docker configuration files for a few general p
 The main purpose of this project is to provide easy-to-use VMs for E2E QA Automation.
 
 #### Current included systems:
-* Ubuntu 16.04 LTS, vagrant and docker
 * Ubuntu 18.04 LTS, vagrant and docker
 * Windows 10, vagrant only
 * Windows 7, vagrant only
@@ -46,32 +45,26 @@ The project path of $HOME/Projects and ~/Projects are used through out, and is s
 
 #### Step by Step configuration
 
-##### Cygwin Setup (for Windows host only, Mac and Linux skip this step)
-- Install [Cygwin](https://www.cygwin.com/)
-- On the cygwin setup window:
-    - Change the view to **Category**
-    - Ensure all the packages under **Base** category are selected
-    - Search for **openssh** and select openssh package under **Net** Category
-    - Next and Install
-- In your *Cygwin terminal* 
-    - ```$ cd /``` 
-    - ```$ rm -rf /home``` &rightarrow; to remove cygwin-generated home dir at */cygwin64/home/*
-    - ```$ ln -s /cygdrive/c/Users/ /home``` &rightarrow; to create symbolic link to your home dir
+##### Ubuntu 18.04 Host Setup
+- Install VirtualBox
+    - ```$ sudo sh -c 'echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list.d/virtualbox.list'```
+    - ```$ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -```
+    - ```$ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -```
+    - ```$ sudo apt update && sudo apt-get install virtualbox-6.1```
+- Install VirtualBox Extension Package
+    - ```$ VirtualBoxVersion=$(virtualbox --help | head -1 | sed 's/.*v//')```
+    - ```$ wget "https://download.virtualbox.org/virtualbox/${VirtualBoxVersion}/Oracle_VM_VirtualBox_Extension_Pack-${VirtualBoxVersion}.vbox-extpack"```
+    - ```$ sudo VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-${VirtualBoxVersion}.vbox-extpack```
+- Install Vagrant
+    - ```$ VagrantVersion=2.2.7```
+    - ```$ wget https://releases.hashicorp.com/vagrant/2.2.7/vagrant_${VagrantVersion}_x86_64.deb && sudo apt install vagrant_${VagrantVersion}_x86_64.deb```
+- Install Vagrant Plugins
+    - ```$ sudo vagrant plugin install vagrant-vbguest```
+    - ```$ sudo vagrant plugin install vagrant-ca-certificates```
+    - ```$ sudo vagrant plugin install vagrant-timezone```
 
-##### VirtualBox Setup
-- Install [Oracle VirtualBox](https://www.virtualbox.org/wiki/Downloads) (**version <= 6.0.0** Only)
-- Install [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
-- Launch Oracle VirtualBox &rightarrow; File &rightarrow; Preferences &rightarrow; Extensions
-	- Verify that *Oracle VM VirtualBox Extension Pack* is listed
-- Oracle Guest Additions is required and will be installed automatically. Please be mindful that in some rare case it needs to be re-installed manually
-
-##### Vagrant Setup
-- Install [Vagrant](https://releases.hashicorp.com/vagrant/) (**version <= 2.2.3** Only)
-- Install vagrant plugins with following commands:
-    - ```$ vagrant plugin install vagrant-vbguest```
-    - ```$ vagrant plugin install vagrant-ca-certificates```
-    - ```$ vagrant plugin install vagrant-timezone```
-    - ```$ vagrant plugin list``` &rightarrow; To verify installed plugins
+##### Host of other types
+- Follow/Convert the general steps above in your own OS
 
 ##### Credentials and Directory setup
 - Verify ssh-keygen command permission, execute following command:
@@ -151,11 +144,11 @@ Additional information and steps are provided in individual README files.
 #### Ubuntu VM and Docker information
 Reference to the README files inside the lubuntu directory.
 
-* [Ubuntu 18.04/16.04 README.md](./lubuntu/README.md)
+* [Ubuntu 18.04 Client README.md](./lubuntu/README.md)
 
 #### Windows 10 and Windows 7
 Reference to the README files inside the windows10 and windows7 directories respectively.
 
-* [Windows 7 README.md](./windows7/README.md)
+* [Windows 7 Client README.md](./windows7/README.md)
 
-* [Windows 10 README.md](./windows10/README.md)
+* [Windows 10 Client README.md](./windows10/README.md)
