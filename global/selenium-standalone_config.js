@@ -1,23 +1,23 @@
 // we need to stick with 3.4.0 in order to maintain IE compatibility.
 // 3.5.0 to 3.14.0 is known to break in IE with "Error: Invalid timeout type specified: ms".
 module.exports = {
-  baseURL: 'http://selenium-release.storage.googleapis.com',
-  version: '3.141.5',
+  baseURL: 'https://selenium-release.storage.googleapis.com',
+  version: '3.141.59',
   drivers: {
     chrome: {
-      version: '2.45',
+      version: '81.0.4044.20',
       arch: process.arch,
-      baseURL: 'http://chromedriver.storage.googleapis.com'
+      baseURL: 'https://chromedriver.storage.googleapis.com'
     },
     ie: {
       version: '3.4.0',
       arch: process.arch,
-      baseURL: 'http://selenium-release.storage.googleapis.com'
+      baseURL: 'https://selenium-release.storage.googleapis.com'
     },
     firefox: {
-      version: '0.22.0',
+      version: '0.26.0',
       arch: process.arch,
-      baseURL: 'http://github.com/mozilla/geckodriver/releases/download'
+      baseURL: 'https://github.com/mozilla/geckodriver/releases/download'
     },
     edge: {
       version: '10240',

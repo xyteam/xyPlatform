@@ -14,7 +14,7 @@ configs = YAML.load_file('configs.yaml')
 # These variables by themself do not do anyting, they are used in actual vagrant configuration later
 # base boxes have port conflict amoung them, should be up by one at a time
 boxes = [
-  {:name=>"win10Base", :box_name=>'Microsoft/EdgeOnWindows10', :box_url=>'https://app.vagrantup.com/Microsoft/boxes/EdgeOnWindows10',
+  {:name=>"win10Base", :box_name=>'kganguly/MSEdge-Win10',
     :ssh_host_port=>20022, :winrm_https_port=>20986, :winrm_http_port=>20985},
   {:name=>"win10desktop01", :box_name=>'win10Base', :box_url=>'file://win10Base.box',
     :ssh_host_port=>21022, :winrm_https_port=>21986, :winrm_http_port=>21985},
@@ -112,7 +112,7 @@ Vagrant.configure("2") do |config|
       end
       if config.vm.communicator.to_s.include? "ssh"
         winbox.vm.provision "authorized_keys", type: :file,  source: '../global/platform_id_rsa.pub', destination: ".ssh/authorized_keys"
-        winbox.vm.provision "selnium_config", type: :file,  source: '../global/selenium-standalone_config.js', destination: "selenium-standalone_config.js"
+        winbox.vm.provision "selnium_config", type: :file,  source: '../global/selenium-standalone_config.js', destination: "Documents/selenium-standalone_config.js"
       end
       if config.vm.communicator.to_s.include? "winrm"
         # really base on box name
@@ -120,18 +120,19 @@ Vagrant.configure("2") do |config|
         # puts "vm name: " + box[:name].to_s
         if box[:name].to_s.include? "Base"
           # winbox.vm.provision "setIEProxyCACerts.bat", type: :shell, path: "./setIEProxyCACerts.bat", args: [configs['http_proxy_host_port']], privileged: true
+          winbox.vm.provision "setEnableTLS12", type: :shell, path: './setEnableTLS12.bat', privileged: true
+          # winbox.vm.provision "setKeysPermission", type: :shell, path: './setKeysPermission.bat', privileged: false
           winbox.vm.provision "installJre8", type: :shell, inline: "choco install jre8 -PackageParameters \"/exclude:32\" -y", privileged: true
           winbox.vm.provision "installNodejsLTS", type: :shell, inline: "choco install nodejs-lts -y", privileged: true
           winbox.vm.provision "installGoogleChrome", type: :shell, inline: "choco install googlechrome -y", privileged: true
           winbox.vm.provision "installSDelete", type: :shell, inline: "choco install SDelete -y", privileged: true
-          winbox.vm.provision "keys_permission", type: :shell, inline: "cmd /c cacls %HOMEPATH%/.ssh/authorized_keys /e /c /d %username%", privileged: false
           winbox.vm.provision "installSeleniumStandalone.bat", type: :shell, path: "./installSeleniumStandalone.bat", privileged: false
           winbox.vm.provision "installSeleniumDrivers.bat", type: :shell, path: "./installSeleniumDrivers.bat", privileged: false
           winbox.vm.provision "setAutoLogon.bat", type: :shell, path: "./setAutoLogon.bat", args: [configs['vagrant_user'],configs['vagrant_password']], privileged: true
           winbox.vm.provision "setEnableRDP.bat", type: :shell, path: "./setEnableRDP.bat", privileged: true
           winbox.vm.provision "setUnblockApps.bat", type: :shell, path: "./setUnblockApps.bat", privileged: true
         end
-        winbox.vm.provision "runSeleniumStandalone.bat", type: :shell, path: "./runSeleniumStandalone.bat", powershell_args: "--–PassThru", powershell_elevated_interactive: true, privileged: true, run: "always"
+        # winbox.vm.provision "runSeleniumStandalone.bat", type: :shell, path: "./runSeleniumStandalone.bat", powershell_args: "--–PassThru", powershell_elevated_interactive: true, privileged: true, run: "always"
       end
     end
   end

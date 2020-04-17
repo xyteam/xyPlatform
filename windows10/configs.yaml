@@ -2,6 +2,6 @@ cpus: 2
 memory: 1024
 http_proxy_host_port: corporate.proxy:80
 no_proxy: "localhost,127.0.0.1,10.0.2.2,::1"
-sync_folder_Projects: ..\\..\\..\\Projects
+sync_folder_Projects: ../../../Projects
 vagrant_user: IEUser
 vagrant_password: Passw0rd!
